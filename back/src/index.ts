@@ -85,16 +85,28 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
     try {
         const id = req.params.id
+        const { limpeza_completa, data, foto } = req.body
 
-        const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
-        const data = today.toDateString();
+        // const timeElapsed = Date.now();
+        // const today = new Date(timeElapsed);
+        // console.log(today)
+        // // let options: 
 
-        const { limpeza_completa, foto } = req.body
+        // let data = today.toLocaleString('en-US', {
+        //     year: 'numeric', month: 'numeric', day: 'numeric'
+        // } ).replaceAll('.','/')
 
-        await connection("apartamentos")
-            .insert(limpeza_completa, data, foto)
-            .where(id)
+        // let data1 = today.toLocaleDateString('ko-KR');
+        // console.log(data)
+
+           
+        await connection.raw(`
+        UPDATE apartamentos 
+        SET limpeza_completa = "${limpeza_completa}",
+        data = "${data}",
+        foto = "${foto}"
+        WHERE id = "${id}"
+        `)
 
         res.status(200).send({ message: "Apartamento concluído!" })
 

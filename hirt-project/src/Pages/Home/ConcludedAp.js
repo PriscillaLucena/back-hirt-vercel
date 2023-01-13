@@ -1,5 +1,7 @@
-import { useContext } from "react"
+import axios from "axios";
+import { useContext, useState } from "react"
 import { useParams } from "react-router-dom";
+import { BASE_URL } from "../../Constants/url";
 import { GlobalContext } from "../../Global/GlobalContext";
 // import { BASE_URL } from "../Constants/url";
 // import { useRequestData } from "../Hooks/UseRequestData";
@@ -10,7 +12,7 @@ export const ConcludedAp = () => {
     const { states, setters } = useContext(GlobalContext);
     const { image, endImg } = states;
     const { setImage } = setters;
-    const [loadingPost, setLoadingPost] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [erroPost, setErroPost] = useState('');
     const [conclusion, setConclusion] = useState([]);
 
@@ -22,25 +24,29 @@ export const ConcludedAp = () => {
     //fazer um post pra setar a conclusão
     const conclusionSetter = () => {
         setLoading(true)
-        const body = {
-            
+        const body = 
+        {
+            limpeza_completa: conclusion,
+            foto: image           
         }
+
         axios.post(`${BASE_URL}/apartment/${id}`, body, {
-            headers: {
-                auth: token,
-                contentType: "application/json"
-            }
-        }).then((response) => {
-            setLoadingPost(false);
+            // headers: {
+            //     auth: token,
+            //     contentType: "application/json"
+            // }
+        }).then(() => {
+            setLoading(false);
+            setConclusion(true)
+            setImage(image)
         }).catch(error => {
-            setLoadingPost(false)
+            setLoading(false)
             setErroPost(error.response)
         });
     }
 
-
     <form onSubmit={uploadImage}>
-        <input type="file" accept="image/*" capture="camera" onChange={(e) => setImage(e.target.files[0])} />
+        <input type="file" accept="image/*" capture="camera" onChange={(e) => conclusionSetter()} />
         {image ? <img src={URL.createObjectURL(image)} alt="imagem" width={150} height={150} /> :
             <img src={endImg} alt="imagem" width={150} height={150}></img>}
         <button type="submit"
