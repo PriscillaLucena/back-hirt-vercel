@@ -3,11 +3,12 @@
 import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import dotenv from "dotenv"
-import {Knex} from "knex"
+import { Knex } from "knex"
 import knex from "knex"
 
 import { generateToken } from "./services/Authenticator"
 import { compare } from "bcryptjs"
+import { CompletionInfoFlags } from "typescript"
 
 
 /**************************** CONFIG ******************************/
@@ -15,15 +16,15 @@ import { compare } from "bcryptjs"
 dotenv.config()
 
 export const connection: Knex = knex({
-   client: "mysql",
-   connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_SCHEMA,
-      port: 3306,
-      multipleStatements: true
-   }
+    client: "mysql",
+    connection: {
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_SCHEMA,
+        port: 3306,
+        multipleStatements: true
+    }
 })
 
 const app: Express = express()
@@ -33,19 +34,19 @@ app.use(cors())
 /**************************** TYPES ******************************/
 
 type obra = {
-   id: string,
-   qty_andares: number,
-   qty_total_ap: number,
+    id: string,
+    qty_andares: number,
+    qty_total_ap: number,
 }
 
 type apartamento = {
-   id: string,
-   numero_ap: number,
-   andar: number,
-   limpeza_completa: boolean,
-   data: number,
-   foto: string,
-  
+    id: string,
+    numero_ap: number,
+    andar: number,
+    limpeza_completa: boolean,
+    data: number,
+    foto: string,
+
 }
 
 /**************************** ENDPOINTS ******************************/
@@ -80,12 +81,46 @@ app.get("/obra", async (req: Request, res: Response) => {
     }
 });
 
-app.post("/login", async(req: Request, res: Response)=>{
+app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
-    const {email, password} = req.body
+    try {
+        const id = req.params.id
+        const { limpeza_completa, data, foto } = req.body
 
-    try{
-        const result = await connection("Login_Hirt_Admin").select("*").where({email})
+        // const timeElapsed = Date.now();
+        // const today = new Date(timeElapsed);
+        // console.log(today)
+        // // let options: 
+
+        // let data = today.toLocaleString('en-US', {
+        //     year: 'numeric', month: 'numeric', day: 'numeric'
+        // } ).replaceAll('.','/')
+
+        // let data1 = today.toLocaleDateString('ko-KR');
+        // console.log(data)
+
+           
+        await connection.raw(`
+        UPDATE apartamentos 
+        SET limpeza_completa = "${limpeza_completa}",
+        data = "${data}",
+        foto = "${foto}"
+        WHERE id = "${id}"
+        `)
+
+        res.status(200).send({ message: "Apartamento concluído!" })
+
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+});
+
+app.post("/login", async (req: Request, res: Response) => {
+    let errorCode = 400
+    const { email, password } = req.body
+
+    try {
+        const result = await connection("Login_Hirt_Admin").select("*").where({ email })
         // console.log("cheguei aqui")
         // console.log("senha", password)
         // console.log(result[0].senha)
@@ -102,17 +137,17 @@ app.post("/login", async(req: Request, res: Response)=>{
         })
 
         console.log(token)
-        
+
         res.send({
             message: "Usuário logado!",
             token
-         })
-    // }
-    }catch (error: any){
+        })
+        // }
+    } catch (error: any) {
         res.status(errorCode).send(error.message)
     }
 })
 
 app.listen(3003, () => {
     console.log("Server running on port 3003")
- });
+});

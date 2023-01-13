@@ -1,5 +1,13 @@
 
-GET http://localhost:3003/apartamentos
+@id = 34eiei12
+Put http://localhost:3003/apartamentos/{{id}}
+Content-Type: application/json
+
+{
+    "limpeza_completa": 1,
+    "data": "2023/01/13",
+    "foto": "data:image/jpeg"
+}
 
 ###
 GET http://localhost:3003/obra
