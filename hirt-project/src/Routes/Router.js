@@ -10,7 +10,7 @@ export default function Router(){
             <BrowserRouter>
                 <Routes>
                     <Route exact path={"/"} element={<HomePage/>} />
-                    <Route path={"/login"} element={<LoginPage/>} />
+                    <Route path={"/login/:type"} element={<LoginPage/>} />
                     <Route path={"/admin"} element={<AdminPage/>} />
                     <Route path={"/collaborator"} element={<CollabPage/>} />
                 </Routes>
