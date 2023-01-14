@@ -4,15 +4,14 @@ import { BASE_URL } from "../Constants/url";
 import { GlobalContext } from "../Global/GlobalContext"
 import { useRequestData } from "../Hooks/UseRequestData";
 import { goToConcludedAp } from "../Routes/RouteFunctions";
-import { ConcludedAp } from "./Home/ConcludedAp";
 
 export default function CollabPage() {
 
     //variáveis globalState
     const navigate = useNavigate();
     const { states, setters } = useContext(GlobalContext);
-    const { conclusion } = states;
-    const { setConclusion } = setters;
+    // const { conclusion } = states;
+    // const { setConclusion } = setters;
     // const {apAtual}= dados;
     const [apartment, loading, erro] = useRequestData(`${BASE_URL}/apartamentos`);
     let apes = !!apartment ? apartment : "carregando";
