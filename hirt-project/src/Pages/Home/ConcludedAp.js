@@ -26,7 +26,7 @@ export const ConcludedAp = () => {
             <input type='checkbox' value='true' onClick={() => concluded(true)} />
             <input type="file" accept="image/*" capture="camera" onChange={(e) => setImage(e.target.files[0])} /><br /><br />
             {
-                image ? <img src={URL.createObjectURL(image)} alt="imagem" width={150} height={150} /> :
+                image ? <img src={URL.createObjectURL(image)} alt="imagem" name="imagem" width={150} height={150} /> :
                     <img src={endImg} alt="imagem" width={150} height={150}></img>
             } <br /><br />
             <button onClick={() => uploadImage()}>Salvar</button>
