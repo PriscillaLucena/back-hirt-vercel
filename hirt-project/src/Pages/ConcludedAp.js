@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useContext, useState } from "react"
 import { useParams } from "react-router-dom";
-import { BASE_URL } from "../../Constants/url";
-import { GlobalContext } from "../../Global/GlobalContext";
+import { BASE_URL } from "../Constants/url";
+import { GlobalContext } from "../Global/GlobalContext";
+import foto from './'
 // import { BASE_URL } from "../Constants/url";
 // import { useRequestData } from "../Hooks/UseRequestData";
 
