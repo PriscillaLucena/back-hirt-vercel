@@ -58,7 +58,7 @@ export default function CollabPage() {
             return <div key={ap.id}>
                 <h3>Andar: {ap.andar}</h3>
                 <p>Apartamento: {ap.numero_ap}</p>
-                <button onClick={() => goToConcludedAp(navigate, ap.id)}>Inserir Foto</button>
+                <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
 
             </div>
         }
