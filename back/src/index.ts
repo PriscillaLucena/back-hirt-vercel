@@ -113,18 +113,11 @@ app.get("/obra", async (req: Request, res: Response) => {
     }
 });
 
-const image =
-    app.post('', async (req: Request, res: Response) => {
-
-        try {
-
-        });
-
 app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
     let multer = require('multer');
 
-    let foto = null;
+    var foto = null;
     try {
 
         var path = require('path');
@@ -142,25 +135,22 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
         foto = multer({ storage: storage }).fields([
             { name: 'anexo', maxCount: 1 }
         ]);
-    } catch (ex) {
-    };
 
+        const id = req.params.id
+        const { limpeza_completa } = req.body
 
-    const id = req.params.id
-    const { limpeza_completa, foto } = req.body
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        console.log(today)
+        let options: {
+            year: any, month: any, day: any
+        } = { year: 'numeric', month: '2-digit', day: 'numeric' }
 
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
-    console.log(today)
-    let options: {
-        year: any, month: any, day: any
-    } = { year: 'numeric', month: '2-digit', day: 'numeric' }
+        let data1 = today.toLocaleString('ko', options)
+        let data2 = data1.replace(/. /g, '/')
+        let data3 = data2.replace('.', '')
 
-    let data1 = today.toLocaleString('ko', options)
-    let data2 = data1.replace(/. /g, '/')
-    let data3 = data2.replace('.', '')
-
-    await connection.raw(`
+        await connection.raw(`
         UPDATE apartamentos 
         SET limpeza_completa = "${limpeza_completa}",
             data = "${data3}",
@@ -168,12 +158,12 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
         WHERE id = "${id}"
             `)
 
-    res.status(200).send({ message: "Apartamento concluído!" })
+        res.status(200).send({ message: "Apartamento concluído!" })
 
-} catch (error: any) {
-    res.status(errorCode).send(error.message)
-}
-        });
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+});
 
 app.post("/login", async (req: Request, res: Response) => {
     let errorCode = 400
