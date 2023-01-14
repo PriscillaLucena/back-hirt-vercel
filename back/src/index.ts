@@ -5,11 +5,10 @@ import cors from "cors"
 import dotenv from "dotenv"
 import { Knex } from "knex"
 import knex from "knex"
-
 import { generateToken } from "./services/Authenticator"
 import { compare } from "bcryptjs"
 import { CompletionInfoFlags } from "typescript"
-
+import multer from 'multer'
 
 /**************************** CONFIG ******************************/
 
@@ -31,6 +30,18 @@ const app: Express = express()
 app.use(express.json())
 app.use(cors())
 
+const storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+        callBack(null, './public/images/')     // './public/images/' directory name where save the file
+    },
+    filename: (req, file, callBack) => {
+        callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+ 
+const upload = multer({
+    storage: storage
+});
 /**************************** TYPES ******************************/
 
 type obra = {
@@ -81,29 +92,36 @@ app.get("/obra", async (req: Request, res: Response) => {
     }
 });
 
-app.put("/apartamentos/:id", async (req: Request, res: Response) => {
+app.put("/apartamentos/:id", upload.single('image'), async (req: Request, res: Response) => {
     let errorCode = 400
     try {
+
+            var imgsrc = 'http://127.0.0.1:3000/images/' + req.file.filename
+            var insertData = "INSERT INTO users_file(file_src)VALUES(?)"
+            db.query(insertData, [imgsrc], (err, result) => {
+                if (err) throw err
+                console.log("file uploaded")
+            
+        })
+
         const id = req.params.id
-        const { limpeza_completa, data, foto } = req.body
+        const { limpeza_completa, foto } = req.body
 
-        // const timeElapsed = Date.now();
-        // const today = new Date(timeElapsed);
-        // console.log(today)
-        // // let options: 
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        console.log(today)
+        let options: {
+            year: any, month: any, day: any
+        } = {year: 'numeric' , month: '2-digit', day: 'numeric'}
 
-        // let data = today.toLocaleString('en-US', {
-        //     year: 'numeric', month: 'numeric', day: 'numeric'
-        // } ).replaceAll('.','/')
-
-        // let data1 = today.toLocaleDateString('ko-KR');
-        // console.log(data)
-
+        let data1 = today.toLocaleString('ko', options)
+        let data2 = data1.replace(/. /g,'/')
+        let data3 = data2.replace('.','')
            
         await connection.raw(`
         UPDATE apartamentos 
         SET limpeza_completa = "${limpeza_completa}",
-        data = "${data}",
+        data = "${data3}",
         foto = "${foto}"
         WHERE id = "${id}"
         `)

@@ -10,25 +10,43 @@ export const ConcludedAp = () => {
 
     const { id } = useParams();
     const { states, setters } = useContext(GlobalContext);
-    const { image, endImg } = states;
-    const { setImage } = setters;
+    const { image, endImg, conclusion } = states;
+    const { setImage, setConclusion } = setters;
     const [loading, setLoading] = useState(false);
-    const [erroPost, setErroPost] = useState('');
-    const [conclusion, setConclusion] = useState([]);
+    const [erro, setErro] = useState('');
 
-    const uploadImage = async e => {
-        e.preventDefault()
-        console.log(image)
+
+    const concluded = (u) => {
+        setConclusion(u)
+    };
+
+    const listaImg = () => {
+        return <div>
+            <label>Concluído:</label>
+            <input type='checkbox' value='true' onClick={() => concluded(true)} />
+            <input type="file" accept="image/*" capture="camera" onChange={(e) => setImage(e.target.files[0])} /><br /><br />
+            {
+                image ? <img src={URL.createObjectURL(image)} alt="imagem" width={150} height={150} /> :
+                    <img src={endImg} alt="imagem" width={150} height={150}></img>
+            } <br /><br />
+            <button onClick={() => uploadImage()}>Salvar</button>
+
+        </div>
     };
 
     //fazer um post pra setar a conclusão
-    const conclusionSetter = () => {
+    const uploadImage = () => {
         setLoading(true)
-        const body = 
+
+        const formData = new FormData();
+        formData.append('image', image);
+
+        const body =
         {
             limpeza_completa: conclusion,
-            foto: image           
+            foto: image
         }
+        console.log("body",body)
 
         axios.post(`${BASE_URL}/apartment/${id}`, body, {
             // headers: {
@@ -37,26 +55,19 @@ export const ConcludedAp = () => {
             // }
         }).then(() => {
             setLoading(false);
-            setConclusion(true)
-            setImage(image)
+            alert("Informações Salvas, Apartamento Concluído!")
         }).catch(error => {
             setLoading(false)
-            setErroPost(error.response)
+            setErro(error.response)
+            console.log("deu erro!", error.response)
         });
-    }
+    };
 
-    <form onSubmit={uploadImage}>
-        <input type="file" accept="image/*" capture="camera" onChange={(e) => conclusionSetter()} />
-        {image ? <img src={URL.createObjectURL(image)} alt="imagem" width={150} height={150} /> :
-            <img src={endImg} alt="imagem" width={150} height={150}></img>}
-        <button type="submit"
-        >Salvar</button>
-    </form>
-
-
+    console.log(conclusion, image)
     return (
         <div>
             <h1>Concluded Ap</h1>
+            {listaImg()}
 
         </div>
     )
