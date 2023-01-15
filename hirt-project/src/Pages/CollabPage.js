@@ -1,7 +1,7 @@
-import { useContext } from "react"
+// import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-import { GlobalContext } from "../Global/GlobalContext"
+// import { GlobalContext } from "../Global/GlobalContext"
 import { useRequestData } from "../Hooks/UseRequestData";
 import { goToConcludedAp } from "../Routes/RouteFunctions";
 
@@ -9,7 +9,7 @@ export default function CollabPage() {
 
     //variáveis globalState
     const navigate = useNavigate();
-    const { states, setters } = useContext(GlobalContext);
+    // const { states, setters } = useContext(GlobalContext);
     // const { conclusion } = states;
     // const { setConclusion } = setters;
     // const {apAtual}= dados;
@@ -48,22 +48,25 @@ export default function CollabPage() {
     // //###checkbox de conclusão
 
 
- 
+
 
     const listaApes = apartment && apartment.map((ap) => {
-        if (ap.limpeza_completa) {
-            return <div></div>
-        } {
-            return <div key={ap.id}>
-                <h3>Andar: {ap.andar}</h3>
-                <p>Apartamento: {ap.numero_ap}</p>
-                <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
+        return <div>
+            {
+                ap.limpeza_completa ? "" :
+                    <div key={ap.id}>
+                        <h3>Andar: {ap.andar}</h3>
+                        <p>Apartamento: {ap.numero_ap}</p>
+                        <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
 
-            </div>
-        }
+                    </div>
+            }
+
+        </div>
+
     });
 
-    
+
     //###Andar passa a ficar como concluído após número de apartamentos estiver chegado ao limite
 
     const apsWithLevel = apartment && apartment.map(({ andar, numero_ap }) => ([andar, numero_ap]))

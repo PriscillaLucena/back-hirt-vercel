@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../Constants/url";
 import { goToAdminPage, goToLoginPage } from "../Routes/RouteFunctions";
 
 // export const useRequest = () =>{
@@ -11,7 +12,7 @@ export const Login = (body, navigate) => {
     let userData = {}
 
     axios
-        .post(`http://localhost:3003/login`, body,
+        .post(`${BASE_URL}/login`, body,
             {
                 headers: {
                     contentType: "application/json"
