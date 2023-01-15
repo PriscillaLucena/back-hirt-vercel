@@ -1,7 +1,7 @@
-import { useContext } from "react"
+// import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-import { GlobalContext } from "../Global/GlobalContext"
+// import { GlobalContext } from "../Global/GlobalContext"
 import { useRequestData } from "../Hooks/UseRequestData";
 import { goToConcludedAp } from "../Routes/RouteFunctions";
 
@@ -9,7 +9,7 @@ export default function CollabPage() {
 
     //variáveis globalState
     const navigate = useNavigate();
-    const { states, setters } = useContext(GlobalContext);
+    // const { states, setters } = useContext(GlobalContext);
     // const { conclusion } = states;
     // const { setConclusion } = setters;
     // const {apAtual}= dados;
