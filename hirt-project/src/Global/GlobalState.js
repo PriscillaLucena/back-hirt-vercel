@@ -7,7 +7,7 @@ export const GlobalState = (props) => {
     const [apartaments, setApartments] = useState('');
     const [conclusion, setConclusion] = useState(false);
     const [image, setImage] = useState('');
-    const [endImg] = useState("./hirt-imagem.jpg")
+    const [endImg] = useState('../../images/hirt-imagem.jpg')
 
     const states = {
         level,

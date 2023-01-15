@@ -1,6 +1,7 @@
 import axios from "axios";
 import { goToAdminPage, goToCollabPage, goToLoginPage } from "../Routes/RouteFunctions";
 
+
 // export const useRequest = () =>{
 // const { restaurantList, setReastaurantList, restName, setRestName, cart, setCart } = useContext(GlobalContext)
 // const [data, setData] = useState([])
@@ -12,7 +13,7 @@ export const Login = (body, navigate) => {
     console.log(body)
     // ${body.role === 1? 'ADMIN' : 'COLAB'}`
     axios
-        .post(`http://localhost:3003/login`, body,
+        .post(`${BASE_URL}/login`, body,
             {
                 headers: {
                     contentType: "application/json"
