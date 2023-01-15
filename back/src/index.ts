@@ -73,10 +73,9 @@ app.get("/obra", async (req: Request, res: Response) => {
     try {
 
         const resultado = await connection.raw(`
-        SELECT * FROM nome_obra
-            `)
+        SELECT * FROM Novas_obras
 
-        res.status(200).send(resultado[0])
+res.status(200).send(resultado[0])
 
     } catch (error: any) {
         res.status(errorCode).send(error.message)
@@ -85,7 +84,9 @@ app.get("/obra", async (req: Request, res: Response) => {
 
 app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
-    let multer = require('multer');
+
+    try {
+         let multer = require('multer');
 
     try {
         var upload = null;
@@ -109,7 +110,6 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
         }
         const foto = photoTransform.path
         console.log("foto", foto)
-
         const id = req.params.id
         const { limpeza_completa } = req.body
         const timeElapsed = Date.now();
@@ -153,7 +153,9 @@ app.post("/login", async (req: Request, res: Response) => {
         // if(passwordIsCorrect == false){
         //     console.log("chegou no if")
 
-        console.log(result[0].tipo_acesso.toUpperCase())
+        // console.log(result[0].tipo_acesso.toUpperCase())
+        const userRole = result[0].tipo_acesso
+
         const token: string = generateToken({
             id: result[0].id,
             role: result[0].tipo_acesso.toUpperCase()
@@ -163,7 +165,8 @@ app.post("/login", async (req: Request, res: Response) => {
 
         res.send({
             message: "Usuário logado!",
-            token
+            token,
+            userRole
         })
         // }
     } catch (error: any) {

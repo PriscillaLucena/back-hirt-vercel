@@ -18,6 +18,7 @@ export function useRequestData(url) {
             // }
         }).then((response) => {
             setData(response.data);
+            // console.log(response)
             setLoading(false);
         }).catch((error) => {
             setErro(error.response);

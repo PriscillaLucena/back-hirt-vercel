@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import useForm from "../../Hooks/useForm";
 import { Login } from "../../Hooks/useRequestLogin";
 
-export default function LoginForm(){
-    const [form, handleInputChange] = useForm({ email: "", password: "" });
+export default function LoginForm(props){
+    const [form, handleInputChange] = useForm({ email: "", password: "", role: props.role });
     const navigate = useNavigate();
     
     const sendForm = (event) => {
