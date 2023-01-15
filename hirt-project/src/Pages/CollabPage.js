@@ -48,22 +48,25 @@ export default function CollabPage() {
     // //###checkbox de conclusão
 
 
- 
+
 
     const listaApes = apartment && apartment.map((ap) => {
-        if (ap.limpeza_completa) {
-            return <div></div>
-        } {
-            return <div key={ap.id}>
-                <h3>Andar: {ap.andar}</h3>
-                <p>Apartamento: {ap.numero_ap}</p>
-                <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
+        return <div>
+            {
+                ap.limpeza_completa ? "" :
+                    <div key={ap.id}>
+                        <h3>Andar: {ap.andar}</h3>
+                        <p>Apartamento: {ap.numero_ap}</p>
+                        <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
 
-            </div>
-        }
+                    </div>
+            }
+
+        </div>
+
     });
 
-    
+
     //###Andar passa a ficar como concluído após número de apartamentos estiver chegado ao limite
 
     const apsWithLevel = apartment && apartment.map(({ andar, numero_ap }) => ([andar, numero_ap]))

@@ -1,65 +1,61 @@
 import axios from "axios";
 import { useState } from "react";
 import { BASE_URL } from "../Constants/url";
+import useForm from "../Hooks/useForm";
+import { NewBuild } from "../Hooks/UseRequestNewBuild";
 
 export const NewProject = () => {
 
 
-    const [loading, setLoading] = useState(false);
-    const [erro, setErro] = useState('')
-    const [form, setForm] = useState({
-        nome_obra: "",
-        qty_andares: "",
-        qty_ap_andar: "",
-        qty_total_ap: "",
-        responsavel: ""
+    // const [loading, setLoading] = useState();
+    // const [erro, setErro] = useState('')
+    const [form, handleInputChange] = useForm({
+        nome_obra: "", qty_andares: "", qty_ap_andar: "", qty_total_ap: "", responsavel: ""
     });
 
-    const newBuild = (e)=> {
-        e.preventDefault();
-        setLoading(true);
-
-        axios.post(`${BASE_URL}/nova-obra`, form, {
-            // headers: {
-            //     auth: token,
-            //     contentType: "application/json"
-            // }
-
-        }).then(() => {
-            setLoading(false);
-            setForm()
-            alert("Informações Salvas, Apartamento Concluído!")
-        }).catch(error => {
-            setLoading(false)
-            setErro(error.response)
-            console.log("deu erro!", error.response)
-        });
-    }
-
-    // const formulary = () => {
-    //     return <form {NewBuild}>
-
-    //         <input value={form.nome_obra}></input>
-    //         <input value={form.qty_andares}></input>
-    //         <input value={form.qty_ap_andar}></input>
-    //         <input value={form.qty_total_ap}></input>
-    //         <input value={form.responsavel}></input>
-
-    //         <button>Criar</button>
-    //     </form>
-    // }
-
+    const sendForm = (event) => {
+        event.preventDefault();
+        NewBuild(form);
+    };
 
     return (
         <div>
             <h3>Inclusão de novos Projetos</h3>
-            <form onSubmit={newBuild}>
+            <form onSubmit={sendForm}>
 
-                <input value={form.nome_obra}>Nome da obra</input>
-                <input value={form.qty_andares}>Quantidade Andares</input>
-                <input value={form.qty_ap_andar}>Quantidade apartamento por andar</input>
-                <input value={form.qty_total_ap}>Quantidade total de apartamentos</input>
-                <input value={form.responsavel}>Nome do cliente</input>
+                <input type={'text'}
+                    name={"nome_obra"}
+                    onChange={handleInputChange}
+                    value={form.nome_obra} 
+                    placeholder ={"Nome da obra"}
+                    required />
+                    
+                <input name={"qty_andares"}
+                    onChange={handleInputChange}
+                    value={form.qty_andares}
+                    placeholder={"Quantidade de andares"}
+                    required />
+                            
+                <input name={"qty_total_ap"}
+                    onChange={handleInputChange}
+                    value={form.qty_total_ap}
+                    required 
+                    placeholder={"Quantidade total de apartamentos"}
+                />
+                <input
+                    name={"qty_ap_andar"}
+                    onChange={handleInputChange}
+                    value={form.qty_ap_andar}
+                    required 
+                    placeholder={"Quantidade aparrtamento por andar"}
+                />
+                <input name={"responsavel"}
+                    onChange={handleInputChange}
+                    type={'text'}
+                    value={form.responsavel}
+                    required
+                    pçaceholder={"Nome do cliente"}
+                />
 
                 <button type="submit">Criar</button>
             </form>

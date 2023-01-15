@@ -3,9 +3,6 @@ import { useContext, useState } from "react"
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { GlobalContext } from "../Global/GlobalContext";
-import foto from './'
-// import { BASE_URL } from "../Constants/url";
-// import { useRequestData } from "../Hooks/UseRequestData";
 
 export const ConcludedAp = () => {
 
@@ -16,8 +13,8 @@ export const ConcludedAp = () => {
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
 
-      //fazer um post pra setar a conclusão
-      const uploadImage = () => {
+    //fazer um post pra setar a conclusão
+    const uploadImage = () => {
         setLoading(true)
 
         const formData = new FormData();
@@ -28,7 +25,7 @@ export const ConcludedAp = () => {
             limpeza_completa: conclusion,
             foto: image
         }
-        console.log("body",body)
+        console.log("body", body)
 
         axios.post(`${BASE_URL}/apartment/${id}`, body, {
             // headers: {
@@ -63,13 +60,14 @@ export const ConcludedAp = () => {
         </div>
     };
 
-  
-
     console.log(conclusion, image)
     return (
         <div>
             <h1>Concluded Ap</h1>
-            {listaImg()}
+    
+            {loading && loading && <p>Carregando...</p>}
+            {!loading && erro && <p>Deu ruim!</p>}
+            {!loading && listaImg()}
 
         </div>
     )
