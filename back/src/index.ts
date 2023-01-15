@@ -5,10 +5,9 @@ import cors from "cors"
 import dotenv from "dotenv"
 import { Knex } from "knex"
 import knex from "knex"
-
 import { generateToken } from "./services/Authenticator"
 import { compare } from "bcryptjs"
-import { CompletionInfoFlags } from "typescript"
+import { IdGenerator } from "./services/GenerateId"
 
 
 /**************************** CONFIG ******************************/
@@ -30,13 +29,16 @@ export const connection: Knex = knex({
 const app: Express = express()
 app.use(express.json())
 app.use(cors())
-
+const idGenerator = new IdGenerator();
 /**************************** TYPES ******************************/
 
 type obra = {
     id: string,
+    nome_obra: string,
     qty_andares: number,
+    qty_ap_andar: number,
     qty_total_ap: number,
+    responsavel: string
 }
 
 type apartamento = {
@@ -57,7 +59,7 @@ app.get("/apartamentos", async (req: Request, res: Response) => {
 
         const resultado = await connection.raw(`
         SELECT * FROM apartamentos
-        `)
+            `)
 
         res.status(200).send(resultado[0])
 
@@ -72,7 +74,7 @@ app.get("/obra", async (req: Request, res: Response) => {
 
         const resultado = await connection.raw(`
         SELECT * FROM nome_obra
-        `)
+            `)
 
         res.status(200).send(resultado[0])
 
@@ -83,30 +85,51 @@ app.get("/obra", async (req: Request, res: Response) => {
 
 app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
+    let multer = require('multer');
+
     try {
+        var upload = null;
+        let path = '';
+        let storage = {}
+        const photoTransform: any = {
+            path: require('path'),
+            storage: multer.diskStorage({
+                destination: function (req: any, file: any, cb: (arg0: null, arg1: string | undefined) => void) {
+                    cb(null, process.env.DIRETORIOUPLOAD);
+                },
+                filename: function (req: any, file: { originalname: string }, cb: (arg0: null, arg1: any) => void) {
+                    let fileExtension = file.originalname.split('.')[1];
+                    cb(null, require('crypto')
+                        .randomBytes(64).toString('hex') + '_' + file.originalname);
+                }
+            }),
+            upload: multer({ storage: storage }).fields([
+                { name: 'anexo', maxCount: 1 }
+            ])
+        }
+        const foto = photoTransform.path
+        console.log("foto", foto)
+
         const id = req.params.id
-        const { limpeza_completa, data, foto } = req.body
+        const { limpeza_completa } = req.body
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        let options: {
+            year: any, month: any, day: any
+        } = { year: 'numeric', month: '2-digit', day: 'numeric' }
 
-        // const timeElapsed = Date.now();
-        // const today = new Date(timeElapsed);
-        // console.log(today)
-        // // let options: 
+        let data1 = today.toLocaleString('ko', options)
+        let data2 = data1.replace(/. /g, '/')
+        let data3 = data2.replace('.', '')
 
-        // let data = today.toLocaleString('en-US', {
-        //     year: 'numeric', month: 'numeric', day: 'numeric'
-        // } ).replaceAll('.','/')
-
-        // let data1 = today.toLocaleDateString('ko-KR');
-        // console.log(data)
-
-           
+        console.log(data3)
         await connection.raw(`
         UPDATE apartamentos 
         SET limpeza_completa = "${limpeza_completa}",
-        data = "${data}",
-        foto = "${foto}"
+            data = STR_TO_DATE ("${data3}", '%d/%m/%y),
+            foto = "${foto}",
         WHERE id = "${id}"
-        `)
+            `)
 
         res.status(200).send({ message: "Apartamento concluído!" })
 
@@ -143,6 +166,30 @@ app.post("/login", async (req: Request, res: Response) => {
             token
         })
         // }
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+})
+
+
+app.post("/nova-obra", async (req: Request, res: Response) => {
+   let errorCode = 404
+
+    try {
+
+        const {nome_obra, qty_andares, qty_ap_andar, qty_total_ap, responsavel} = req.body
+        const id = idGenerator.generate();
+
+        await connection('Novas_obras')
+        .insert({id,
+            nome_obra,
+            qty_andares,
+            qty_ap_andar,
+            qty_total_ap,
+            responsavel})
+
+        res.status(200).send({message: 'Nova obra criada!'})
+        
     } catch (error: any) {
         res.status(errorCode).send(error.message)
     }

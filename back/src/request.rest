@@ -1,13 +1,23 @@
 
-@id = 34eiei12
+@id = 78ioio89
 Put http://localhost:3003/apartamentos/{{id}}
 Content-Type: application/json
 
 {
     "limpeza_completa": 1,
-    "data": "2023/01/13",
-    "foto": "data:image/jpeg"
+    "foto": "image.jpg"
 }
 
 ###
 GET http://localhost:3003/obra
+###
+POST  http://localhost:3003/nova-obra
+Content-Type: application/json
+
+{
+     "nome_obra": "Ed. Raimunda",
+     "qty_andares": 7,
+     "qty_ap_andar": 2,
+     "qty_total_ap": 14,
+     "responsavel": "Raimundo Nonato"
+}

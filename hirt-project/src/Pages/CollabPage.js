@@ -4,15 +4,14 @@ import { BASE_URL } from "../Constants/url";
 import { GlobalContext } from "../Global/GlobalContext"
 import { useRequestData } from "../Hooks/UseRequestData";
 import { goToConcludedAp } from "../Routes/RouteFunctions";
-import { ConcludedAp } from "./Home/ConcludedAp";
 
 export default function CollabPage() {
 
     //variáveis globalState
     const navigate = useNavigate();
     const { states, setters } = useContext(GlobalContext);
-    const { conclusion } = states;
-    const { setConclusion } = setters;
+    // const { conclusion } = states;
+    // const { setConclusion } = setters;
     // const {apAtual}= dados;
     const [apartment, loading, erro] = useRequestData(`${BASE_URL}/apartamentos`);
     let apes = !!apartment ? apartment : "carregando";
@@ -49,24 +48,22 @@ export default function CollabPage() {
     // //###checkbox de conclusão
 
 
+ 
 
     const listaApes = apartment && apartment.map((ap) => {
-        if(ap.limpeza_completa){
+        if (ap.limpeza_completa) {
             return <div></div>
-        }{
-        return <div key={ap.id}>
-            <h3>Andar: {ap.andar}</h3>
-            <p>Apartamento: {ap.numero_ap}</p>
-            <label>
-                <input type='checkbox' value='true'/>
-                Concluído
-                <button onClick={()=>goToConcludedAp(navigate, ap.id)}>Inserir Foto</button>
-            </label>
-        </div>
+        } {
+            return <div key={ap.id}>
+                <h3>Andar: {ap.andar}</h3>
+                <p>Apartamento: {ap.numero_ap}</p>
+                <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
+
+            </div>
         }
     });
 
-
+    
     //###Andar passa a ficar como concluído após número de apartamentos estiver chegado ao limite
 
     const apsWithLevel = apartment && apartment.map(({ andar, numero_ap }) => ([andar, numero_ap]))
