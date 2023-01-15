@@ -71,7 +71,7 @@ app.get("/obra", async (req: Request, res: Response) => {
     try {
 
         const resultado = await connection.raw(`
-        SELECT * FROM nome_obra
+        SELECT * FROM Novas_obras
         `)
 
         res.status(200).send(resultado[0])
@@ -87,17 +87,21 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
         const id = req.params.id
         const { limpeza_completa, data, foto } = req.body
 
-        // const timeElapsed = Date.now();
-        // const today = new Date(timeElapsed);
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
         // console.log(today)
-        // // let options: 
+        let options: {
+            year: any, month: any, day: any
+        } = {year: 'numeric' , month: '2-digit', day: 'numeric'}
 
-        // let data = today.toLocaleString('en-US', {
-        //     year: 'numeric', month: 'numeric', day: 'numeric'
-        // } ).replaceAll('.','/')
+        let data1 = today.toLocaleString('ko', options)
 
-        // let data1 = today.toLocaleDateString('ko-KR');
-        // console.log(data)
+
+        let data2 = data1.replace(/. /g,'/')
+        let data3 = data2.replace('.','')
+
+        
+        console.log("data", data3)
 
            
         await connection.raw(`
@@ -130,7 +134,9 @@ app.post("/login", async (req: Request, res: Response) => {
         // if(passwordIsCorrect == false){
         //     console.log("chegou no if")
 
-        console.log(result[0].tipo_acesso.toUpperCase())
+        // console.log(result[0].tipo_acesso.toUpperCase())
+        const userRole = result[0].tipo_acesso
+
         const token: string = generateToken({
             id: result[0].id,
             role: result[0].tipo_acesso.toUpperCase()
@@ -140,7 +146,8 @@ app.post("/login", async (req: Request, res: Response) => {
 
         res.send({
             message: "Usuário logado!",
-            token
+            token,
+            userRole
         })
         // }
     } catch (error: any) {

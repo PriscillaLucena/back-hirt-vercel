@@ -10,7 +10,9 @@ export default function LoginPage (){
     return(
         <div>
             <p>Login Page</p>
-            <LoginForm />    
+            <LoginForm 
+            role = {type}
+            />    
 
             <p>{type}</p>
 
