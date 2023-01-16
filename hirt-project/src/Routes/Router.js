@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminPage from "../Pages/AdminPage";
-import CollabPage from "../Pages/CollabPage";
+import CollabPage from "../Pages/CollabsPage";
 import { ConcludedAp } from "../Pages/ConcludedAp";
 import HomePage from "../Pages/Home/HomePage"
 import LoginPage from "../Pages/Login/LoginPage";

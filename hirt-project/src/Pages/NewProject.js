@@ -1,9 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import useForm from "../Hooks/useForm";
 import { NewBuild } from "../Hooks/UseRequestNewBuild";
+import { goToAdminPage } from "../Routes/RouteFunctions";
+import styled from "styled-components";
+
+const ContainerGeral = styled.div`
+    display: flex;
+    flex-direction: column;
+`
 
 export const NewProject = () => {
 
-
+    const navigate = useNavigate();
     // const [loading, setLoading] = useState();
     // const [erro, setErro] = useState('')
     const [form, handleInputChange] = useForm({
@@ -18,35 +26,43 @@ export const NewProject = () => {
     return (
         <div>
             <h3>Inclusão de novos Projetos</h3>
-            <form onSubmit={sendForm}>
 
-                <input type={'text'}
+            <button onClick={() => goToAdminPage(navigate)}>Voltar</button>
+
+            <ContainerGeral onSubmit={sendForm}>
+
+
+                <input id="standard-basic" label="Standard"
+                    type={'text'}
                     name={"nome_obra"}
                     onChange={handleInputChange}
-                    value={form.nome_obra} 
-                    placeholder ={"Nome da obra"}
+                    value={form.nome_obra}
+                    placeholder={"Nome da obra"}
                     required />
-                    
-                <input name={"qty_andares"}
+
+                <input id="standard-basic" label="Standard"
+                    name={"qty_andares"}
                     onChange={handleInputChange}
                     value={form.qty_andares}
                     placeholder={"Quantidade de andares"}
                     required />
-                            
-                <input name={"qty_total_ap"}
+
+                <input id="standard-basic" label="Standard"
+                    name={"qty_total_ap"}
                     onChange={handleInputChange}
                     value={form.qty_total_ap}
-                    required 
+                    required
                     placeholder={"Quantidade total de apartamentos"}
                 />
-                <input
+                <input id="standard-basic" label="Standard"
                     name={"qty_ap_andar"}
                     onChange={handleInputChange}
                     value={form.qty_ap_andar}
-                    required 
+                    required
                     placeholder={"Quantidade aparrtamento por andar"}
                 />
-                <input name={"responsavel"}
+                <input id="standard-basic" label="Standard"
+                    name={"responsavel"}
                     onChange={handleInputChange}
                     type={'text'}
                     value={form.responsavel}
@@ -55,7 +71,7 @@ export const NewProject = () => {
                 />
 
                 <button type="submit">Criar</button>
-            </form>
+            </ContainerGeral>
 
 
 

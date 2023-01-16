@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { GlobalContext } from "../Global/GlobalContext";
 
+
 export const ConcludedAp = () => {
 
     const { id } = useParams();
@@ -60,11 +61,11 @@ export const ConcludedAp = () => {
         </div>
     };
 
-    console.log(conclusion, image)
+    console.log(endImg)
     return (
         <div>
             <h1>Concluded Ap</h1>
-    
+
             {loading && loading && <p>Carregando...</p>}
             {!loading && erro && <p>Deu ruim!</p>}
             {!loading && listaImg()}

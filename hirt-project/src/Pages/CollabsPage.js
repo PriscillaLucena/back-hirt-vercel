@@ -5,7 +5,7 @@ import { BASE_URL } from "../Constants/url";
 import { useRequestData } from "../Hooks/UseRequestData";
 import { goToConcludedAp } from "../Routes/RouteFunctions";
 
-export default function CollabPage() {
+export default function CollabsPage() {
 
     //variáveis globalState
     const navigate = useNavigate();
@@ -46,9 +46,6 @@ export default function CollabPage() {
     // })
 
     // //###checkbox de conclusão
-
-
-
 
     const listaApes = apartment && apartment.map((ap) => {
         return <div>
@@ -93,8 +90,8 @@ export default function CollabPage() {
 
             {loading && loading && <p>Carregando...</p>}
             {!loading && erro && <p>Deu ruim!</p>}
-            {!loading && apartment && apartment.length > 0 && listaApes}
+            {/* {!loading && apartment && apartment.length > 0 && listaApes} */}
 
         </div>
     )
-};
+}

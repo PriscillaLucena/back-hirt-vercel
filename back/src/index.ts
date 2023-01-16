@@ -73,7 +73,7 @@ app.get("/obra", async (req: Request, res: Response) => {
     try {
 
         const resultado = await connection.raw(`
-        SELECT * FROM Novas_obras
+        SELECT * FROM Novas_obras`)
 
 res.status(200).send(resultado[0])
 
@@ -88,7 +88,6 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     try {
          let multer = require('multer');
 
-    try {
         var upload = null;
         let path = '';
         let storage = {}
@@ -136,7 +135,8 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(errorCode).send(error.message)
     }
-});
+})
+
 
 app.post("/login", async (req: Request, res: Response) => {
     let errorCode = 400

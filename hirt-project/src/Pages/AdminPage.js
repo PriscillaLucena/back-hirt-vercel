@@ -1,37 +1,54 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { useRequestData } from "../Hooks/UseRequestData";
-import { goToLoginPage } from "../Routes/RouteFunctions";
+import { goToNewBuild } from "../Routes/RouteFunctions";
+// import { goToLoginPage } from "../Routes/RouteFunctions";
+import styled from "styled-components";
+
+const ContainerGeral = styled.div`
+`
+const CardObras = styled.div`
+    width: 50%;
+    height:auto;
+    border: 0.25rem solid;
+    border-color: #1C284Fff;
+    border-radius: 10px;
+    margin: 1rem;
+    padding: 1rem;
+    
+    .button{
+        
+    }
+`
 
 
-const AdminPage = () =>{
-    const [obras, loading, erro] = useRequestData(`${BASE_URL}/obra`);
+const AdminPage = () => {
+    const [obras
+        // loading, erro
+    ] = useRequestData(`${BASE_URL}/obra`);
     const navigate = useNavigate()
 
-    // let obra = !!obras ? obras : "carregando";
-
     const listaObras = obras && obras.map((ap) => {
-        
-        return <div>
+
+        return <CardObras>
             <h3>Obra: {ap.nome_obra}</h3>
             <h4>Andares: {ap.qty_andares}</h4>
             <h4>Total de Apartamentos por andar: {ap.qty_ap_andar}</h4>
-            <h4>Andares: {ap.qty_andares * ap.qty_ap_andar }</h4>
-            <h4>Responsável: {ap.responsavel }</h4>
-           
-    
-        </div>
-        
+            <h4>Andares: {ap.qty_andares * ap.qty_ap_andar}</h4>
+            <h4>Responsável: {ap.responsavel}</h4>
+            <button>Deletar</button>
+            <button>Editar</button>
+        </CardObras>
     });
 
-    console.log(obras)
+    // console.log(obras)
 
-    return(
-        <div>
+    return (
+        <ContainerGeral>
             <h3>ADMIN PAGE</h3>
+            <button onClick={() => goToNewBuild(navigate)}> Incluir nova Obra </button>
             <p>{listaObras}</p>
-            
-        </div>
+        </ContainerGeral>
     )
 }
 
