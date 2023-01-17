@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react"
 import { GlobalState } from "./Global/GlobalState";
 import Router from "./Routes/Router";
 // import { ThemeProvider } from '@mui/material/styles';

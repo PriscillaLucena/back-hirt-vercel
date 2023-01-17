@@ -7,55 +7,26 @@ import { goToConcludedAp } from "../Routes/RouteFunctions";
 
 export default function CollabsPage() {
 
-    //variáveis globalState
     const navigate = useNavigate();
-    // const { states, setters } = useContext(GlobalContext);
-    // const { conclusion } = states;
-    // const { setConclusion } = setters;
-    // const {apAtual}= dados;
+
     const [apartment, loading, erro] = useRequestData(`${BASE_URL}/apartamentos`);
     let apes = !!apartment ? apartment : "carregando";
-
-    // const [obra_info] = useRequestData(`${BASE_URL}/obra`);
-    // let obra = !!obra_info ? obra_info : "carregando";
+    
+    const [obra_info] = useRequestData(`${BASE_URL}/obra`);
+    let obra = !!obra_info ? obra_info : "carregando";
 
     console.log("andar", apes)
-
-    //###Incluir fotos do apartamento ok (acima)
-
-    // let video = document.querySelector('video')
-
-    // navigator.mediaDevices.getUserMedia({ video: true })
-    //     .then(stream => { //o que fazer quando o usuário permitir acesso à camera
-    //         video.srcObject = stream;
-    //         video.play();
-    //     })
-    //     .catch(error => { //o que fazer quando o usuário não permite acesso à camera
-    //         console.log(error);
-    //     })
-
-    // document.querySelector('button').addEventListener('click', () => {
-    //     var canvas = document.querySelector('canvas');
-    //     canvas.height = video.videoHeight;
-    //     canvas.width = video.videoWidth;
-    //     canvas.getContext('2d').drawImage(video, 0, 0);
-    //     let link = document.createElement('a');
-    //     link.download = 'foto.png';
-    //     link.href = canvas.toDataURL();
-    //     link.textContent = 'clique para baixar a imagem';
-    // })
-
-    // //###checkbox de conclusão
+    console.log("obra", obra)
+    //###Renderiza apes concluídos por andar
 
     const listaApes = apartment && apartment.map((ap) => {
         return <div>
-            {
+                {
                 ap.limpeza_completa ? "" :
                     <div key={ap.id}>
                         <h3>Andar: {ap.andar}</h3>
                         <p>Apartamento: {ap.numero_ap}</p>
-                        <button onClick={() => goToConcludedAp(navigate, ap.id)}>Concluir</button>
-
+                        <image src={ap.foto}/>
                     </div>
             }
 
@@ -66,18 +37,14 @@ export default function CollabsPage() {
 
     //###Andar passa a ficar como concluído após número de apartamentos estiver chegado ao limite
 
-    const apsWithLevel = apartment && apartment.map(({ andar, numero_ap }) => ([andar, numero_ap]))
-    // const apGrouped = apsWithLevel.groupBy(({u}) => u.andar)
+    const apsWithLevel = apartment && apartment.map(({ andar, numero_ap, limpeza_completa }) => ({andar, numero_ap, limpeza_completa}))
 
-    // if()
 
     console.log('apsWithLevel', apsWithLevel)
 
-    // let apsByLevel = {};
-
     const apConcluded = apartment && apartment.filter((limp) => {
         return limp.limpeza_completa === 1
-    }).map(({ andar, limpeza_completa }) => ({ andar, limpeza_completa }));
+    }).map(({ andar, numero_ap, limpeza_completa }) => ({ andar, numero_ap, limpeza_completa }));
 
 
     console.log('apConcluded', apConcluded)
@@ -87,10 +54,12 @@ export default function CollabsPage() {
     return (
         <div>
             <p>Collab Page</p>
+            <h4> Andares com apartamentos Concluídos</h4>
+            <button onClick={() => goToConcludedAp(navigate)}>Inserir Conclusão</button>
 
             {loading && loading && <p>Carregando...</p>}
             {!loading && erro && <p>Deu ruim!</p>}
-            {/* {!loading && apartment && apartment.length > 0 && listaApes} */}
+            {!loading && apartment && apartment.length > 0 && listaApes}
 
         </div>
     )

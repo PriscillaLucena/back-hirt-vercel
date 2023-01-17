@@ -86,31 +86,31 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
 
     try {
-         let multer = require('multer');
+        //  let multer = require('multer');
 
-        var upload = null;
-        let path = '';
-        let storage = {}
-        const photoTransform: any = {
-            path: require('path'),
-            storage: multer.diskStorage({
-                destination: function (req: any, file: any, cb: (arg0: null, arg1: string | undefined) => void) {
-                    cb(null, process.env.DIRETORIOUPLOAD);
-                },
-                filename: function (req: any, file: { originalname: string }, cb: (arg0: null, arg1: any) => void) {
-                    let fileExtension = file.originalname.split('.')[1];
-                    cb(null, require('crypto')
-                        .randomBytes(64).toString('hex') + '_' + file.originalname);
-                }
-            }),
-            upload: multer({ storage: storage }).fields([
-                { name: 'anexo', maxCount: 1 }
-            ])
-        }
-        const foto = photoTransform.path
-        console.log("foto", foto)
+        // var upload = null;
+        // let path = '';
+        // let storage = {}
+        // const photoTransform: any = {
+        //     path: require('path'),
+        //     storage: multer.diskStorage({
+        //         destination: function (req: any, file: any, cb: (arg0: null, arg1: string | undefined) => void) {
+        //             cb(null, process.env.DIRETORIOUPLOAD);
+        //         },
+        //         filename: function (req: any, file: { originalname: string }, cb: (arg0: null, arg1: any) => void) {
+        //             let fileExtension = file.originalname.split('.')[1];
+        //             cb(null, require('crypto')
+        //                 .randomBytes(64).toString('hex') + '_' + file.originalname);
+        //         }
+        //     }),
+        //     upload: multer({ storage: storage }).fields([
+        //         { name: 'anexo', maxCount: 1 }
+        //     ])
+        // }
+        // const foto = photoTransform.path
+        // console.log("foto", foto)
         const id = req.params.id
-        const { limpeza_completa } = req.body
+        const { numero_ap, limpeza_completa, foto } = req.body
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         let options: {
@@ -124,7 +124,8 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
         console.log(data3)
         await connection.raw(`
         UPDATE apartamentos 
-        SET limpeza_completa = "${limpeza_completa}",
+        SET numero_ap = ${numero_ap}
+            limpeza_completa = "${limpeza_completa}",
             data = STR_TO_DATE ("${data3}", '%d/%m/%y),
             foto = "${foto}",
         WHERE id = "${id}"
