@@ -11,7 +11,7 @@ const ContainerGeral = styled.div `
 
 export default function LoginPage (){
     const {type} = useParams()
-    
+    console.log(type)
     return(
         <ContainerGeral>
             <p>Login Page</p>

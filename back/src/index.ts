@@ -155,14 +155,14 @@ app.post("/login", async (req: Request, res: Response) => {
         //     console.log("chegou no if")
 
         // console.log(result[0].tipo_acesso.toUpperCase())
-        const userRole = result[0].tipo_acesso
+        const userRole = result[0].tipo_acesso.toUpperCase()
 
         const token: string = generateToken({
             id: result[0].id,
-            role: result[0].tipo_acesso.toUpperCase()
+            role: result[0].tipo_acesso
         })
 
-        console.log(token)
+        console.log(userRole)
 
         res.send({
             message: "Usuário logado!",

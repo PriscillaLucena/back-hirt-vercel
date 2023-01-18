@@ -1,4 +1,5 @@
 // import { useContext } from "react"
+import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 // import { GlobalContext } from "../Global/GlobalContext"
@@ -55,7 +56,7 @@ export default function CollabsPage() {
         <div>
             <p>Collab Page</p>
             <h4> Andares com apartamentos Concluídos</h4>
-            <button onClick={() => goToConcludedAp(navigate)}>Inserir Conclusão</button>
+            <Button variant="contained" onClick={() => goToConcludedAp(navigate)}>Inserir Conclusão</Button>
 
             {loading && loading && <p>Carregando...</p>}
             {!loading && erro && <p>Deu ruim!</p>}

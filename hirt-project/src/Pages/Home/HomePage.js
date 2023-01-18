@@ -1,17 +1,21 @@
 import React from "react";
 import logo from "../../images/logo.jpg";
 import styled from "styled-components"
-import { 
+import {
     // goToAdminPage, goToCollabPage, 
-    goToLoginPage } from "../../Routes/RouteFunctions";
+    goToLoginPage
+} from "../../Routes/RouteFunctions";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const ContainerGeral = styled.div`
-  width: 100%;
-  height: 100vh;
+  min-width: 100%;
+  min-height: 96vh;
+  background-size: cover;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  background: #244372ff;
+  justify-content: space-around;
 `
 
 const Image = styled.img`
@@ -19,12 +23,15 @@ const Image = styled.img`
     height: auto; 
 `
 
-const ContainerButton = styled.div`
+const ContainerCard = styled.div`
     display: flex;
     flex-direction: column;
+    border: 0.2rem solid #1C284Fff;
+    border-radius: 1rem;
+    padding: 2.5rem;
     gap: 0.5rem;
-    width: 10rem;
-    height: 7rem;   
+    background: white;
+    align-items: center;
 `
 
 function HomePage() {
@@ -33,11 +40,13 @@ function HomePage() {
 
     return (
         <ContainerGeral>
-            <Image src={logo} alt='logo' />
-            <ContainerButton>
-                <button onClick={()=>goToLoginPage(navigate, 1)}>Administrador</button>
-                <button onClick={()=>goToLoginPage(navigate, 2)}>Colaborador</button>
-            </ContainerButton>
+            <ContainerCard>
+                <Image src={logo} alt='logo' />
+
+                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMIN')}>Administrador</Button>
+                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'Collab')}>Colaborador</Button>
+
+            </ContainerCard>
         </ContainerGeral>
     )
 }

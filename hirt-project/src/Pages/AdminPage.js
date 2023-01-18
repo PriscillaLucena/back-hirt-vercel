@@ -4,6 +4,8 @@ import { useRequestData } from "../Hooks/UseRequestData";
 import { goToNewBuild } from "../Routes/RouteFunctions";
 // import { goToLoginPage } from "../Routes/RouteFunctions";
 import styled from "styled-components";
+import { Button } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ContainerGeral = styled.div`
 `
@@ -36,8 +38,8 @@ const AdminPage = () => {
             <h4>Total de Apartamentos por andar: {ap.qty_ap_andar}</h4>
             <h4>Andares: {ap.qty_andares * ap.qty_ap_andar}</h4>
             <h4>Responsável: {ap.responsavel}</h4>
-            <button>Deletar</button>
-            <button>Editar</button>
+            <Button variant="contained" startIcon={<DeleteIcon />}>DELETAR</Button>
+            <Button variant="contained">Editar</Button>
         </CardObras>
     });
 
@@ -46,7 +48,7 @@ const AdminPage = () => {
     return (
         <ContainerGeral>
             <h3>ADMIN PAGE</h3>
-            <button onClick={() => goToNewBuild(navigate)}> Incluir nova Obra </button>
+            <Button variant="contained" onClick={() => goToNewBuild(navigate)}> Incluir nova Obra </Button>
             <p>{listaObras}</p>
         </ContainerGeral>
     )
