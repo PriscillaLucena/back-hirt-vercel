@@ -1,6 +1,6 @@
 
 @id = 78ioio89
-Put http://localhost:3003/apartamentos/{{id}}
+P http://localhost:3003/apartamentos/{{id}}
 Content-Type: application/json
 
 {

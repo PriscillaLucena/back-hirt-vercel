@@ -15,7 +15,7 @@ export default function Router(){
                     <Route path={"/login/:type"} element={<LoginPage/>} />
                     <Route path={"/admin"} element={<AdminPage/>} />
                     <Route path={"/collaborator"} element={<CollabPage/>} />
-                    <Route path={"/apartment/:id"} element={<ConcludedAp/>} />
+                    <Route path={"/apartment"} element={<ConcludedAp/>} />
                     <Route path={"/new_build"} element={<NewProject/>} />
                 </Routes>
             </BrowserRouter>

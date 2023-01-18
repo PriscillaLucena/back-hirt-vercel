@@ -40,10 +40,17 @@ const ContainerUpload = styled.div`
     display: flex;
 `
 
+const fileToImageUri = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      resolve(event.target.result)
+    };
+    reader.readAsDataURL(file);
+    });
+
 export const ConcludedAp = () => {
     const navigate = useNavigate();
 
-    const { id } = useParams();
     const { states, setters } = useContext(GlobalContext);
     const { image, endImg, conclusion, level } = states;
     const { setImage, setConclusion, setLevel } = setters;
@@ -52,23 +59,33 @@ export const ConcludedAp = () => {
     const [erro, setErro] = useState('');
     const [ape, setApe] = useState('');
 
+    const onChangeImageUri = (file) => {
+    
+        if(!file) {
+          setImage('');
+          return;
+        }
+    
+        fileToImageUri(file)
+          .then(image => {
+            setImage(image)
+          })
+        
+      };
 
     //fazer um post pra setar a conclusão
     const uploadImage = () => {
         setLoading(true)
 
-        const formData = new FormData();
-        formData.append('image', image);
-
         const body =
         {
             numero_ap: ape,
+            andar: level,
             limpeza_completa: conclusion,
             foto: image
         }
-        console.log("body", body)
-
-        axios.post(`${BASE_URL}/apartment/${id}`, body, {
+        
+        axios.post(`${BASE_URL}/apartamentos`, body, {
             // headers: {
             //     auth: token,
             //     contentType: "application/json"
@@ -89,14 +106,11 @@ export const ConcludedAp = () => {
 
     const listaImg = () => {
         return <ContainerCard>
-
             <TextField required
-                defaultValue="Ex: 1"
                 id="outlined-required"
                 label="Número do Andar"
                 onChange={(e) => setLevel(e.target.value)} /><br/>
             <TextField required
-                defaultValue="Ex: 101"
                 id="outlined-required"
                 label="Número do Apartamento"
                 onChange={(e) => setApe(e.target.value)} />
@@ -105,21 +119,19 @@ export const ConcludedAp = () => {
                     <FormControlLabel control={<Checkbox />} label="Concluído" onClick={() => concluded(true)} />
                 </FormGroup>
                 <IconButton color="primary" aria-label="upload picture" component="label">
-                    <input hidden type="file" accept="image/*" capture="camera" onChange={(e) => setImage(e.target.files[0])} />
+                    <input hidden type="file" accept="image/*" capture="camera" onChange={(e) => onChangeImageUri(e.target.files[0] || null)} />
                     <PhotoCamera />
                 </IconButton>
             </ContainerUpload>
-            {
-                image ? <img src={URL.createObjectURL(image)} alt="imagem" name="imagem" width={150} height={150} /> :
-                    ''   // <img src={endImg} alt="imagem" width={150} height={150}></img>
-            } <br /><br />
+             <img src={image} alt="imagem" width={150} height={150} /> <br />          
             <Button variant="contained" endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
         </ContainerCard>
 
     };
     console.log("ape", ape)
+    console.log("andar", level)
     console.log('concluded', conclusion)
-    console.log("imagem", image)
+    console.log("image", image)
 
     // ####videoStreaming
 
