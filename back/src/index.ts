@@ -73,7 +73,7 @@ app.get("/obra", async (req: Request, res: Response) => {
     try {
 
         const resultado = await connection.raw(`
-        SELECT * FROM Novas_obras
+        SELECT * FROM Novas_obras`)
 
 res.status(200).send(resultado[0])
 
@@ -86,32 +86,31 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     let errorCode = 400
 
     try {
-         let multer = require('multer');
+        //  let multer = require('multer');
 
-    try {
-        var upload = null;
-        let path = '';
-        let storage = {}
-        const photoTransform: any = {
-            path: require('path'),
-            storage: multer.diskStorage({
-                destination: function (req: any, file: any, cb: (arg0: null, arg1: string | undefined) => void) {
-                    cb(null, process.env.DIRETORIOUPLOAD);
-                },
-                filename: function (req: any, file: { originalname: string }, cb: (arg0: null, arg1: any) => void) {
-                    let fileExtension = file.originalname.split('.')[1];
-                    cb(null, require('crypto')
-                        .randomBytes(64).toString('hex') + '_' + file.originalname);
-                }
-            }),
-            upload: multer({ storage: storage }).fields([
-                { name: 'anexo', maxCount: 1 }
-            ])
-        }
-        const foto = photoTransform.path
-        console.log("foto", foto)
+        // var upload = null;
+        // let path = '';
+        // let storage = {}
+        // const photoTransform: any = {
+        //     path: require('path'),
+        //     storage: multer.diskStorage({
+        //         destination: function (req: any, file: any, cb: (arg0: null, arg1: string | undefined) => void) {
+        //             cb(null, process.env.DIRETORIOUPLOAD);
+        //         },
+        //         filename: function (req: any, file: { originalname: string }, cb: (arg0: null, arg1: any) => void) {
+        //             let fileExtension = file.originalname.split('.')[1];
+        //             cb(null, require('crypto')
+        //                 .randomBytes(64).toString('hex') + '_' + file.originalname);
+        //         }
+        //     }),
+        //     upload: multer({ storage: storage }).fields([
+        //         { name: 'anexo', maxCount: 1 }
+        //     ])
+        // }
+        // const foto = photoTransform.path
+        // console.log("foto", foto)
         const id = req.params.id
-        const { limpeza_completa } = req.body
+        const { numero_ap, limpeza_completa, foto } = req.body
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         let options: {
@@ -125,7 +124,8 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
         console.log(data3)
         await connection.raw(`
         UPDATE apartamentos 
-        SET limpeza_completa = "${limpeza_completa}",
+        SET numero_ap = ${numero_ap}
+            limpeza_completa = "${limpeza_completa}",
             data = STR_TO_DATE ("${data3}", '%d/%m/%y),
             foto = "${foto}",
         WHERE id = "${id}"
@@ -136,7 +136,8 @@ app.put("/apartamentos/:id", async (req: Request, res: Response) => {
     } catch (error: any) {
         res.status(errorCode).send(error.message)
     }
-});
+})
+
 
 app.post("/login", async (req: Request, res: Response) => {
     let errorCode = 400
@@ -154,14 +155,14 @@ app.post("/login", async (req: Request, res: Response) => {
         //     console.log("chegou no if")
 
         // console.log(result[0].tipo_acesso.toUpperCase())
-        const userRole = result[0].tipo_acesso
+        const userRole = result[0].tipo_acesso.toUpperCase()
 
         const token: string = generateToken({
             id: result[0].id,
-            role: result[0].tipo_acesso.toUpperCase()
+            role: result[0].tipo_acesso
         })
 
-        console.log(token)
+        console.log(userRole)
 
         res.send({
             message: "Usuário logado!",

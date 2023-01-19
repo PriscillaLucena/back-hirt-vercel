@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../Constants/url";
 import { goToAdminPage, goToCollabPage, goToLoginPage } from "../Routes/RouteFunctions";
 
 
@@ -28,7 +29,7 @@ export const Login = (body, navigate) => {
             if (userData === false) {
                 goToLoginPage(navigate)
             } else {
-                if (response.data.userRole === 'admin') {
+                if (response.data.userRole === 'ADMIN') {
                     goToAdminPage(navigate)
                 } else {
                     goToCollabPage(navigate)
