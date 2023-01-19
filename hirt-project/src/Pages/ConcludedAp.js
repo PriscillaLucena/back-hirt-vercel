@@ -52,7 +52,7 @@ export const ConcludedAp = () => {
     const navigate = useNavigate();
 
     const { states, setters } = useContext(GlobalContext);
-    const { image, endImg, conclusion, level } = states;
+    const { image, conclusion, level } = states;
     const { setImage, setConclusion, setLevel } = setters;
 
     const [loading, setLoading] = useState(false);
@@ -93,6 +93,10 @@ export const ConcludedAp = () => {
         }).then(() => {
             setLoading(false);
             alert("Informações Salvas, Apartamento Concluído!")
+            setImage('')
+            setConclusion('') 
+            setLevel('')
+            
         }).catch(error => {
             setLoading(false)
             setErro(error.response)

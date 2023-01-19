@@ -6,6 +6,7 @@ import { goToNewBuild } from "../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import '@fontsource/roboto/300.css';
 
 const ContainerGeral = styled.div`
   width: 100%;
@@ -16,6 +17,7 @@ const ContainerGeral = styled.div`
   align-items: center;
   /* background: #244372ff; */
   justify-content: space-around;
+  font-family: arial;
   
 `
 
@@ -30,13 +32,18 @@ const CardObras = styled.div`
     margin-top: 0.85rem;
     display: flex;
     flex-direction: column;
-    border: 0.2rem solid #1C284Fff;
+    border: 0.2rem dashed #1C284Fff;
     border-radius: 1rem;
     padding: 2rem;
     background: white;
     align-items: center;
-    background: #747C94ff;
-    
+    column-gap: 0.1rem;
+    /* background: #747C94ff; */
+`
+
+const ButtonsInCard = styled.div`
+    display: flex;
+    row-gap: 0.15rem;
 `
 
 
@@ -49,13 +56,15 @@ const AdminPage = () => {
     const listaObras = obras && obras.map((ap) => {
 
         return <CardObras>
-            <h3>Obra: {ap.nome_obra}</h3>
-            <h4>Andares: {ap.qty_andares}</h4>
-            <h4>Total de Apartamentos por andar: {ap.qty_ap_andar}</h4>
-            <h4>Andares: {ap.qty_andares * ap.qty_ap_andar}</h4>
-            <h4>Responsável: {ap.responsavel}</h4>
+            <p><strong>Obra:</strong> {ap.nome_obra}</p>
+            <p><strong>Andares:</strong>{ap.qty_andares}</p> 
+            <p><strong>Total de Apartamentos por andar:</strong> {ap.qty_ap_andar}</p>
+            <p><strong>Andares:</strong>{ap.qty_andares}</p>
+            <p><strong>Responsável: </strong>{ap.responsavel}</p>
+            <ButtonsInCard>
             <Button variant="contained" startIcon={<DeleteIcon />}>DELETAR</Button><br />
             <Button variant="contained">Editar</Button>
+            </ButtonsInCard>
         </CardObras>
     });
 
