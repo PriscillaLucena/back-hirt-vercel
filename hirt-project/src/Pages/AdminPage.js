@@ -6,21 +6,44 @@ import { goToNewBuild } from "../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import '@fontsource/roboto/300.css';
 
 const ContainerGeral = styled.div`
+  width: 100%;
+  min-height: auto;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background: #244372ff; */
+  justify-content: space-around;
+  font-family: arial;
+  
 `
+
+const ContainerGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5rem;
+`
+
 const CardObras = styled.div`
-    width: 50%;
-    height:auto;
-    border: 0.25rem solid;
-    border-color: #1C284Fff;
-    border-radius: 10px;
-    margin: 1rem;
-    padding: 1rem;
-    
-    .button{
-        
-    }
+    width: 90%;
+    margin-top: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    border: 0.2rem dashed #1C284Fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    background: white;
+    align-items: center;
+    column-gap: 0.1rem;
+    /* background: #747C94ff; */
+`
+
+const ButtonsInCard = styled.div`
+    display: flex;
+    row-gap: 0.15rem;
 `
 
 
@@ -33,13 +56,15 @@ const AdminPage = () => {
     const listaObras = obras && obras.map((ap) => {
 
         return <CardObras>
-            <h3>Obra: {ap.nome_obra}</h3>
-            <h4>Andares: {ap.qty_andares}</h4>
-            <h4>Total de Apartamentos por andar: {ap.qty_ap_andar}</h4>
-            <h4>Andares: {ap.qty_andares * ap.qty_ap_andar}</h4>
-            <h4>Responsável: {ap.responsavel}</h4>
-            <Button variant="contained" startIcon={<DeleteIcon />}>DELETAR</Button>
+            <p><strong>Obra:</strong> {ap.nome_obra}</p>
+            <p><strong>Andares:</strong>{ap.qty_andares}</p> 
+            <p><strong>Total de Apartamentos por andar:</strong> {ap.qty_ap_andar}</p>
+            <p><strong>Andares:</strong>{ap.qty_andares}</p>
+            <p><strong>Responsável: </strong>{ap.responsavel}</p>
+            <ButtonsInCard>
+            <Button variant="contained" startIcon={<DeleteIcon />}>DELETAR</Button><br />
             <Button variant="contained">Editar</Button>
+            </ButtonsInCard>
         </CardObras>
     });
 
@@ -49,7 +74,9 @@ const AdminPage = () => {
         <ContainerGeral>
             <h3>ADMIN PAGE</h3>
             <Button variant="contained" onClick={() => goToNewBuild(navigate)}> Incluir nova Obra </Button>
-            <p>{listaObras}</p>
+            <ContainerGrid>
+                {listaObras}
+            </ContainerGrid>
         </ContainerGeral>
     )
 }

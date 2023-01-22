@@ -82,55 +82,27 @@ res.status(200).send(resultado[0])
     }
 });
 
-app.put("/apartamentos/:id", async (req: Request, res: Response) => {
+app.post("/apartamentos", async (req: Request, res: Response) => {
     let errorCode = 400
 
     try {
-        //  let multer = require('multer');
+    
+        const { numero_ap, andar, limpeza_completa, foto } = req.body
+        
+        const id = idGenerator.generate();
 
-        // var upload = null;
-        // let path = '';
-        // let storage = {}
-        // const photoTransform: any = {
-        //     path: require('path'),
-        //     storage: multer.diskStorage({
-        //         destination: function (req: any, file: any, cb: (arg0: null, arg1: string | undefined) => void) {
-        //             cb(null, process.env.DIRETORIOUPLOAD);
-        //         },
-        //         filename: function (req: any, file: { originalname: string }, cb: (arg0: null, arg1: any) => void) {
-        //             let fileExtension = file.originalname.split('.')[1];
-        //             cb(null, require('crypto')
-        //                 .randomBytes(64).toString('hex') + '_' + file.originalname);
-        //         }
-        //     }),
-        //     upload: multer({ storage: storage }).fields([
-        //         { name: 'anexo', maxCount: 1 }
-        //     ])
-        // }
-        // const foto = photoTransform.path
-        // console.log("foto", foto)
-        const id = req.params.id
-        const { numero_ap, limpeza_completa, foto } = req.body
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         let options: {
             year: any, month: any, day: any
         } = { year: 'numeric', month: '2-digit', day: 'numeric' }
-
         let data1 = today.toLocaleString('ko', options)
         let data2 = data1.replace(/. /g, '/')
-        let data3 = data2.replace('.', '')
+        let data = data2.replace('.', '')
 
-        console.log(data3)
-        await connection.raw(`
-        UPDATE apartamentos 
-        SET numero_ap = ${numero_ap}
-            limpeza_completa = "${limpeza_completa}",
-            data = STR_TO_DATE ("${data3}", '%d/%m/%y),
-            foto = "${foto}",
-        WHERE id = "${id}"
-            `)
-
+        await connection("apartamentos")
+        .insert({id, numero_ap, andar, limpeza_completa, data, foto})
+        
         res.status(200).send({ message: "Apartamento concluído!" })
 
     } catch (error: any) {
