@@ -7,7 +7,7 @@ export const InfoPage = () => {
     const {id} = useParams();
 
     const [infos] = useRequestData(`${BASE_URL}/info/${id}`) 
-    const inf = !!infos ? infos : "carregando"
+    // const inf = !!infos ? infos : "carregando"
        
     const ListInfos = infos && infos.map((info) => {
         return <div>

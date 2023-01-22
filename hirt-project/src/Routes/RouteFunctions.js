@@ -10,7 +10,7 @@ export const goToLoginPage = (navigate, type) => {
     navigate(`/login/${type}`)
 };
 
-export const goToConcludedAp = (navigate) => {
+export const goToConcludedAp = (navigate, build_id) => {
     navigate(`/apartment/${build_id}`)
 };
 
