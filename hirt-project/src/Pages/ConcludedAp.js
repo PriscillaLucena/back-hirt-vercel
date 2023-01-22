@@ -49,6 +49,9 @@ const fileToImageUri = (file) => new Promise((resolve, reject) => {
     });
 
 export const ConcludedAp = () => {
+
+     const {build_id} = useParams();
+
     const navigate = useNavigate();
 
     const { states, setters } = useContext(GlobalContext);
@@ -82,10 +85,11 @@ export const ConcludedAp = () => {
             numero_ap: ape,
             andar: level,
             limpeza_completa: conclusion,
-            foto: image
+            foto: image,
+            obra_id: build_id
         }
         
-        axios.post(`${BASE_URL}/apartamentos`, body, {
+        axios.post(`${BASE_URL}/apartamentos/${build_id}`, body, {
             // headers: {
             //     auth: token,
             //     contentType: "application/json"

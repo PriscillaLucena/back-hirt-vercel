@@ -11,12 +11,17 @@ export const goToLoginPage = (navigate, type) => {
 };
 
 export const goToConcludedAp = (navigate) => {
-    navigate(`/apartment`)
+    navigate(`/apartment/${build_id}`)
 };
 
 export const goToNewBuild = (navigate) => {
     navigate(`/new_build`)
 };
+
+export const goToInfoPage = (navigate, id) => {
+    navigate(`/info/${id}`)
+};
+
 
 
 

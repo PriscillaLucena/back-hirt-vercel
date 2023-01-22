@@ -3,6 +3,7 @@ import AdminPage from "../Pages/AdminPage";
 import CollabPage from "../Pages/CollabsPage";
 import { ConcludedAp } from "../Pages/ConcludedAp";
 import HomePage from "../Pages/Home/HomePage"
+import { InfoPage } from "../Pages/InfoPage";
 import LoginPage from "../Pages/Login/LoginPage";
 import { NewProject } from "../Pages/NewProject";
 
@@ -15,8 +16,9 @@ export default function Router(){
                     <Route path={"/login/:type"} element={<LoginPage/>} />
                     <Route path={"/admin"} element={<AdminPage/>} />
                     <Route path={"/collaborator"} element={<CollabPage/>} />
-                    <Route path={"/apartment"} element={<ConcludedAp/>} />
+                    <Route path={"/apartment/:obra_id"} element={<ConcludedAp/>} />
                     <Route path={"/new_build"} element={<NewProject/>} />
+                    <Route path={"/info/:id"} element={<InfoPage/>} />
                 </Routes>
             </BrowserRouter>
     

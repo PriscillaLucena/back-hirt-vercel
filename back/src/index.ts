@@ -82,11 +82,12 @@ res.status(200).send(resultado[0])
     }
 });
 
-app.post("/apartamentos", async (req: Request, res: Response) => {
+app.post("/apartamentos/:obra_id", async (req: Request, res: Response) => {
     let errorCode = 400
 
     try {
     
+       const obra_id = req.params
         const { numero_ap, andar, limpeza_completa, foto } = req.body
         
         const id = idGenerator.generate();
@@ -101,7 +102,7 @@ app.post("/apartamentos", async (req: Request, res: Response) => {
         let data = data2.replace('.', '')
 
         await connection("apartamentos")
-        .insert({id, numero_ap, andar, limpeza_completa, data, foto})
+        .insert({id, numero_ap, andar, limpeza_completa, data, foto, obra_id})
         
         res.status(200).send({ message: "Apartamento concluído!" })
 
@@ -153,8 +154,9 @@ app.post("/nova-obra", async (req: Request, res: Response) => {
 
     try {
 
-        const {nome_obra, qty_andares, qty_ap_andar, qty_total_ap, responsavel} = req.body
+        const {nome_obra, qty_andares, qty_ap_andar, responsavel} = req.body
         const id = idGenerator.generate();
+        const qty_total_ap = qty_andares * qty_ap_andar
 
         await connection('Novas_obras')
         .insert({id,
@@ -171,6 +173,40 @@ app.post("/nova-obra", async (req: Request, res: Response) => {
     }
 })
 
+// ################################
+// APAGAR ANTES DO PUSH
+
+app.get("/info/:id", async (req: Request, res: Response)=>{
+    let errorCode = 400
+    try {
+        const id = req.params.id
+
+        const obra = await connection.raw(`
+        SELECT * FROM Novas_obras
+        WHERE id = "${id}"
+        `)
+
+        //juntar os dois e colocar uma sont resultado com as infos que vem;
+        const aps = await connection.raw(`
+        SELECT * from Novas_obras
+        JOIN apartamentos ON Novas_obras.ap_id = apartamentos.id
+        `)
+
+        const resultado = {
+            obra: obra[0],
+            apartamentos: aps[0]
+        }
+               
+        // res.status(200).send(resultado[0])
+
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+})
+
 app.listen(3003, () => {
     console.log("Server running on port 3003")
 });
+
+
+

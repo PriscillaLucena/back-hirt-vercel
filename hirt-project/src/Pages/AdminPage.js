@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { useRequestData } from "../Hooks/UseRequestData";
-import { goToNewBuild } from "../Routes/RouteFunctions";
-// import { goToLoginPage } from "../Routes/RouteFunctions";
+import { goToConcludedAp, goToInfoPage, goToNewBuild } from "../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
 import '@fontsource/roboto/300.css';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
 const ContainerGeral = styled.div`
   width: 100%;
@@ -32,21 +33,19 @@ const CardObras = styled.div`
     margin-top: 0.85rem;
     display: flex;
     flex-direction: column;
-    border: 0.2rem dashed #1C284Fff;
+    border: 0.1rem dashed #1C284Fff;
     border-radius: 1rem;
     padding: 2rem;
     background: white;
-    align-items: center;
     column-gap: 0.1rem;
-    /* background: #747C94ff; */
-`
+   `
 
 const ButtonsInCard = styled.div`
     display: flex;
     row-gap: 0.15rem;
+    justify-content: space-evenly;
+    cursor: pointer;
 `
-
-
 const AdminPage = () => {
     const [obras
         // loading, erro
@@ -57,13 +56,11 @@ const AdminPage = () => {
 
         return <CardObras>
             <p><strong>Obra:</strong> {ap.nome_obra}</p>
-            <p><strong>Andares:</strong>{ap.qty_andares}</p> 
-            <p><strong>Total de Apartamentos por andar:</strong> {ap.qty_ap_andar}</p>
-            <p><strong>Andares:</strong>{ap.qty_andares}</p>
             <p><strong>Responsável: </strong>{ap.responsavel}</p>
             <ButtonsInCard>
-            <Button variant="contained" startIcon={<DeleteIcon />}>DELETAR</Button><br />
-            <Button variant="contained">Editar</Button>
+                <DeleteRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
+                <InfoRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToInfoPage(navigate, ap.id)} />
+                <EditRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
             </ButtonsInCard>
         </CardObras>
     });
@@ -73,7 +70,7 @@ const AdminPage = () => {
     return (
         <ContainerGeral>
             <h3>ADMIN PAGE</h3>
-            <Button variant="contained" onClick={() => goToNewBuild(navigate)}> Incluir nova Obra </Button>
+            <Button variant="contained" onClick={() => goToNewBuild(navigate)}> Incluir Obra </Button>
             <ContainerGrid>
                 {listaObras}
             </ContainerGrid>
