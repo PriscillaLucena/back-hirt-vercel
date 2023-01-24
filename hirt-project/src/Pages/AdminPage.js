@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { useRequestData } from "../Hooks/UseRequestData";
-import { goToConcludedAp, goToInfoPage, goToNewBuild } from "../Routes/RouteFunctions";
+import { goToConcludedAp, goToInfoApPage, goToNewBuild } from "../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import '@fontsource/roboto/300.css';
@@ -59,7 +59,7 @@ const AdminPage = () => {
             <p><strong>Responsável: </strong>{ap.responsavel}</p>
             <ButtonsInCard>
                 <DeleteRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
-                <InfoRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToInfoPage(navigate, ap.id)} />
+                <InfoRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, ap.id)} />
                 <EditRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
             </ButtonsInCard>
         </CardObras>

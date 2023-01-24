@@ -33,12 +33,18 @@ const idGenerator = new IdGenerator();
 /**************************** TYPES ******************************/
 
 type obra = {
-    id: string,
+    obra_id: string;
     nome_obra: string,
     qty_andares: number,
     qty_ap_andar: number,
-    qty_total_ap: number,
-    responsavel: string
+    responsavel: string,
+    apartamentos: {
+        numero_ap: number,
+        andar: number,
+        limpeza_completa: boolean,
+        data: number,
+        foto: string,
+    }
 }
 
 type apartamento = {
@@ -75,7 +81,7 @@ app.get("/obra", async (req: Request, res: Response) => {
         const resultado = await connection.raw(`
         SELECT * FROM Novas_obras`)
 
-res.status(200).send(resultado[0])
+        res.status(200).send(resultado[0])
 
     } catch (error: any) {
         res.status(errorCode).send(error.message)
@@ -86,10 +92,10 @@ app.post("/apartamentos/:obra_id", async (req: Request, res: Response) => {
     let errorCode = 400
 
     try {
-    
-       const obra_id = req.params
+
+        const obra_id = req.params
         const { numero_ap, andar, limpeza_completa, foto } = req.body
-        
+
         const id = idGenerator.generate();
 
         const timeElapsed = Date.now();
@@ -102,8 +108,8 @@ app.post("/apartamentos/:obra_id", async (req: Request, res: Response) => {
         let data = data2.replace('.', '')
 
         await connection("apartamentos")
-        .insert({id, numero_ap, andar, limpeza_completa, data, foto, obra_id})
-        
+            .insert({ id, numero_ap, andar, limpeza_completa, data, foto, obra_id })
+
         res.status(200).send({ message: "Apartamento concluído!" })
 
     } catch (error: any) {
@@ -150,24 +156,26 @@ app.post("/login", async (req: Request, res: Response) => {
 
 
 app.post("/nova-obra", async (req: Request, res: Response) => {
-   let errorCode = 404
+    let errorCode = 404
 
     try {
 
-        const {nome_obra, qty_andares, qty_ap_andar, responsavel} = req.body
+        const { nome_obra, qty_andares, qty_ap_andar, responsavel } = req.body
         const id = idGenerator.generate();
         const qty_total_ap = qty_andares * qty_ap_andar
 
         await connection('Novas_obras')
-        .insert({id,
-            nome_obra,
-            qty_andares,
-            qty_ap_andar,
-            qty_total_ap,
-            responsavel})
+            .insert({
+                id,
+                nome_obra,
+                qty_andares,
+                qty_ap_andar,
+                qty_total_ap,
+                responsavel
+            })
 
-        res.status(200).send({message: 'Nova obra criada!'})
-        
+        res.status(200).send({ message: 'Nova obra criada!' })
+
     } catch (error: any) {
         res.status(errorCode).send(error.message)
     }
@@ -176,32 +184,43 @@ app.post("/nova-obra", async (req: Request, res: Response) => {
 // ################################
 // APAGAR ANTES DO PUSH
 
-app.get("/info/:id", async (req: Request, res: Response)=>{
+app.get("/info/:id", async (req: Request, res: Response) => {
     let errorCode = 400
     try {
         const id = req.params.id
-
-        const obra = await connection.raw(`
-        SELECT * FROM Novas_obras
-        WHERE id = "${id}"
+        //no select colocar tudo o que quero
+        const obras = await connection.raw(`
+        SELECT numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
+        JOIN Novas_obras ON apartamentos.obra_id = Novas_obras.id
+        WHERE Novas_obras.id = "${id}"
         `)
+        // console.log("obra", obra[0].nome_obra[0])
 
-        //juntar os dois e colocar uma sont resultado com as infos que vem;
-        const aps = await connection.raw(`
-        SELECT * from Novas_obras
-        JOIN apartamentos ON Novas_obras.ap_id = apartamentos.id
-        `)
+        let resposta: any = {}
 
-        const resultado = {
-            obra: obra[0],
-            apartamentos: aps[0]
-        }
-               
-        // res.status(200).send(resultado[0])
+        const newObra: obra = obras[0].map((obra: any) => {
+            return resposta = {
+                obra_id: obra.obra_id,
+                nome_obra: obra.nome_obra,
+                qty_andares: obra.qty_andares,
+                qty_ap_andar: obra.qty_ap_andar,
+                responsavel: obra.responsavel,
+                apartamentos: {
+                    numero_ap: obra.numero_ap,
+                    andar: obra.andar,
+                    limpeza_completa: obra.limpeza_completa,
+                    data: obra.data,
+                    foto: obra.foto,
+                }
+            }
+        });
+
+        res.status(200).send(newObra)
 
     } catch (error: any) {
         res.status(errorCode).send(error.message)
     }
+
 })
 
 app.listen(3003, () => {

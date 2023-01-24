@@ -1,10 +1,9 @@
-// import { useContext } from "react"
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-// import { GlobalContext } from "../Global/GlobalContext"
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { useRequestData } from "../Hooks/UseRequestData";
-import { goToConcludedAp } from "../Routes/RouteFunctions";
+import { goToConcludedAp, goToInfoApPage, goToInfoPage } from "../Routes/RouteFunctions";
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 export default function CollabsPage() {
 
@@ -12,56 +11,44 @@ export default function CollabsPage() {
 
     const [apartment, loading, erro] = useRequestData(`${BASE_URL}/apartamentos`);
     let apes = !!apartment ? apartment : "carregando";
-    
+
     const [obra_info] = useRequestData(`${BASE_URL}/obra`);
     let obra = !!obra_info ? obra_info : "carregando";
 
-    console.log("andar", apes)
-    console.log("obra", obra)
-    //###Renderiza apes concluídos por andar
+    //###Renderiza obras para incluir aps
+    console.log("obra_info", obra_info)
 
-    const listaApes = apartment && apartment.map((ap) => {
-        return <div>
-                {
-                ap.limpeza_completa ? "" :
-                    <div key={ap.id}>
-                        <h3>Andar: {ap.andar}</h3>
-                        <p>Apartamento: {ap.numero_ap}</p>
-                        <image src={ap.foto}/>
-                    </div>
-            }
 
+    const listaObras = obra_info && obra_info.map((obra) => {
+        return <div key={obra.id}>
+            <p>{obra.nome_obra}</p>
+            <InfoRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
+            <EditRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
         </div>
-
     });
-
 
     //###Andar passa a ficar como concluído após número de apartamentos estiver chegado ao limite
 
-    const apsWithLevel = apartment && apartment.map(({ andar, numero_ap, limpeza_completa }) => ({andar, numero_ap, limpeza_completa}))
-
-
-    console.log('apsWithLevel', apsWithLevel)
-
     const apConcluded = apartment && apartment.filter((limp) => {
         return limp.limpeza_completa === 1
-    }).map(({ andar, numero_ap, limpeza_completa }) => ({ andar, numero_ap, limpeza_completa }));
+    }).map(({ andar, limpeza_completa }) => ({ andar, limpeza_completa }));
+
+    let apByLevel = obra_info && obra_info.map(({ qty_andares, qty_ap_andar }) => ({ qty_andares, qty_ap_andar }))
 
 
-    console.log('apConcluded', apConcluded)
+    console.log('apByLevel', apByLevel)
 
 
 
     return (
         <div>
             <p>Collab Page</p>
-            <h4> Andares com apartamentos Concluídos</h4>
-            <Button variant="contained" onClick={() => goToConcludedAp(navigate)}>Inserir Conclusão</Button>
+            {/* <Button variant="contained" onClick={() => goToConcludedAp(navigate)}>Inserir Conclusão</Button> */}
 
             {loading && loading && <p>Carregando...</p>}
             {!loading && erro && <p>Deu ruim!</p>}
-            {!loading && apartment && apartment.length > 0 && listaApes}
-
+            {!loading && obra_info && obra_info.length > 0 && listaObras}
+            listaObras
         </div>
     )
 }

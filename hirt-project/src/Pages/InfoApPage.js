@@ -2,12 +2,14 @@ import { useParams } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { useRequestData } from "../Hooks/UseRequestData";
 
-export const InfoPage = () => {
+export const InfoApPage = () => {
 
     const {id} = useParams();
 
-    const [infos] = useRequestData(`${BASE_URL}/info/${id}`) 
-    // const inf = !!infos ? infos : "carregando"
+    const [infos] = useRequestData(`${BASE_URL}/info/${id}`); 
+    const inf = !!infos ? infos : "carregando"
+
+    console.log("infos", infos)
        
     const ListInfos = infos && infos.map((info) => {
         return <div>
@@ -16,7 +18,12 @@ export const InfoPage = () => {
             <p>Total de Apartamentos por andar:{info.qty_ap_andar}</p>
             <p>Total Apartamentos:{info.qty_total_ap}</p>
             <p>Cliente:{info.responsavel}</p>
-            {/* <p>Apartamentos: {info.apartamentos}</p> */}
+            <p>Apartamentos:</p>
+            <p>{info.andar}</p>
+            <p>{info.numero_ap}</p>
+            <p>{info.limpeza_completa}</p>
+            <p>{info.data}</p>
+            <p>{info.foto}</p>
         </div>
     })
 

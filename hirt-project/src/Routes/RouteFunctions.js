@@ -18,9 +18,14 @@ export const goToNewBuild = (navigate) => {
     navigate(`/new_build`)
 };
 
-export const goToInfoPage = (navigate, id) => {
-    navigate(`/info/${id}`)
+export const goToInfoApPage = (navigate, id) => {
+    navigate(`/info_ap/${id}`)
 };
+
+export const goToInfoBuildPage = (navigate, id) => {
+    navigate(`/info_build/${id}`)
+};
+
 
 
 
