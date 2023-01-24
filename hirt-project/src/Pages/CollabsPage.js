@@ -1,9 +1,45 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import EditIcon from '@mui/icons-material/Edit';
 import { useRequestData } from "../Hooks/UseRequestData";
-import { goToConcludedAp, goToInfoApPage, goToInfoPage } from "../Routes/RouteFunctions";
+import { goToConcludedAp, goToInfoApPage } from "../Routes/RouteFunctions";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import styled from "styled-components";
+import CircularProgress from '@mui/material/CircularProgress';
+
+const ContainerGeral = styled.div`
+  width: 100%;
+  min-height: auto;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-family: 'Roboto';  
+`
+const ContainerGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5rem;
+`
+
+const CardObras = styled.div`
+    width: 90%;
+    margin-top: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    border: 0.1rem dashed #1C284Fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    background: #F5FFFA;
+    column-gap: 0.1rem;
+   `
+
+const ContainerButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+`
 
 export default function CollabsPage() {
 
@@ -15,40 +51,26 @@ export default function CollabsPage() {
     const [obra_info] = useRequestData(`${BASE_URL}/obra`);
     let obra = !!obra_info ? obra_info : "carregando";
 
-    //###Renderiza obras para incluir aps
-    console.log("obra_info", obra_info)
-
-
-    const listaObras = obra_info && obra_info.map((obra) => {
-        return <div key={obra.id}>
+     const listaObras = obra_info && obra_info.map((obra) => {
+        return <CardObras key={obra.id}>
             <p>{obra.nome_obra}</p>
-            <InfoRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
-            <EditRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
-        </div>
+            <ContainerButton>
+                <InfoRoundedIcon  sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
+                <EditIcon  sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
+            </ContainerButton>
+        </CardObras>
     });
 
-    //###Andar passa a ficar como concluído após número de apartamentos estiver chegado ao limite
-
-    const apConcluded = apartment && apartment.filter((limp) => {
-        return limp.limpeza_completa === 1
-    }).map(({ andar, limpeza_completa }) => ({ andar, limpeza_completa }));
-
-    let apByLevel = obra_info && obra_info.map(({ qty_andares, qty_ap_andar }) => ({ qty_andares, qty_ap_andar }))
-
-
-    console.log('apByLevel', apByLevel)
-
-
-
     return (
-        <div>
+        <ContainerGeral>
             <p>Collab Page</p>
-            {/* <Button variant="contained" onClick={() => goToConcludedAp(navigate)}>Inserir Conclusão</Button> */}
 
-            {loading && loading && <p>Carregando...</p>}
-            {!loading && erro && <p>Deu ruim!</p>}
-            {!loading && obra_info && obra_info.length > 0 && listaObras}
-            listaObras
-        </div>
+            {loading && loading &&
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
+            <ContainerGrid>
+                {!loading && erro && <p>Deu ruim!</p>}
+                {!loading && obra_info && obra_info.length > 0 && listaObras}
+            </ContainerGrid>
+        </ContainerGeral>
     )
 }

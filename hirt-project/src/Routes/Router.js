@@ -19,7 +19,6 @@ export default function Router(){
                     <Route path={"/apartment/:obra_id"} element={<ConcludedAp/>} />
                     <Route path={"/new_build"} element={<NewProject/>} />
                     <Route path={"/info_ap/:id"} element={<InfoApPage/>} />
-                    {/* <Route path={"/info_build/:id"} element={<InfoBuildPage/>} /> */}
                 </Routes>
             </BrowserRouter>
     

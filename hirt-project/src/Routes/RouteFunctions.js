@@ -22,9 +22,9 @@ export const goToInfoApPage = (navigate, id) => {
     navigate(`/info_ap/${id}`)
 };
 
-export const goToInfoBuildPage = (navigate, id) => {
-    navigate(`/info_build/${id}`)
-};
+// export const goToInfoBuildPage = (navigate, id) => {
+//     navigate(`/info_build/${id}`)
+// };
 
 
 

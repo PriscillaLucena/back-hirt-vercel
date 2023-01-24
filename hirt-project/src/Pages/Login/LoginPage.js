@@ -7,6 +7,7 @@ const ContainerGeral = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Roboto';
 `
 
 export default function LoginPage (){
@@ -18,7 +19,7 @@ export default function LoginPage (){
             <LoginForm 
             role = {type}
             />    
-            <p>{type}</p>
+            {/* <p>{type}</p> */}
 
             {/* <button onClick={()=>goToSignUpPage(navigate, type)}>Registrar-se</button> */}
         </ContainerGeral>

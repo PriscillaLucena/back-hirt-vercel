@@ -11,6 +11,7 @@ const ContainerForm = styled.form`
   flex-direction: column;
   width: 20rem;
   height: 15rem;
+  font-family: 'Roboto';
 `
 
 const ContainerCard = styled.div`
@@ -20,7 +21,7 @@ const ContainerCard = styled.div`
     border-radius: 1rem;
     padding: 2.5rem;
     gap: 0.5rem;
-    background: white;
+    background: #F5FFFA;
     align-items: center;
 `
 

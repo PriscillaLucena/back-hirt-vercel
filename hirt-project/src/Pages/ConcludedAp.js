@@ -12,6 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ContainerGeral = styled.div`
   min-width: 100%;
@@ -20,8 +21,8 @@ const ContainerGeral = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #244372ff;
   justify-content: space-around;
+  font-family: 'Roboto';
 `
 
 const ContainerCard = styled.div`
@@ -32,7 +33,7 @@ const ContainerCard = styled.div`
     border-radius: 1rem;
     padding: 2.5rem;
     gap: 0.5rem;
-    background: white;
+    background: #F5FFFA;
     align-items: center;
 `
 
@@ -43,14 +44,14 @@ const ContainerUpload = styled.div`
 const fileToImageUri = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (event) => {
-      resolve(event.target.result)
+        resolve(event.target.result)
     };
     reader.readAsDataURL(file);
-    });
+});
 
 export const ConcludedAp = () => {
 
-     const {build_id} = useParams();
+    const { build_id } = useParams();
 
     const navigate = useNavigate();
 
@@ -63,20 +64,19 @@ export const ConcludedAp = () => {
     const [ape, setApe] = useState('');
 
     const onChangeImageUri = (file) => {
-    
-        if(!file) {
-          setImage('');
-          return;
-        }
-    
-        fileToImageUri(file)
-          .then(image => {
-            setImage(image)
-          })
-        
-      };
 
-    //fazer um post pra setar a conclusão
+        if (!file) {
+            setImage('');
+            return;
+        }
+
+        fileToImageUri(file)
+            .then(image => {
+                setImage(image)
+            })
+
+    };
+
     const uploadImage = () => {
         setLoading(true)
 
@@ -88,7 +88,7 @@ export const ConcludedAp = () => {
             foto: image,
             obra_id: build_id
         }
-        
+
         axios.post(`${BASE_URL}/apartamentos/${build_id}`, body, {
             // headers: {
             //     auth: token,
@@ -98,9 +98,9 @@ export const ConcludedAp = () => {
             setLoading(false);
             alert("Informações Salvas, Apartamento Concluído!")
             setImage('')
-            setConclusion('') 
+            setConclusion('')
             setLevel('')
-            
+
         }).catch(error => {
             setLoading(false)
             setErro(error.response)
@@ -117,10 +117,10 @@ export const ConcludedAp = () => {
             <TextField required
                 id="outlined-required"
                 label="Número do Andar"
-                onChange={(e) => setLevel(e.target.value)} /><br/>
+                onChange={(e) => setLevel(e.target.value)} /><br />
             <TextField required
                 id="outlined-required"
-                label="Número do Apartamento"
+                label="Nº Ap/local"
                 onChange={(e) => setApe(e.target.value)} />
             <ContainerUpload>
                 <FormGroup>
@@ -131,15 +131,22 @@ export const ConcludedAp = () => {
                     <PhotoCamera />
                 </IconButton>
             </ContainerUpload>
-             <img src={image} alt="imagem" width={150} height={150} /> <br />          
+            <img src={image} alt="imagem" width={150} height={150} /> <br />
             <Button variant="contained" endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
         </ContainerCard>
 
     };
-    console.log("ape", ape)
-    console.log("andar", level)
-    console.log('concluded', conclusion)
-    console.log("image", image)
+
+    return (
+        <ContainerGeral>
+            <Button variant="contained" onClick={() => goToCollabPage(navigate)}>Voltar</Button>
+            {loading && loading &&
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
+            {!loading && erro && <p>Deu ruim!</p>}
+            {!loading && listaImg()}
+        </ContainerGeral>
+    )
+};
 
     // ####videoStreaming
 
@@ -164,16 +171,3 @@ export const ConcludedAp = () => {
     //     link.href = canvas.toDataURL();
     //     link.textContent = 'clique para baixar a imagem';
     // })
-
-    return (
-        <ContainerGeral>
-
-           <h1>Concluded Ap</h1>
-            <Button variant="contained" onClick={() => goToCollabPage(navigate)}>Voltar</Button>
-            {loading && loading && <p>Carregando...</p>}
-            {!loading && erro && <p>Deu ruim!</p>}
-            {!loading && listaImg()}
-
-        </ContainerGeral>
-    )
-};

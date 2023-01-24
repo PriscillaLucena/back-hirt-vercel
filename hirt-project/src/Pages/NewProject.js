@@ -18,6 +18,7 @@ const ContainerGeral = styled.div`
   align-items: center;
   background: #244372ff;
   justify-content: space-around;
+  font-family: 'Roboto';
 `
 
 const ContainerCard = styled.form`

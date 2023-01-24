@@ -184,6 +184,45 @@ app.post("/nova-obra", async (req: Request, res: Response) => {
 // ################################
 // APAGAR ANTES DO PUSH
 
+app.get("/info/:id", async (req: Request, res: Response) => {
+    let errorCode = 400
+    try {
+        const id = req.params.id
+        //no select colocar tudo o que quero
+        const obras = await connection.raw(`
+        SELECT obra_id, numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
+        JOIN Novas_obras ON apartamentos.obra_id = Novas_obras.id
+        WHERE Novas_obras.id = "${id}"
+        `)
+        // console.log("obra", obra[0].nome_obra[0])
+
+        let resposta: any = {}
+
+        const newObra: obra = obras[0].map((obra: any) => {
+            return resposta = {
+                obra_id: obra.obra_id,
+                nome_obra: obra.nome_obra,
+                qty_andares: obra.qty_andares,
+                qty_ap_andar: obra.qty_ap_andar,
+                responsavel: obra.responsavel,
+                apartamentos: {
+                    numero_ap: obra.numero_ap,
+                    andar: obra.andar,
+                    limpeza_completa: obra.limpeza_completa,
+                    data: obra.data,
+                    foto: obra.foto,
+                }
+            }
+        });
+
+        res.status(200).send(newObra)
+
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+
+})
+
 
 app.listen(3003, () => {
     console.log("Server running on port 3003")

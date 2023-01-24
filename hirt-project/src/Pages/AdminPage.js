@@ -7,22 +7,23 @@ import { Button } from "@mui/material";
 import '@fontsource/roboto/300.css';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import EditIcon from '@mui/icons-material/Edit';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ContainerGeral = styled.div`
+  margin: 2rem;
   width: 100%;
   min-height: auto;
   background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background: #244372ff; */
   justify-content: space-around;
-  font-family: arial;
-  
-`
+  font-family: 'Roboto';
+  `
 
 const ContainerGrid = styled.div`
+    margin: 2rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5rem;
@@ -36,7 +37,7 @@ const CardObras = styled.div`
     border: 0.1rem dashed #1C284Fff;
     border-radius: 1rem;
     padding: 2rem;
-    background: white;
+    background: #F5FFFA;
     column-gap: 0.1rem;
    `
 
@@ -47,9 +48,7 @@ const ButtonsInCard = styled.div`
     cursor: pointer;
 `
 const AdminPage = () => {
-    const [obras
-        // loading, erro
-    ] = useRequestData(`${BASE_URL}/obra`);
+    const [obras, loading, erro] = useRequestData(`${BASE_URL}/obra`);
     const navigate = useNavigate()
 
     const listaObras = obras && obras.map((ap) => {
@@ -60,7 +59,7 @@ const AdminPage = () => {
             <ButtonsInCard>
                 <DeleteRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
                 <InfoRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, ap.id)} />
-                <EditRoundedIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
+                <EditIcon sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
             </ButtonsInCard>
         </CardObras>
     });
@@ -69,10 +68,12 @@ const AdminPage = () => {
 
     return (
         <ContainerGeral>
-            <h3>ADMIN PAGE</h3>
             <Button variant="contained" onClick={() => goToNewBuild(navigate)}> Incluir Obra </Button>
+            {loading && loading &&
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             <ContainerGrid>
-                {listaObras}
+                {!loading && erro && <p>Deu ruim!</p>}
+                {!loading && obras && obras.length > 0 && listaObras}
             </ContainerGrid>
         </ContainerGeral>
     )
