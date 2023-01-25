@@ -10,10 +10,10 @@ export enum USER_ROLES {
  
  export type userData = {
     name: string,
-    nickname: string,
     email: string,
     password: string,
     role: USER_ROLES
  }
  
  export type user = userData & { id: string }
+
