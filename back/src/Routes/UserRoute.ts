@@ -7,3 +7,4 @@ export const UserRouter = express.Router();
 const userController = new UserController()
 
 UserRouter.post("/signup", userController.SignUp)
+UserRouter.post("/login", userController.Login)

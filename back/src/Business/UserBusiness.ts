@@ -5,6 +5,10 @@ import IdGenerator from "../services/GenerateId";
 import HashManager from "../services/HashManager";
 import Authenticator from "../services/Authenticator";
 
+export type loginInputDTO = {
+    email: string,
+    password: string
+}
 
 export default class UserBusiness {
     private userDB: UserRepository
@@ -59,4 +63,44 @@ export default class UserBusiness {
 
     }
 
+    Login = async (input: loginInputDTO): Promise<string> => {
+
+        if (!input.email || !input.password) {
+    
+            const message = '"email" and "password" must be provided'
+            throw new CustomError(400, message)
+        }
+        
+        console.log("iniciei o business")
+        const queryResult: any = await this.userDB.userByEmail(input.email)
+        console.log(queryResult)
+    
+        if (!queryResult) {
+    
+            let message = "User Not Found"
+            throw new CustomError(404, message)
+        }
+    
+        const user: user = {
+            id: queryResult.id,
+            name: queryResult.nome,
+            email: queryResult.email,
+            password: queryResult.senha,
+            role: queryResult.tipo_acesso
+        }
+    
+        const passwordIsCorrect: boolean = await this.hashManager.compare(input.password, user.password)
+    
+        if (!passwordIsCorrect) {
+            throw new CustomError(401, "Invalid credentials")
+        }
+    
+        const token: string = this.authenticator.generateToken({
+            id: user.id,
+            role: user.role
+        })
+    
+        return token
+    
+    }
 }

@@ -10,9 +10,10 @@ export default class UserDB extends BaseDB implements UserRepository {
             await UserDB.connection('Login_Hirt_Admin')
                 .insert({
                     id: user.id,
-                    name: user.name,
+                    nome: user.name,
                     email: user.email,
-                    password: user.password
+                    senha: user.password,
+                    tipo_acesso: user.role
                 })
             return user
         } catch (error: any) {
@@ -23,7 +24,7 @@ export default class UserDB extends BaseDB implements UserRepository {
 
     userByEmail = async (email: string): Promise<user | null> => {
         try {
-            const result: user[] = await UserDB.connection('labook_users')
+            const result: user[] = await UserDB.connection('Login_Hirt_Admin')
                 .select("*")
                 .where({ email });
 
