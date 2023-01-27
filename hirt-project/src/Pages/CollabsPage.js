@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-import EditIcon from '@mui/icons-material/Edit';
 import { useRequestData } from "../Hooks/UseRequestData";
 import { goToConcludedAp, goToInfoApPage } from "../Routes/RouteFunctions";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import styled from "styled-components";
 import CircularProgress from '@mui/material/CircularProgress';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const ContainerGeral = styled.div`
   width: 100%;
@@ -33,11 +33,15 @@ const CardObras = styled.div`
     padding: 2rem;
     background: #F5FFFA;
     column-gap: 0.1rem;
+    justify-content: space-around;
    `
+const ContainerText = styled.div`
+    display: flex;
+    justify-content: center;
+`
 
 const ContainerButton = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-around;
 `
 
@@ -45,18 +49,18 @@ export default function CollabsPage() {
 
     const navigate = useNavigate();
 
-    const [apartment, loading, erro] = useRequestData(`${BASE_URL}/apartamentos`);
-    let apes = !!apartment ? apartment : "carregando";
+    const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/obra`);
+    // let obra = !!obra_info ? obra_info : "carregando";
 
-    const [obra_info] = useRequestData(`${BASE_URL}/obra`);
-    let obra = !!obra_info ? obra_info : "carregando";
-
-     const listaObras = obra_info && obra_info.map((obra) => {
+    const listaObras = obra_info && obra_info.map((obra) => {
         return <CardObras key={obra.id}>
-            <p>{obra.nome_obra}</p>
+            <ContainerText>
+                <h3>{obra.nome_obra}</h3>
+            </ContainerText>
+
             <ContainerButton>
-                <InfoRoundedIcon  sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
-                <EditIcon  sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
+                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
+                <AddCircleIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
             </ContainerButton>
         </CardObras>
     });

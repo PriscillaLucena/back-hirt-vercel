@@ -1,8 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
 import { useRequestData } from "../Hooks/UseRequestData";
-import styled from "styled-components"
+import styled from "styled-components";
+import { Button } from "@mui/material";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
+import { goToAdminPage } from "../Routes/RouteFunctions";
 
 const ContainerGeral = styled.div`
   width: 100%;
@@ -41,13 +44,15 @@ const CardCentraliza = styled.div`
 
 export const InfoApPage = () => {
 
+    const navigate = useNavigate();
+
     const { id } = useParams();
 
     const [infos, loading, erro] = useRequestData(`${BASE_URL}/info/${id}`);
-    const inf = !!infos ? infos : "carregando"
+    // const inf = !!infos ? infos : "carregando"
 
     const [obra_info] = useRequestData(`${BASE_URL}/obra`);
-    let obra = !!obra_info ? obra_info : "carregando";
+    // let obra = !!obra_info ? obra_info : "carregando";
 
     console.log("infos", infos)
     console.log("obra_info", obra_info)
@@ -63,10 +68,8 @@ export const InfoApPage = () => {
                 <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
                 <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap}</p>
             </CardObras>
-
         }
     });
-    console.log("total", total)
 
 
     const ListInfos = infos && infos.map((info) => {
@@ -74,12 +77,12 @@ export const InfoApPage = () => {
             <h4>Apartamento:</h4>
             <p>Andar: {info.apartamentos.andar}</p>
             <p>Numero: {info.apartamentos.numero_ap}</p>
-            <p>Limpeza: {info.apartamentos.limpeza_completa === 1 ? (apConcluded = info.apartamentos.limpeza_completa) &&
-                ("Concluída") : "Pendente"}</p>
+            <p>Limpeza: {info.apartamentos.limpeza_completa === 1 ? (apConcluded = info.apartamentos.limpeza_completa)
+                && ("Concluída") : "Pendente"}</p>
             {info.apartamentos.data ? <p>Data da limpeza: {info.apartamentos.data}</p> : ""}
         </CardObras>
     });
-    console.log("apConcluded", apConcluded)
+    // console.log("apConcluded", apConcluded)
 
     const generalList = () => {
         return <div>
@@ -94,6 +97,7 @@ export const InfoApPage = () => {
 
     return (
         <ContainerGeral>
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate)}>Voltar</Button>
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             {!loading && erro && <p>Deu ruim!</p>}

@@ -12,6 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const ContainerGeral = styled.div`
@@ -27,6 +28,7 @@ const ContainerGeral = styled.div`
 
 const ContainerCard = styled.div`
     margin-top: 0.75rem;
+    width: 50%;
     display: flex;
     flex-direction: column;
     border: 0.2rem solid #1C284Fff;
@@ -114,11 +116,11 @@ export const ConcludedAp = () => {
 
     const listaImg = () => {
         return <ContainerCard>
-            <TextField required
+            <TextField fullWidth required
                 id="outlined-required"
                 label="Número do Andar"
                 onChange={(e) => setLevel(e.target.value)} /><br />
-            <TextField required
+            <TextField fullWidth required
                 id="outlined-required"
                 label="Nº Ap/local"
                 onChange={(e) => setApe(e.target.value)} />
@@ -139,7 +141,7 @@ export const ConcludedAp = () => {
 
     return (
         <ContainerGeral>
-            <Button variant="contained" onClick={() => goToCollabPage(navigate)}>Voltar</Button>
+            <Button variant="contained"  startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             {!loading && erro && <p>Deu ruim!</p>}

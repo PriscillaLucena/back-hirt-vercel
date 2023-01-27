@@ -221,7 +221,25 @@ app.get("/info/:id", async (req: Request, res: Response) => {
         res.status(errorCode).send(error.message)
     }
 
-})
+});
+
+app.delete("/obra/delete/:id", async (req: Request, res: Response) => {
+   let errorCode = 400
+    try {
+
+        const id = req.params.id
+
+        await connection.raw(`
+        DELETE FROM Novas_obras
+        WHERE id = "${id}"
+        `)
+
+        res.status(200).send({ message: 'Obra deletada!' })
+
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+});
 
 
 app.listen(3003, () => {

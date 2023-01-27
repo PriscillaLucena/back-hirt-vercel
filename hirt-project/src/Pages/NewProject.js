@@ -4,8 +4,11 @@ import { goToAdminPage } from "../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import TextField from '@mui/material/TextField';
-import { BASE_URL } from "../Constants/url";
 import { useState } from "react";
+import SendIcon from '@mui/icons-material/Send';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import CircularProgress from '@mui/material/CircularProgress';
+import { BASE_URL } from "../Constants/url";
 import axios from "axios";
 
 
@@ -16,112 +19,120 @@ const ContainerGeral = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #244372ff;
   justify-content: space-around;
   font-family: 'Roboto';
 `
 
 const ContainerCard = styled.form`
+    width: 50%;
     display: flex;
     flex-direction: column;
     border: 0.2rem solid #1C284Fff;
     border-radius: 1rem;
     padding: 2.5rem;
     gap: 0.5rem;
-    background: white;
+    background: #F5FFFA;
     align-items: center;
+    row-gap: 1rem;
 `
 
-export const NewProject = () => {
+export function NewProject() {
 
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
 
-    const [form, handleInputChange] = useForm({
+    const [form, handleInputChange, clear] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: "", qty_total_ap: "", responsavel: ""
     });
 
 
-    const sendForm = (e) => {
-        e.preventDefault();
-
-        axios.post(`${BASE_URL}/nova-obra`, form,
-            {
-                headers: {
-                    contentType: "application/json"
+    const sendForm = event => {
+        event.preventDefault();
+        axios
+            .post(`${BASE_URL}/nova-obra`, form,
+                {
+                    headers: {
+                        contentType: "application/json"
+                    }
                 }
-            }).then(() => {
-                alert("Obra incluída!")
+            )
+            .then(() => {
                 setLoading(false)
-                handleInputChange({ nome_obra: "", qty_andares: "", qty_ap_andar: "", qty_total_ap: "", responsavel: "" })
-
-            }).catch((error) => {
+                clear()
+            })
+            .catch((error) => {
                 setLoading(false)
                 setErro(error.message)
-                console.log(error.message)
+                alert("Opa, deu erro! Tente novamente.")
             });
     };
-
+    
     return (
         <ContainerGeral>
-            <h3>Inclusão de novos Projetos</h3>
-            {loading && loading && <p>Carregando...</p>}
+            {loading && loading &&
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             {!loading && erro && <p>Deu ruim!</p>}
 
-            <Button variant="contained" onClick={() => goToAdminPage(navigate)}>Voltar</Button>
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate)}>Voltar</Button>
 
-            <ContainerCard onSubmit={()=>sendForm()}>
-                
-                    <TextField required
-                        id="outlined-required"
-                        label="Nome Obra"
-                        type={'text'}
-                        name={"nome_obra"}
-                        onChange={handleInputChange}
-                        value={form.nome_obra}
-                    />
+            <ContainerCard onSubmit={sendForm}>
+                <TextField fullWidth required
+                    id="outlined-required"
+                    label="Nome Obra"
+                    type={'text'}
+                    name={"nome_obra"}
+                    onChange={handleInputChange}
+                    value={form.nome_obra}
+                />
 
-                    <TextField required
-                        id="outlined-required"
-                        label="Quantidade Andares"
-                        name={"qty_andares"}
-                        onChange={handleInputChange}
-                        value={form.qty_andares}
-                        placeholder={"Quantidade de andares"}
-                    />
+                <TextField fullWidth required
+                    id="outlined-required"
+                    label="Quantidade Andares"
+                    name={"qty_andares"}
+                    onChange={handleInputChange}
+                    value={form.qty_andares}
+                    placeholder={"Quantidade de andares"}
+                />
 
-                    <TextField required
-                        id="outlined-required"
-                        label="Quantidade total de apartamentos"
-                        name={"qty_total_ap"}
-                        onChange={handleInputChange}
-                        value={form.qty_total_ap}
-                    />
+                <TextField fullWidth required
+                    id="outlined-required"
+                    label="Quantidade apartamento por andar"
+                    name={"qty_ap_andar"}
+                    onChange={handleInputChange}
+                    value={form.qty_ap_andar}
+                />
 
-                    <TextField required
-                        id="outlined-required"
-                        label="Quantidade aparrtamento por andar"
-                        name={"qty_ap_andar"}
-                        onChange={handleInputChange}
-                        value={form.qty_ap_andar}
-                    />
+                <TextField fullWidth required
+                    id="outlined-required"
+                    label="Nome do cliente"
+                    name={"responsavel"}
+                    onChange={handleInputChange}
+                    type={'text'}
+                    value={form.responsavel}
+                />
 
-                    <TextField required
-                        id="outlined-required"
-                        label="Nome do cliente"
-                        name={"responsavel"}
-                        onChange={handleInputChange}
-                        type={'text'}
-                        value={form.responsavel}
-                    />
+                <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>
 
-                    <Button variant="contained" type="submit">Criar</Button>
-                
             </ContainerCard>
 
         </ContainerGeral>
 
     )
 };
+
+// {
+//     headers: {
+//         contentType: "application/json"
+//     }
+// }).then(() => {
+//     setLoading(false)
+//     handleInputChange({ nome_obra: "", qty_andares: "", qty_ap_andar: "", responsavel: "" })
+//     alert("Obra incluída!")
+// }).catch((error) => {
+//     setLoading(false)
+//     setErro(error.message)
+//     console.log(error.message)
+// });
+// };

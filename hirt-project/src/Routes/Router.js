@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminPage from "../Pages/AdminPage";
 import CollabPage from "../Pages/CollabsPage";
 import { ConcludedAp } from "../Pages/ConcludedAp";
+import { DeletePage } from "../Pages/Delete";
 import HomePage from "../Pages/Home/HomePage"
 import { InfoApPage } from "../Pages/InfoApPage";
 import LoginPage from "../Pages/Login/LoginPage";
@@ -19,6 +20,7 @@ export default function Router(){
                     <Route path={"/apartment/:obra_id"} element={<ConcludedAp/>} />
                     <Route path={"/new_build"} element={<NewProject/>} />
                     <Route path={"/info_ap/:id"} element={<InfoApPage/>} />
+                    <Route path={"/obra/delete/:id"} element={<DeletePage/>} />
                 </Routes>
             </BrowserRouter>
     
