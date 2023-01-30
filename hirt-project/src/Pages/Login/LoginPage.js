@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import LoginForm from "./LoginForm";
-// import { goToSignUpPage } from "../../Routes/RouteFunctions";
 import styled from "styled-components";
+import { Header } from "../../Constants/Header";
 
 const ContainerGeral = styled.div`
     margin-top: 5rem;
@@ -16,6 +16,9 @@ export default function LoginPage() {
     console.log(type)
     return (
         <ContainerGeral>
+            <Header
+                role={type}
+            />
             <LoginForm
                 role={type}
             />

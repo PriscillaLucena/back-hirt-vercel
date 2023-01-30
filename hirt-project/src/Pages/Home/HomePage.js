@@ -1,12 +1,10 @@
 import React from "react";
 import logo from "../../images/logo.jpg";
 import styled from "styled-components"
-import {
-    // goToAdminPage, goToCollabPage, 
-    goToLoginPage
-} from "../../Routes/RouteFunctions";
+import { goToLoginPage } from "../../Routes/RouteFunctions";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import {device} from "../../Query"
 
 const ContainerGeral = styled.div`
   min-width: 100%;
@@ -16,11 +14,12 @@ const ContainerGeral = styled.div`
   align-items: center;
   background: #244372ff;
   justify-content: space-around;
+  
 `
 
 const Image = styled.img`
-    width: 20rem;
-    height: auto; 
+    width: 90%;
+    height: auto;  
 `
 
 const ContainerCard = styled.div`
@@ -43,8 +42,8 @@ function HomePage() {
             <ContainerCard>
                 <Image src={logo} alt='logo' />
 
-                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMIN')}>Administrador</Button>
-                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'Collab')}>Colaborador</Button>
+                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMINISTRADOR')}>Administrador</Button>
+                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'COLABORADOR')}>Colaborador</Button>
 
             </ContainerCard>
         </ContainerGeral>

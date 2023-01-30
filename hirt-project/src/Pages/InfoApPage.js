@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 import { goToAdminPage } from "../Routes/RouteFunctions";
+import { Header } from "../Constants/Header";
 
 const ContainerGeral = styled.div`
   width: 100%;
@@ -86,6 +87,7 @@ export const InfoApPage = () => {
 
     const generalList = () => {
         return <div>
+            <Header />
             {listaObra}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded} apartamentos para concluir a obra</strong></p>

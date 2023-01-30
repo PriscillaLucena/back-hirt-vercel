@@ -10,6 +10,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 import { BASE_URL } from "../Constants/url";
 import axios from "axios";
+import { Header } from "../Constants/Header";
 
 
 const ContainerGeral = styled.div`
@@ -68,13 +69,11 @@ export function NewProject() {
                 alert("Opa, deu erro! Tente novamente.")
             });
     };
-    
+
     return (
         <ContainerGeral>
-            {loading && loading &&
-                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
+            <Header />
             {!loading && erro && <p>Deu ruim!</p>}
-
             <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate)}>Voltar</Button>
 
             <ContainerCard onSubmit={sendForm}>
@@ -115,6 +114,8 @@ export function NewProject() {
 
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>
 
+                {loading && loading &&
+                    <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             </ContainerCard>
 
         </ContainerGeral>

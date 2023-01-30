@@ -5,6 +5,7 @@ import { useRequestData } from "../Hooks/UseRequestData";
 import { Button } from "@mui/material";
 import { goToAdminPage } from "../Routes/RouteFunctions";
 import { useDeleteData } from "../Hooks/useDeleteData";
+import { Header } from "../Constants/Header";
 
 
 export const DeletePage = () => {
@@ -20,6 +21,7 @@ export const DeletePage = () => {
 
     return (
         <div>
+            <Header/>
             <Button variant="contained" onClick={() => goToAdminPage(navigate)}>Voltar</Button>
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}

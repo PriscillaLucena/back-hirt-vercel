@@ -10,6 +10,7 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Header } from "../Constants/Header";
 
 const ContainerGeral = styled.div`
   margin: 2rem;
@@ -55,17 +56,17 @@ const ButtonsInCard = styled.div`
 
 const AdminPage = () => {
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/obra`);
-    
+
     const navigate = useNavigate();
 
-        const listaObras = obras && obras.map((ap) => {
+    const listaObras = obras && obras.map((ap) => {
         return <CardObras key={ap.id}>
             <ContainerText>
                 <h3>Obra: {ap.nome_obra}</h3> <br />
                 <h3>Responsável: {ap.responsavel}</h3>
             </ContainerText>
             <ButtonsInCard>
-                <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={()=>goToDeletePage(navigate, ap.id)} />
+                <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, ap.id)} />
                 <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, ap.id)} />
                 <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
             </ButtonsInCard>
@@ -74,13 +75,14 @@ const AdminPage = () => {
 
     return (
         <ContainerGeral>
+            <Header />
             <Button variant="contained" startIcon={<LibraryAddIcon />} onClick={() => goToNewBuild(navigate)}> Incluir Obra </Button>
-            {loading && loading &&
-                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             <ContainerGrid>
                 {!loading && erro && <p>Deu ruim!</p>}
                 {!loading && obras && obras.length > 0 && listaObras}
             </ContainerGrid>
+            {loading && loading &&
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
         </ContainerGeral>
     )
 }

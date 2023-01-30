@@ -8,14 +8,20 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
 import SendIcon from '@mui/icons-material/Send';
+import {device} from "../../Query"
 
 const ContainerForm = styled.form`
   width: 100%
   display: flex;
   flex-direction: column;
   width: 20rem;
-  height: 15rem;
+  height: auto;
   font-family: 'Roboto';
+  align-items: center;
+
+  @media ${device.tablet} {
+      width: 65%;
+    }
 `
 
 const ContainerCard = styled.div`
@@ -28,6 +34,20 @@ const ContainerCard = styled.div`
     background: #F5FFFA;
     align-items: center;
     row-gap: 2rem;
+    margin-top: 40%;
+
+    @media ${device.mobileS} {
+        width: 75%;
+    }
+
+    @media ${device.mobileM} {
+        width: 70%;
+        margin-top: 30%;
+    }
+
+    @media ${device.tablet} {
+        width: 100%;
+    }
 `
 
 const ContainerButton = styled.div`

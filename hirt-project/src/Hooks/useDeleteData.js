@@ -1,13 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { goToAdminPage } from "../Routes/RouteFunctions";
-
 
 export const useDeleteData = (url) => {
     
-    const navigate = useNavigate();
-
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
 
