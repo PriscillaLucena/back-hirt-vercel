@@ -18,7 +18,7 @@ const ContainerGeral = styled.div`
 `
 
 const Image = styled.img`
-    width: 90%;
+    width: 80%;
     height: auto;  
 `
 
@@ -31,6 +31,11 @@ const ContainerCard = styled.div`
     gap: 0.5rem;
     background: white;
     align-items: center;
+
+    @media ${device.laptop} {
+        width: 40%;
+    }
+   
 `
 
 function HomePage() {

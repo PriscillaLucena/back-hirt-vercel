@@ -26,6 +26,10 @@ export const goToDeletePage = (navigate, id) => {
     navigate(`/obra/delete/${id}`)
 };
 
+export const goToInfoAdmPage = (navigate, id) => {
+    navigate(`/info_ap/adm/${id}`)
+};
+
 
 
 

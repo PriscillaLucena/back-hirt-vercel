@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import useForm from "../Hooks/useForm";
-import { goToAdminPage } from "../Routes/RouteFunctions";
+import useForm from "../../Hooks/useForm";
+import { goToAdminPage } from "../../Routes/RouteFunctions"
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import TextField from '@mui/material/TextField';
@@ -8,9 +8,10 @@ import { useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
-import { BASE_URL } from "../Constants/url";
+import { BASE_URL } from "../../Constants/url";
 import axios from "axios";
-import { Header } from "../Constants/Header";
+import { Header } from "../../Constants/Header";
+import { device } from "../../Query"
 
 
 const ContainerGeral = styled.div`
@@ -22,6 +23,12 @@ const ContainerGeral = styled.div`
   align-items: center;
   justify-content: space-around;
   font-family: 'Roboto';
+
+  @media ${device.mobileM} {
+        row-gap: 2rem;
+        justify-content:  flex-start;
+        padding: 1rem;
+    }
 `
 
 const ContainerCard = styled.form`
@@ -35,6 +42,11 @@ const ContainerCard = styled.form`
     background: #F5FFFA;
     align-items: center;
     row-gap: 1rem;
+
+    @media ${device.mobileM} {
+        row-gap: 2rem;
+        padding: 1rem;
+    }
 `
 
 export function NewProject() {

@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../Constants/url";
-import { useRequestData } from "../Hooks/UseRequestData";
-import { goToConcludedAp, goToInfoApPage } from "../Routes/RouteFunctions";
+import { BASE_URL } from "../../Constants/url";
+import { useRequestData } from "../../Hooks/UseRequestData";
+import { goToConcludedAp, goToInfoApPage } from "../../Routes/RouteFunctions";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import styled from "styled-components";
 import CircularProgress from '@mui/material/CircularProgress';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Header } from "../Constants/Header";
-import { device } from "../Query"
+import { Header } from "../../Constants/Header";
+import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
   width: 90%;
@@ -25,18 +25,18 @@ const ContainerGrid = styled.div`
     grid-template-columns: repeat(4, 1fr);
     gap: 5rem;
 
-
-  /* @media ${device.mobileM} {
-      display: flex;
-      flex-direction: column;
-      width: 60%
-    } */
-
   @media ${device.tablet} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 5%;
     } 
+
+  @media ${device.laptop} {
+        width: 60%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 5%;
+    }
 `
 
 const CardObras = styled.div`

@@ -2,9 +2,9 @@ import { Button, IconButton } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../Constants/url";
-import { GlobalContext } from "../Global/GlobalContext";
-import { goToCollabPage } from "../Routes/RouteFunctions";
+import { BASE_URL } from "../../Constants/url";
+import { GlobalContext } from "../../Global/GlobalContext";
+import { goToCollabPage } from "../../Routes/RouteFunctions";
 import SendIcon from '@mui/icons-material/Send';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import styled from "styled-components";
@@ -14,7 +14,9 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Header } from "../Constants/Header";
+import { Header } from "../../Constants/Header";
+import { device } from "../../Query";
+import hirtLogo from "../../images/hirt-imagem-SF.png"
 
 const ContainerGeral = styled.div`
   min-width: 100%;
@@ -23,8 +25,15 @@ const ContainerGeral = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
   font-family: 'Roboto';
+
+  @media ${device.laptop}{
+        margin-top: 2rem;
+ }
+
+  @media ${device.laptopL}{
+    justify-content: space-around;
+}
 `
 
 const ContainerCard = styled.div`
@@ -38,6 +47,17 @@ const ContainerCard = styled.div`
     gap: 0.5rem;
     background: #F5FFFA;
     align-items: center;
+
+    @media ${device.mobileS}{
+        margin-top: 2rem;
+        padding: 1rem;
+        width: 70%;
+    }
+
+    @media ${device.laptop}{
+        margin-top: 2rem;
+        width: 60%;
+    }
 `
 
 const ContainerUpload = styled.div`
@@ -45,6 +65,7 @@ const ContainerUpload = styled.div`
 `
 
 const fileToImageUri = (file) => new Promise((resolve, reject) => {
+
     const reader = new FileReader();
     reader.onload = (event) => {
         resolve(event.target.result)
@@ -117,7 +138,6 @@ export const ConcludedAp = () => {
 
     const listaImg = () => {
         return <ContainerCard>
-            <Header />
             <TextField fullWidth required
                 id="outlined-required"
                 label="Número do Andar"
@@ -135,15 +155,16 @@ export const ConcludedAp = () => {
                     <PhotoCamera />
                 </IconButton>
             </ContainerUpload>
-            <img src={image} alt="imagem" width={150} height={150} /> <br />
+            {image ? <img src={image} alt="imagem" width={150} height={150} /> :
+                <img src={hirtLogo} alt="logo" width={150} height={150} />}
             <Button variant="contained" endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
         </ContainerCard>
-
     };
 
+    console.log("image", image.length)
     return (
         <ContainerGeral>
-            <Button variant="contained"  startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             {!loading && erro && <p>Deu ruim!</p>}

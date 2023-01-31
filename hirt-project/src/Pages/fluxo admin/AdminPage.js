@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../Constants/url";
-import { useRequestData } from "../Hooks/UseRequestData";
-import { goToConcludedAp, goToDeletePage, goToInfoApPage, goToNewBuild } from "../Routes/RouteFunctions";
+import { BASE_URL } from "../../Constants/url";
+import { useRequestData } from "../../Hooks/UseRequestData";
+import { goToConcludedAp, goToDeletePage, goToInfoAdmPage, goToNewBuild } from "../../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
@@ -10,7 +10,8 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Header } from "../Constants/Header";
+import { Header } from "../../Constants/Header";
+import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
   margin: 2rem;
@@ -22,6 +23,10 @@ const ContainerGeral = styled.div`
   align-items: center;
   justify-content: space-around;
   font-family: 'Roboto';
+
+  @media ${device.mobileS} {
+        margin: 0;
+    }
   `
 
 const ContainerGrid = styled.div`
@@ -29,6 +34,23 @@ const ContainerGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5rem;
+
+    @media ${device.mobileS} {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: 0rem;
+    }
+
+    @media ${device.tablet} {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media ${device.laptop} {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
 `
 
 const CardObras = styled.div`
@@ -40,6 +62,14 @@ const CardObras = styled.div`
     border-radius: 1rem;
     padding: 2rem;
     background: #F5FFFA;
+
+    @media ${device.mobileS} {
+        padding: 1rem;
+    }
+
+    @media ${device.laptop} {
+       width: 80%;
+    }
 `
 
 const ContainerText = styled.div`
@@ -62,12 +92,12 @@ const AdminPage = () => {
     const listaObras = obras && obras.map((ap) => {
         return <CardObras key={ap.id}>
             <ContainerText>
-                <h3>Obra: {ap.nome_obra}</h3> <br />
-                <h3>Responsável: {ap.responsavel}</h3>
+                <h4>Obra: {ap.nome_obra}</h4> <br />
+                <h4>Responsável: {ap.responsavel}</h4>
             </ContainerText>
             <ButtonsInCard>
                 <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, ap.id)} />
-                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, ap.id)} />
+                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoAdmPage(navigate, ap.id)} />
                 <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
             </ButtonsInCard>
         </CardObras>
@@ -75,7 +105,7 @@ const AdminPage = () => {
 
     return (
         <ContainerGeral>
-            <Header />
+            {/* <Header /> */}
             <Button variant="contained" startIcon={<LibraryAddIcon />} onClick={() => goToNewBuild(navigate)}> Incluir Obra </Button>
             <ContainerGrid>
                 {!loading && erro && <p>Deu ruim!</p>}

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import styled from "styled-components";
 import { Header } from "../../Constants/Header";
+import AdminPage from "../fluxo admin/AdminPage";
 
 const ContainerGeral = styled.div`
     margin-top: 5rem;
@@ -13,7 +14,7 @@ const ContainerGeral = styled.div`
 
 export default function LoginPage() {
     const { type } = useParams()
-    console.log(type)
+
     return (
         <ContainerGeral>
             <Header
@@ -22,6 +23,7 @@ export default function LoginPage() {
             <LoginForm
                 role={type}
             />
+
             {/* <p>{type}</p> */}
 
             {/* <button onClick={()=>goToSignUpPage(navigate, type)}>Registrar-se</button> */}

@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../Constants/url";
-import { useRequestData } from "../Hooks/UseRequestData";
+import { BASE_URL } from "../../Constants/url";
+import { useRequestData } from "../../Hooks/UseRequestData";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
-import { goToAdminPage } from "../Routes/RouteFunctions";
-import { Header } from "../Constants/Header";
+import { goToCollabPage } from "../../Routes/RouteFunctions";
+import { Header } from "../../Constants/Header";
+import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
   width: 100%;
@@ -18,6 +19,7 @@ const ContainerGeral = styled.div`
   justify-content: space-around;
   align-items: center;
   font-family: 'Roboto';
+  row-gap: 1rem;
   `
 const CardObras = styled.div`
     width: 65%;
@@ -30,12 +32,58 @@ const CardObras = styled.div`
     background: #F5FFFA;
     column-gap: 0.1rem;
     margin: 2rem;
+
+    @media ${device.mobileS} {
+        width: 90%;
+        padding: 0.5rem;
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    @media ${device.mobileM} {
+        padding: 1rem;
+        column-gap: 2rem;
+        margin: 0;
+    }
+
+    @media ${device.tablet} {
+        width: 75%;
+        margin-left: 2rem;
+    } 
+
+    @media ${device.laptop} {
+        width: 60%;
+        margin-top: 5%;
+    }
+
+    @media ${device.laptopL} {
+        width: 50%;
+        margin-top: 5%;
+    }
     `
 
 const CardAps = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);   
     align-items: center;
+
+    @media ${device.mobileS} {
+        width: 75%;
+        column-gap: 1rem;
+    }
+
+    @media ${device.mobileM} {
+        width: 60%;
+        padding: 0;
+        column-gap: 2rem;
+    }
+
+
+    @media ${device.tablet} {
+        width: 85%;
+        grid-template-columns: repeat(3, 1fr);  
+        column-gap: 2rem; 
+    } 
 `
 
 const CardCentraliza = styled.div`
@@ -50,13 +98,8 @@ export const InfoApPage = () => {
     const { id } = useParams();
 
     const [infos, loading, erro] = useRequestData(`${BASE_URL}/info/${id}`);
-    // const inf = !!infos ? infos : "carregando"
 
     const [obra_info] = useRequestData(`${BASE_URL}/obra`);
-    // let obra = !!obra_info ? obra_info : "carregando";
-
-    console.log("infos", infos)
-    console.log("obra_info", obra_info)
 
     let total = "";
     let apConcluded = "";
@@ -72,7 +115,6 @@ export const InfoApPage = () => {
         }
     });
 
-
     const ListInfos = infos && infos.map((info) => {
         return <CardObras>
             <h4>Apartamento:</h4>
@@ -83,11 +125,9 @@ export const InfoApPage = () => {
             {info.apartamentos.data ? <p>Data da limpeza: {info.apartamentos.data}</p> : ""}
         </CardObras>
     });
-    // console.log("apConcluded", apConcluded)
 
     const generalList = () => {
         return <div>
-            <Header />
             {listaObra}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded} apartamentos para concluir a obra</strong></p>
@@ -99,10 +139,11 @@ export const InfoApPage = () => {
 
     return (
         <ContainerGeral>
-            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate)}>Voltar</Button>
+            <Header />
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
+            {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
-            {!loading && erro && <p>Deu ruim!</p>}
             {!loading && obra_info && obra_info.length > 0 && generalList()}
         </ContainerGeral>
     )

@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../Constants/url";
+import { BASE_URL } from "../../Constants/url";
 import CircularProgress from '@mui/material/CircularProgress';
-import { useRequestData } from "../Hooks/UseRequestData";
+import { useRequestData } from "../../Hooks/UseRequestData";
 import { Button } from "@mui/material";
-import { goToAdminPage } from "../Routes/RouteFunctions";
-import { useDeleteData } from "../Hooks/useDeleteData";
-import { Header } from "../Constants/Header";
+import { goToAdminPage } from "../../Routes/RouteFunctions"
+import { useDeleteData } from "../../Hooks/useDeleteData";
+import { Header } from "../../Constants/Header";
 
 
 export const DeletePage = () => {

@@ -48,6 +48,11 @@ const ContainerCard = styled.div`
     @media ${device.tablet} {
         width: 100%;
     }
+
+    @media ${device.laptop} {
+        width: 60%;
+        margin-top: 5%;
+    }
 `
 
 const ContainerButton = styled.div`

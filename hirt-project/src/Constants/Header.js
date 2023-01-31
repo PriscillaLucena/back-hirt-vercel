@@ -1,12 +1,13 @@
 import styled from "styled-components";
+import logo from "../images/logo.jpg";
 
 const ContainerGeral = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: center;
     font-family: 'Roboto';
-    width: 20%;
+    width: 10%;
     height: auto;
+    /* position: relative;
+    justify-content: flex-start; */
 `
 
 export const Header = (props) => {
@@ -15,6 +16,7 @@ export const Header = (props) => {
 
     return (
         <ContainerGeral>
+            <img src={logo} alt="logo" width={200} heigth={250} />
              {/* <p>Logado as: {role}</p>  */}
         </ContainerGeral>
     )
