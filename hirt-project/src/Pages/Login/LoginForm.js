@@ -8,19 +8,22 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import PasswordIcon from '@mui/icons-material/Password';
 import SendIcon from '@mui/icons-material/Send';
-import {device} from "../../Query"
+import { device } from "../../Query"
 
 const ContainerForm = styled.form`
   width: 100%
+  height: auto;
   display: flex;
   flex-direction: column;
-  width: 20rem;
-  height: auto;
   font-family: 'Roboto';
   align-items: center;
 
   @media ${device.tablet} {
       width: 65%;
+    }
+
+    @media ${device.laptopL} {
+      width: 50%;
     }
 `
 
@@ -37,12 +40,15 @@ const ContainerCard = styled.div`
     margin-top: 40%;
 
     @media ${device.mobileS} {
-        width: 75%;
+        width: 80%;
+        margin-top: 10%;
+        padding: 1.5rem;
     }
 
     @media ${device.mobileM} {
-        width: 70%;
-        margin-top: 30%;
+        width: 90%;
+        margin-top: 10%;
+        padding: 1.5rem;
     }
 
     @media ${device.tablet} {
@@ -50,7 +56,7 @@ const ContainerCard = styled.div`
     }
 
     @media ${device.laptop} {
-        width: 60%;
+        width: 50%;
         margin-top: 5%;
     }
 `
@@ -72,6 +78,7 @@ export default function LoginForm(props) {
 
     <ContainerForm onSubmit={sendForm}>
       <ContainerCard>
+        <p>Login:</p>
         <TextField fullWidth required
           id="outlined-required"
           label="E-mail"

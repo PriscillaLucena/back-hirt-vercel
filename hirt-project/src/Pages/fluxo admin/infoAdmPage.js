@@ -5,24 +5,21 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
-import { goToAdminPage, goToCollabPage } from "../../Routes/RouteFunctions";
+import { goToAdminPage, goToDeleteApPage } from "../../Routes/RouteFunctions";
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Header } from "../../Constants/Header";
 import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
   width: 100%;
   min-height: auto;
-  background-size: cover;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
   align-items: center;
   font-family: 'Roboto';
   row-gap: 1rem;
   `
 const CardObras = styled.div`
-    width: 65%;
     margin-top: 0.85rem;
     display: flex;
     flex-direction: column;
@@ -30,8 +27,8 @@ const CardObras = styled.div`
     border-radius: 1rem;
     padding: 2rem;
     background: #F5FFFA;
-    column-gap: 0.1rem;
-    margin: 2rem;
+    column-gap: 0.3rem;
+    align-items: center;
 
     @media ${device.mobileS} {
         width: 90%;
@@ -41,6 +38,7 @@ const CardObras = styled.div`
     }
 
     @media ${device.mobileM} {
+        width: 70%;
         padding: 1rem;
         column-gap: 2rem;
         margin: 0;
@@ -60,35 +58,54 @@ const CardObras = styled.div`
         width: 50%;
         margin-top: 5%;
     }
-    `
+`
+
+const CardApsgeral = styled.div`
+    width: 80%;
+    row-gap: 1rem;
+    align-items: center;
+    border: 0.1rem dashed #1C284Fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    background: #F5FFFA;
+`
 
 const CardAps = styled.div`
+    width: 30%;
+    row-gap: 1rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);   
+    grid-template-columns: repeat(4, 1fr);   
     align-items: center;
+  
 
     @media ${device.mobileS} {
-        width: 75%;
-        column-gap: 1rem;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.2rem;
+        column-gap: 0.5rem;
     }
 
     @media ${device.mobileM} {
-        width: 60%;
-        padding: 0;
-        column-gap: 2rem;
+        width: 80%;
     }
 
 
     @media ${device.tablet} {
         width: 85%;
+        padding: 2rem;
+        display: grid;
         grid-template-columns: repeat(3, 1fr);  
         column-gap: 2rem; 
     } 
 `
 
 const CardCentraliza = styled.div`
+    margin-top: 1rem;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
 `
 
 export const InfoAdmPage = () => {
@@ -103,44 +120,52 @@ export const InfoAdmPage = () => {
 
     let total = "";
     let apConcluded = [];
+    let apConcluded2 = [];
 
     const listaObra = obra_info && obra_info.map((info) => {
         if (info.id === `${id}`) {
-            return <CardObras>
-                <h4>{info.nome_obra}</h4>
-                <p><strong>Total de andares:</strong> {info.qty_andares}</p>
-                <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
-                <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap}</p>
-            </CardObras>
+            return <CardCentraliza>
+                <CardObras key={info.id}>
+                    <h4>{info.nome_obra}</h4>
+                    <p><strong>Total de andares:</strong> {info.qty_andares}</p>
+                    <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
+                    <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap}</p>
+                </CardObras>
+            </CardCentraliza>
         }
     });
 
-    console.log(total)
-
+    const funcPorcent = (ap) => {
+        apConcluded2 = [...apConcluded, ap]
+        apConcluded = apConcluded2
+    };
 
     const ListInfos = infos && infos.map((info) => {
-        return <CardObras>
-            <h4>Apartamento:</h4>
+        return <CardApsgeral key={info.apartamentos.id}>
+            <h4>Apartamento: {info.apartamentos.numero_ap}</h4>
             <p>Andar: {info.apartamentos.andar}</p>
             <p>Numero: {info.apartamentos.numero_ap}</p>
-            <p>Limpeza: {info.apartamentos.limpeza_completa === 1 ? (apConcluded = [info.apartamentos.limpeza_completa] )
+            <p>Limpeza: {info.apartamentos.limpeza_completa === 1 ? (funcPorcent(info.apartamentos.limpeza_completa))
                 && ("Concluída") : "Pendente"}</p>
             {info.apartamentos.data ? <p>Data da limpeza: {info.apartamentos.data}</p> : ""}
-        </CardObras>
+            <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeleteApPage(navigate, info.apartamentos.id)} />
+        </CardApsgeral>
     });
-    console.log("ap concluded", apConcluded.length)
-   
+
+    console.log('infos', infos)
 
     const generalList = () => {
         return <div>
             {listaObra}
             <CardCentraliza>
-                <p><strong>Faltam {total - apConcluded} apartamentos para concluir a obra</strong></p>
+                <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
             </CardCentraliza>
             {ListInfos.length > 0 ? <CardAps>{ListInfos}</CardAps> :
                 <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>}
-                <p><strong>Média de aproveitamento semanal:</strong> {((apConcluded.length/total)/7*100).toFixed(1)}%</p>
-                <p><strong>Média de aproveitamento mensal:</strong> {((apConcluded.length/total)/30*100).toFixed(1)}%</p>
+            <CardCentraliza>
+                <p><strong>Média de aproveitamento semanal:</strong> {((apConcluded.length / total) / 7 * 100).toFixed(1)}%</p>
+                <p><strong>Média de aproveitamento mensal:</strong> {((apConcluded.length / total) / 30 * 100).toFixed(1)}%</p>
+            </CardCentraliza>
         </div>
     };
 

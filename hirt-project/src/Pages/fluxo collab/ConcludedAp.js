@@ -27,6 +27,10 @@ const ContainerGeral = styled.div`
   align-items: center;
   font-family: 'Roboto';
 
+  @media ${device.mobileS}{
+        margin-top: 2rem;
+ }
+
   @media ${device.laptop}{
         margin-top: 2rem;
  }
@@ -57,6 +61,7 @@ const ContainerCard = styled.div`
     @media ${device.laptop}{
         margin-top: 2rem;
         width: 60%;
+        padding: 2.5rem;
     }
 `
 
@@ -75,7 +80,7 @@ const fileToImageUri = (file) => new Promise((resolve, reject) => {
 
 export const ConcludedAp = () => {
 
-    const { build_id } = useParams();
+    const { obra_id } = useParams();
 
     const navigate = useNavigate();
 
@@ -101,6 +106,7 @@ export const ConcludedAp = () => {
 
     };
 
+    console.log('id', obra_id)
     const uploadImage = () => {
         setLoading(true)
 
@@ -110,23 +116,26 @@ export const ConcludedAp = () => {
             andar: level,
             limpeza_completa: conclusion,
             foto: image,
-            obra_id: build_id
+            obra_id: `${obra_id}`
         }
 
-        axios.post(`${BASE_URL}/apartamentos/${build_id}`, body, {
+        axios.post(`${BASE_URL}/apartamentos/${obra_id}`, body, {
             // headers: {
+            //     'access-control-allow-origin': `${BASE_URL}`
             //     auth: token,
             //     contentType: "application/json"
             // }
         }).then(() => {
             setLoading(false);
             alert("Informações Salvas, Apartamento Concluído!")
-            setImage('')
-            setConclusion('')
             setLevel('')
+            setApe('')
+            setConclusion('')
+            setImage('')
 
         }).catch(error => {
             setLoading(false)
+            alert("deuruim!")
             setErro(error.response)
             console.log("deu erro!", error.response)
         });
@@ -165,10 +174,10 @@ export const ConcludedAp = () => {
     return (
         <ContainerGeral>
             <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
-            {loading && loading &&
-                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             {!loading && erro && <p>Deu ruim!</p>}
             {!loading && listaImg()}
+            {loading && loading &&
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
         </ContainerGeral>
     )
 };

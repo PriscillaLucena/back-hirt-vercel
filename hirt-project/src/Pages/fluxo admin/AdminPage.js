@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
 import { useRequestData } from "../../Hooks/UseRequestData";
-import { goToConcludedAp, goToDeletePage, goToInfoAdmPage, goToNewBuild } from "../../Routes/RouteFunctions";
+import { goToDeletePage, goToEditPage, goToInfoAdmPage, goToNewBuild } from "../../Routes/RouteFunctions";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
@@ -10,11 +10,10 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Header } from "../../Constants/Header";
 import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
-  margin: 2rem;
+  margin-top: 2rem;
   width: 100%;
   min-height: auto;
   background-size: cover;
@@ -23,10 +22,6 @@ const ContainerGeral = styled.div`
   align-items: center;
   justify-content: space-around;
   font-family: 'Roboto';
-
-  @media ${device.mobileS} {
-        margin: 0;
-    }
   `
 
 const ContainerGrid = styled.div`
@@ -55,7 +50,7 @@ const ContainerGrid = styled.div`
 
 const CardObras = styled.div`
     width: 90%;
-    margin-top: 0.85rem;
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     border: 0.1rem dashed #1C284Fff;
@@ -98,7 +93,7 @@ const AdminPage = () => {
             <ButtonsInCard>
                 <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, ap.id)} />
                 <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoAdmPage(navigate, ap.id)} />
-                <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate)} />
+                <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToEditPage(navigate, ap.id)} />
             </ButtonsInCard>
         </CardObras>
     });

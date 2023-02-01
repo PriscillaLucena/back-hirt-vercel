@@ -15,11 +15,11 @@ export const useDeleteData = (url) => {
             // }
         }).then(() => {
             setLoading(false);
-            alert("Obra Deletada!")
+            alert("Deletada!")
         }).catch((error) => {
             setErro(error.response);
             setLoading(false);
-            alert("Obra não pode ser Deletada!")
+            alert("Não pode ser Deletada!")
         });
 
     }, [url])

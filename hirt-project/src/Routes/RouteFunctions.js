@@ -10,8 +10,8 @@ export const goToLoginPage = (navigate, type) => {
     navigate(`/login/${type}`)
 };
 
-export const goToConcludedAp = (navigate, build_id) => {
-    navigate(`/apartment/${build_id}`)
+export const goToConcludedAp = (navigate, obra_id) => {
+    navigate(`/apartment/${obra_id}`)
 };
 
 export const goToNewBuild = (navigate) => {
@@ -26,9 +26,25 @@ export const goToDeletePage = (navigate, id) => {
     navigate(`/obra/delete/${id}`)
 };
 
+export const goToDeleteApPage = (navigate, id) => {
+    navigate(`/apartamento/delete/${id}`)
+};
+
 export const goToInfoAdmPage = (navigate, id) => {
     navigate(`/info_ap/adm/${id}`)
 };
+
+export const goToSignUpPage = (navigate, type) => {
+    navigate(`/sign_up/${type}`)
+};
+
+export const goToEditPage = (navigate, id) => {
+    navigate(`/edit/${id}`)
+};
+
+
+
+
 
 
 

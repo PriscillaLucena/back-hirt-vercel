@@ -190,7 +190,7 @@ app.get("/info/:id", async (req: Request, res: Response) => {
         const id = req.params.id
         //no select colocar tudo o que quero
         const obras = await connection.raw(`
-        SELECT obra_id, numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
+        SELECT id, obra_id, numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
         JOIN Novas_obras ON apartamentos.obra_id = Novas_obras.id
         WHERE Novas_obras.id = "${id}"
         `)
@@ -206,6 +206,7 @@ app.get("/info/:id", async (req: Request, res: Response) => {
                 qty_ap_andar: obra.qty_ap_andar,
                 responsavel: obra.responsavel,
                 apartamentos: {
+                    id: obra.id,
                     numero_ap: obra.numero_ap,
                     andar: obra.andar,
                     limpeza_completa: obra.limpeza_completa,
@@ -241,6 +242,26 @@ app.delete("/obra/delete/:id", async (req: Request, res: Response) => {
     }
 });
 
+
+app.delete("/apartamento/delete/:id", async (req: Request, res: Response) => {
+    let errorCode = 400
+     try {
+ 
+         const id = req.params.id
+ 
+         await connection.raw(`
+         DELETE FROM apartamentos
+         WHERE id = "${id}"
+         `)
+ 
+         res.status(200).send({ message: 'Apartamento deletado!' })
+ 
+     } catch (error: any) {
+         res.status(errorCode).send(error.message)
+     }
+ });
+
+ 
 
 app.listen(3003, () => {
     console.log("Server running on port 3003")
