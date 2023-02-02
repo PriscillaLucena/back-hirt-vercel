@@ -1,14 +1,15 @@
 // import axios from "axios";
-// // import { useState } from "react";
+// import { useEffect, useState } from "react";
 // import { BASE_URL } from "../Constants/url";
 
-// export const  useRequestNewBuild= (body) => {
-   
-//     // const [setData] = useState('');
-//     // const [setLoading] = useState(false);
-//     // const [setErro] = useState('');
+// export const RequestNewBuild = (body) => {
 
-//     // setLoading(true)
+//     const [loading, setLoading] = useState(false);
+//     const [erro, setErro] = useState('');
+//     console.log(body)
+//     useEffect(()=>{
+//     setLoading(true)
+
 //     axios
 //         .post(`${BASE_URL}/nova-obra`, body,
 //             {
@@ -18,12 +19,15 @@
 //             }
 //         )
 //         .then(() => {
-//             alert({ message: "Obra incluída!" })
-//             // setLoading(false)
+//             setLoading(false)
+//             alert({message: "Inclusão feita com sucesso!"})
 //         })
 //         .catch((error) => {
-//             // setLoading(false)
-//             // setErro(error.message)
-//             console.log(error.message)
+//             setLoading(false)
+//             setErro(error.message)
+//             alert({message: "Opa, deu erro! Tente novamente."} )
 //         });
+//     },[body])
+
+//     return [loading, erro]
 // };

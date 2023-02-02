@@ -1,12 +1,11 @@
 import React from "react";
 import logo from "../../images/logo.jpg";
 import styled from "styled-components"
-import {
-    // goToAdminPage, goToCollabPage, 
-    goToLoginPage
-} from "../../Routes/RouteFunctions";
+import { goToLoginPage } from "../../Routes/RouteFunctions";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
   min-width: 100%;
@@ -14,13 +13,14 @@ const ContainerGeral = styled.div`
   background-size: cover;
   display: flex;
   align-items: center;
-  background: #244372ff;
+  background: white;
   justify-content: space-around;
+  
 `
 
 const Image = styled.img`
-    width: 20rem;
-    height: auto; 
+    width: 70%;
+    height: auto;  
 `
 
 const ContainerCard = styled.div`
@@ -32,6 +32,24 @@ const ContainerCard = styled.div`
     gap: 0.5rem;
     background: white;
     align-items: center;
+
+    @media ${device.mobileS} {
+        width: 70%;
+    }
+
+    @media ${device.tablet} {
+        width: 70%;
+    }
+
+    @media ${device.laptop} {
+        width: 40%;
+    }
+`
+const ContainerButton = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    align-items: center;
 `
 
 function HomePage() {
@@ -42,10 +60,13 @@ function HomePage() {
         <ContainerGeral>
             <ContainerCard>
                 <Image src={logo} alt='logo' />
-
-                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMIN')}>Administrador</Button>
-                <Button variant="contained" onClick={() => goToLoginPage(navigate, 'Collab')}>Colaborador</Button>
-
+                <ContainerButton>
+                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMINISTRADOR')}>Administrador</Button>
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'COLABORADOR')}>Colaborador</Button>
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'CLIENTE')}>Cliente</Button>
+                    </ButtonGroup>
+                </ContainerButton>
             </ContainerCard>
         </ContainerGeral>
     )

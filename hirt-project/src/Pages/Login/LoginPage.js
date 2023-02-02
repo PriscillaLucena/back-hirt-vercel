@@ -1,26 +1,41 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import LoginForm from "./LoginForm";
-// import { goToSignUpPage } from "../../Routes/RouteFunctions";
 import styled from "styled-components";
+import { Header } from "../../Constants/Header";
+import { goToSignUpPage } from "../../Routes/RouteFunctions";
+import { device } from "../../Query"
 
-const ContainerGeral = styled.div `
+const ContainerGeral = styled.div`
+    /* margin-top: 2rem; */
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Roboto';
 `
 
-export default function LoginPage (){
-    const {type} = useParams()
-    console.log(type)
-    return(
-        <ContainerGeral>
-            <p>Login Page</p>
-            <LoginForm 
-            role = {type}
-            />    
-            <p>{type}</p>
+const Image = styled.img`
+    width: 30%;
+    height: auto;  
+    align-items: center;
 
-            {/* <button onClick={()=>goToSignUpPage(navigate, type)}>Registrar-se</button> */}
+    @media ${device.laptop} {
+        width: 15%;
+    }
+`
+
+
+export default function LoginPage() {
+    const { type } = useParams();
+    const navigate = useNavigate();
+    return (
+        <ContainerGeral>
+            <Header
+                role={type}
+            />
+            <LoginForm
+                role={type}
+            /><br/>
+            <NavLink  to={goToSignUpPage(navigate, type)}>Registrar-se</NavLink>
         </ContainerGeral>
     )
 }
