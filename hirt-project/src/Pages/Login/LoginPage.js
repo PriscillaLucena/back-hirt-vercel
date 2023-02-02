@@ -3,11 +3,10 @@ import LoginForm from "./LoginForm";
 import styled from "styled-components";
 import { Header } from "../../Constants/Header";
 import { goToSignUpPage } from "../../Routes/RouteFunctions";
-import logo from "../../images/logo.jpg";
 import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +32,6 @@ export default function LoginPage() {
             <Header
                 role={type}
             />
-            <Image src={logo} alt='logo' />
             <LoginForm
                 role={type}
             /><br/>

@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { goToLoginPage } from "../../Routes/RouteFunctions";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
@@ -46,7 +47,9 @@ const ContainerCard = styled.div`
 `
 const ContainerButton = styled.div`
     display: flex;
+    flex-direction: column;
     margin: 1rem;
+    align-items: center;
 `
 
 function HomePage() {
@@ -58,8 +61,11 @@ function HomePage() {
             <ContainerCard>
                 <Image src={logo} alt='logo' />
                 <ContainerButton>
+                <ButtonGroup variant="contained" aria-label="outlined primary button group">
                     <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMINISTRADOR')}>Administrador</Button>
                     <Button variant="contained" onClick={() => goToLoginPage(navigate, 'COLABORADOR')}>Colaborador</Button>
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'CLIENTE')}>Cliente</Button>
+                    </ButtonGroup>
                 </ContainerButton>
             </ContainerCard>
         </ContainerGeral>

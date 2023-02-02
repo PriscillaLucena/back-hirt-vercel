@@ -188,13 +188,13 @@ app.get("/info/:id", async (req: Request, res: Response) => {
     let errorCode = 400
     try {
         const id = req.params.id
-        //no select colocar tudo o que quero
+        
         const obras = await connection.raw(`
-        SELECT id, obra_id, numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
+        SELECT obra_id, numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
         JOIN Novas_obras ON apartamentos.obra_id = Novas_obras.id
         WHERE Novas_obras.id = "${id}"
         `)
-        // console.log("obra", obra[0].nome_obra[0])
+        console.log("obra", obras)
 
         let resposta: any = {}
 

@@ -1,14 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
 import { useRequestData } from "../../Hooks/UseRequestData";
-import { goToDeletePage, goToEditPage, goToInfoAdmPage, goToNewBuild } from "../../Routes/RouteFunctions";
+import { goToInfoclientPage } from "../../Routes/RouteFunctions";
 import styled from "styled-components";
-import { Button } from "@mui/material";
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import '@fontsource/roboto/300.css';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import EditIcon from '@mui/icons-material/Edit';
+import '@fontsource/roboto/300.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import { device } from "../../Query"
 import { Header } from "../../Constants/Header";
@@ -78,11 +74,11 @@ const ContainerText = styled.div`
 
 const ButtonsInCard = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     cursor: pointer;
 `
 
-const AdminPage = () => {
+export const ClientPage = () => {
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/obra`);
 
     const navigate = useNavigate();
@@ -94,17 +90,14 @@ const AdminPage = () => {
                 <h4>Responsável: {obra.responsavel}</h4>
             </ContainerText>
             <ButtonsInCard>
-                <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, obra.id)} />
-                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoAdmPage(navigate, obra.id)} />
-                <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToEditPage(navigate, obra.id)} />
+                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoclientPage(navigate, obra.id)} />
             </ButtonsInCard>
         </CardObras>
     });
 
-    return (      
+    return (
         <ContainerGeral>
-        <Header />
-            <Button variant="contained" startIcon={<LibraryAddIcon />} onClick={() => goToNewBuild(navigate)}> Incluir Obra </Button>
+            <Header />
             <ContainerGrid>
                 {!loading && erro && <p>Deu ruim!</p>}
                 {!loading && obras && obras.length > 0 && listaObras}
@@ -113,6 +106,4 @@ const AdminPage = () => {
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
         </ContainerGeral>
     )
-}
-
-export default AdminPage;
+};

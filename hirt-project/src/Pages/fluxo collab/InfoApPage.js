@@ -22,8 +22,10 @@ const CardObras = styled.div`
     margin-top: 0.85rem;
     display: flex;
     flex-direction: column;
-    border: 0.1rem dashed #1C284Fff;
-    border-radius: 1rem;
+    border: 0.1rem solid #A0a1A4;
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
     padding: 2rem;
     background: #F5FFFA;
     column-gap: 0.3rem;
@@ -63,8 +65,9 @@ const CardApsgeral = styled.div`
     width: 80%;
     row-gap: 1rem;
     align-items: center;
-    border: 0.1rem dashed #1C284Fff;
-    border-radius: 1rem;
+    border: 0.1rem solid #A0a1A4;
+    border-top: hidden;
+    border-right: hidden;
     padding: 2rem;
     background: #F5FFFA;
 `
@@ -107,6 +110,15 @@ const CardCentraliza = styled.div`
     align-items: center;
 `
 
+const Linha = styled.hr`
+    width: 100%;
+`
+
+const ContainerPorcentagem = styled.div`
+    display: flex;
+    column-gap: 2rem;
+`
+
 export const InfoApPage = () => {
 
     const navigate = useNavigate();
@@ -118,8 +130,15 @@ export const InfoApPage = () => {
     const [obra_info] = useRequestData(`${BASE_URL}/obra`);
 
     let total = "";
+
+    let apLimpGrossa = [];
+    let apLimpGrossa2 = [];
+
+    let apLimpFina = [];
+    let apLimpFina2 = [];
+
     let apConcluded = [];
-    let apConcluded2 = []
+    let apConcluded2 = [];
 
     const listaObra = obra_info && obra_info.map((info) => {
         if (info.id === `${id}`) {
@@ -134,36 +153,61 @@ export const InfoApPage = () => {
         }
     });
 
-    const funcPorcent = (ap) => {
-        apConcluded2 = [...apConcluded, ap]
-        apConcluded = apConcluded2
+    const funcLimpeza = (limpeza_completa) => {
+        if (limpeza_completa === 1) {
+            apLimpGrossa2 = [...apLimpGrossa, limpeza_completa]
+            apLimpGrossa = apLimpGrossa2
+            return "Fina"
+        } else if (limpeza_completa === 2) {
+            apLimpFina2 = [...apLimpFina, limpeza_completa]
+            apLimpFina = apLimpFina2
+            return "Grossa"
+        } else if (limpeza_completa === 3) {
+            apConcluded2 = [...apConcluded, limpeza_completa]
+            apConcluded = apConcluded2
+            return "Entrega"
+        } else {
+            return "Pendente"
+        }
     };
 
     const ListInfos = infos && infos.map((info) => {
-        return <CardApsgeral>
+        return <CardApsgeral key={info.apartamentos.id}>
             <h4>Apartamento: {info.apartamentos.numero_ap}</h4>
             <p>Andar: {info.apartamentos.andar}</p>
-            <p>Numero: {info.apartamentos.numero_ap}</p>
-            <p>Limpeza: {info.apartamentos.limpeza_completa === 1 ? (funcPorcent(info.apartamentos.limpeza_completa))
-                && ("Concluída") : "Pendente"}</p>
-            {info.apartamentos.data ? <p>Data da limpeza: {info.apartamentos.data}</p> : ""}
+            <p>Limpeza: {funcLimpeza(info.apartamentos.limpeza_completa)}</p>
+            <p>Data da limpeza: {info.apartamentos.data}</p>
         </CardApsgeral>
     });
 
     const generalList = () => {
         return <div>
+            <Linha></Linha>
             {listaObra}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
+                <Linha></Linha>
             </CardCentraliza>
             {ListInfos.length > 0 ? <CardAps>{ListInfos}</CardAps> :
                 <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>}
             <CardCentraliza>
-                <p><strong>Média de aproveitamento semanal:</strong> {((apConcluded.length / total) / 7 * 100).toFixed(1)}%</p>
-                <p><strong>Média de aproveitamento mensal:</strong> {((apConcluded.length / total) / 30 * 100).toFixed(1)}%</p>
+                <Linha></Linha>
+                <ContainerPorcentagem>
+                    <p><strong>Limpeza fina:</strong> {((apLimpFina.length / total) * 100).toFixed(1)}%</p>
+                    <p><strong>Limpeza Grossa:</strong> {((apLimpGrossa.length / total) * 100).toFixed(1)}%</p>
+                    <p><strong>Entrega:</strong> {((apConcluded.length / total) * 100).toFixed(1)}%</p>
+                </ContainerPorcentagem>
+                <Linha></Linha>
+                <ContainerPorcentagem>
+                    <p><strong>Média de aproveitamento semanal:</strong> {((apConcluded.length / total) / 7 * 100).toFixed(1)}%</p>
+                    <p><strong>Média de aproveitamento mensal:</strong> {((apConcluded.length / total) / 30 * 100).toFixed(1)}%</p>
+                </ContainerPorcentagem>
+                <Linha></Linha>
             </CardCentraliza>
         </div>
     };
+
+
 
 
     return (

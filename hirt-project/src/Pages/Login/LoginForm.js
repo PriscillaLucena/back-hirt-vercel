@@ -33,7 +33,6 @@ const ContainerCard = styled.div`
     flex-direction: column;
     border: 0.2rem solid #1C284Fff;
     border-radius: 1rem;
-    padding: 2.5rem;
     background: #F5FFFA;
     align-items: center;
     row-gap: 2rem;
@@ -41,13 +40,13 @@ const ContainerCard = styled.div`
 
     @media ${device.mobileS} {
         width: 80%;
-        margin-top: 10%;
+        margin-top: 5%;
         padding: 1.5rem;
     }
 
     @media ${device.mobileM} {
         width: 90%;
-        margin-top: 10%;
+        margin-top: 5%;
         padding: 1.5rem;
     }
 
@@ -57,7 +56,8 @@ const ContainerCard = styled.div`
 
     @media ${device.laptop} {
         width: 50%;
-        margin-top: 5%;
+        margin-top: 2%;
+        padding: 2.5rem;
     }
 `
 
@@ -78,7 +78,6 @@ export default function LoginForm(props) {
 
     <ContainerForm onSubmit={sendForm}>
       <ContainerCard>
-        <p>Login:</p>
         <TextField fullWidth required
           id="outlined-required"
           label="E-mail"

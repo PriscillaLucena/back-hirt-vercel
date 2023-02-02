@@ -10,7 +10,7 @@ import { Header } from "../../Constants/Header";
 import { device } from "../../Query"
 
 const ContainerGeral = styled.div`
-  width: 90%;
+  width: 100%;
   min-height: auto;
   background-size: cover;
   display: flex;
@@ -44,8 +44,10 @@ const CardObras = styled.div`
     margin-top: 0.85rem;
     display: flex;
     flex-direction: column;
-    border: 0.1rem dashed #1C284Fff;
-    border-radius: 1rem;
+    border: 0.1rem solid #c1c1c3 ;
+    border-bottom: hidden;
+    border-left: hidden;
+    border-top: hidden;
     padding: 2rem;
     background: #F5FFFA;
     column-gap: 0.1rem;
@@ -61,25 +63,31 @@ const ContainerButton = styled.div`
     display: flex;
     justify-content: space-around;
 `
+// const Linha = styled.hr`
+//     margin-top: 6rem;
+//     height: 15rem;
+//     /* border: 0.02vh solid #000; */
+// `
+
 
 export default function CollabsPage() {
 
     const navigate = useNavigate();
 
     const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/obra`);
-    // let obra = !!obra_info ? obra_info : "carregando";
 
     const listaObras = obra_info && obra_info.map((obra) => {
         return <CardObras key={obra.id}>
             <ContainerText>
                 <h3>{obra.nome_obra}</h3>
             </ContainerText>
-
             <ContainerButton>
                 <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
                 <AddCircleIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
-            </ContainerButton>
+            </ContainerButton>         
         </CardObras>
+       
+        
     });
 
     return (

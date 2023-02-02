@@ -5,8 +5,7 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
-import { goToAdminPage, goToDeleteApPage } from "../../Routes/RouteFunctions";
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { goToClientPage, goToCollabPage } from "../../Routes/RouteFunctions";
 import { Header } from "../../Constants/Header";
 import { device } from "../../Query"
 
@@ -20,6 +19,7 @@ const ContainerGeral = styled.div`
   row-gap: 1rem;
   `
 const CardObras = styled.div`
+    margin-top: 0.85rem;
     display: flex;
     flex-direction: column;
     border: 0.1rem solid #A0a1A4;
@@ -76,7 +76,7 @@ const CardAps = styled.div`
     width: 30%;
     row-gap: 1rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);   
+    grid-template-columns: repeat(3, 1fr);   
     align-items: center;
   
 
@@ -119,7 +119,7 @@ const ContainerPorcentagem = styled.div`
     column-gap: 2rem;
 `
 
-export const InfoAdmPage = () => {
+export const InfoClientPage = () => {
 
     const navigate = useNavigate();
 
@@ -140,15 +140,14 @@ export const InfoAdmPage = () => {
     let apConcluded = [];
     let apConcluded2 = [];
 
-
     const listaObra = obra_info && obra_info.map((info) => {
         if (info.id === `${id}`) {
             return <CardCentraliza>
-                <CardObras key={info.id}>
+                <CardObras>
                     <h4>{info.nome_obra}</h4>
                     <p><strong>Total de andares:</strong> {info.qty_andares}</p>
                     <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
-                    <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap * info.qty_andares}</p>
+                    <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap}</p>
                 </CardObras>
             </CardCentraliza>
         }
@@ -178,15 +177,8 @@ export const InfoAdmPage = () => {
             <p>Andar: {info.apartamentos.andar}</p>
             <p>Limpeza: {funcLimpeza(info.apartamentos.limpeza_completa)}</p>
             <p>Data da limpeza: {info.apartamentos.data}</p>
-            <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeleteApPage(navigate, info.apartamentos.id)} />
         </CardApsgeral>
     });
-
-    console.log('apLimpGrossa', apLimpGrossa.length)
-    console.log('apLimpFina', apLimpFina.length)
-    console.log('apConcluded', apConcluded.length)
-    console.log('total', total)
-
 
     const generalList = () => {
         return <div>
@@ -215,15 +207,15 @@ export const InfoAdmPage = () => {
         </div>
     };
 
+
     return (
         <ContainerGeral>
             <Header />
-            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate)}>Voltar</Button>
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToClientPage(navigate)}>Voltar</Button>
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
             {!loading && obra_info && obra_info.length > 0 && generalList()}
-
         </ContainerGeral>
     )
 };
