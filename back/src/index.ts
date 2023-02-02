@@ -4,7 +4,8 @@ import dotenv from "dotenv"
 import { Knex } from "knex"
 import knex from "knex"
 import { compare } from "bcryptjs"
-import { UserRouter } from "../../back/src/Routes/UserRoute"
+import { UserRouter } from "./Routes/UserRouter"
+import { ConstructionsRouter } from "./Routes/ConstructionsRouter" 
 import { AddressInfo } from "net";
 
 
@@ -17,6 +18,8 @@ app.use(express.json())
 app.use(cors())
 
 app.use("/user", UserRouter);
+app.use("/construction", ConstructionsRouter)
+
 
 
 const server = app.listen(3000, () => {
@@ -27,12 +30,3 @@ const server = app.listen(3000, () => {
       console.error(`Falha ao rodar o servidor.`);
     }
   });
-
-
-
-
-
-
-
-
-

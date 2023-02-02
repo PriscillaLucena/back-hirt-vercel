@@ -1,4 +1,5 @@
 import * as jwt from "jsonwebtoken"
+import { authenticatorToken } from "../model/authenticToken"
 import { authenticationData } from "../model/user"
 
 
@@ -14,8 +15,7 @@ export default class Authenticator {
       )
    }
 
-   getTokenData(
-      token: string): authenticationData {
+   getTokenData(token: string): authenticationData {
       const result: any = jwt.verify(
          token,
          process.env.JWT_KEY as string
