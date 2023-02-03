@@ -1,23 +1,33 @@
 
-@id = 78ioio89
-P http://localhost:3003/apartamentos/{{id}}
+# @id = 78ioio89
+Post http://localhost:3003/nova-obra
 Content-Type: application/json
 
 {
-    "limpeza_completa": 1,
-    "foto": "image.jpg"
+    "nome_obra":"Ed. Gustavinho" ,
+    "qty_andares":"2" ,
+    "qty_ap_andar":"3" ,
+    "responsavel":"Priscilla e Thiago" 
 }
 
 ###
-GET http://localhost:3003/obra
+@id = '12EIE12'
+DELETE http://localhost:3003/obra/{{id}}
+
 ###
-POST  http://localhost:3003/nova-obra
+
+# @id = f78bdc48-029b-492b-afa1-1d41b64566f1
+get  http://localhost:3003/info/{{id}}
 Content-Type: application/json
 
-{
-     "nome_obra": "Ed. Raimunda",
-     "qty_andares": 7,
-     "qty_ap_andar": 2,
-     "qty_total_ap": 14,
-     "responsavel": "Raimundo Nonato"
-}
+###
+@id = '45231oaifdhaof'
+DELETE   http://localhost:3003/apartamento/delete/{{id}}
+Content-Type: application/json
+
+###
+@id = 'f78bdc48-029b-492b-afa1-1d41b64566f1'
+GET   http://localhost:3003/info/{{id}}
+Content-Type: application/json
+
+
