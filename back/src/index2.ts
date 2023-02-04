@@ -1,26 +1,37 @@
+/**************************** IMPORTS ******************************/
+
 import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import { Knex } from "knex"
 import knex from "knex"
+import { generateToken } from "./services/Authenticator"
 import { compare } from "bcryptjs"
-import { UserRouter } from "./Routes/UserRouter"
-import { ConstructionsRouter } from "./Routes/ConstructionsRouter" 
-import { AddressInfo } from "net";
+import { IdGenerator } from "./services/GenerateId"
 
 
 /**************************** CONFIG ******************************/
 
 dotenv.config()
 
+export const connection: Knex = knex({
+    client: "mysql",
+    connection: {
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_SCHEMA,
+        port: 3306,
+        multipleStatements: true
+    }
+})
+
 const app: Express = express()
 app.use(express.json())
 app.use(cors())
+const idGenerator = new IdGenerator();
+/**************************** TYPES ******************************/
 
-<<<<<<< HEAD:back/src/index.ts
-app.use("/user", UserRouter);
-app.use("/construction", ConstructionsRouter)
-=======
 type obra = {
     obra_id: string;
     nome_obra: string,
@@ -35,36 +46,18 @@ type obra = {
         foto: string,
     }
 }
->>>>>>> 82de65110359bbfc6b68d625a10a3cade124cf08:back/src/indexPri.ts
 
+type apartamento = {
+    id: string,
+    numero_ap: number,
+    andar: number,
+    limpeza_completa: boolean,
+    data: number,
+    foto: string,
 
+}
 
-<<<<<<< HEAD:back/src/index.ts
-const server = app.listen(3000, () => {
-    if (server) {
-      const address = server.address() as AddressInfo;
-      console.log(`Servidor rodando em http://localhost:${address.port}`);
-    } else {
-      console.error(`Falha ao rodar o servidor.`);
-    }
-  });
-=======
 /**************************** ENDPOINTS ******************************/
-
-// app.get("/apartamentos", async (req: Request, res: Response) => {
-//     let errorCode = 400
-//     try {
-
-//         const resultado = await connection.raw(`
-//         SELECT * FROM apartamentos
-//             `)
-
-//         res.status(200).send(resultado[0])
-
-//     } catch (error: any) {
-//         res.status(errorCode).send(error.message)
-//     }
-// });
 
 app.get("/obra", async (req: Request, res: Response) => {
     let errorCode = 400
@@ -109,44 +102,6 @@ app.post("/apartamentos/:obra_id", async (req: Request, res: Response) => {
     }
 })
 
-
-app.post("/login", async (req: Request, res: Response) => {
-    let errorCode = 400
-    const { email, password } = req.body
-
-    try {
-        const result = await connection("Login_Hirt_Admin").select("*").where({ email })
-        // console.log("cheguei aqui")
-        // console.log("senha", password)
-        // console.log(result[0].senha)
-        // const passwordIsCorrect: boolean = await compare(password, result[0].senha)
-        // console.log(passwordIsCorrect)
-        // console.log("cheguei aqui 2")
-        // if(passwordIsCorrect == false){
-        //     console.log("chegou no if")
-
-        // console.log(result[0].tipo_acesso.toUpperCase())
-        const userRole = result[0].tipo_acesso.toUpperCase()
-
-        const token: string = generateToken({
-            id: result[0].id,
-            role: result[0].tipo_acesso
-        })
-
-        console.log(userRole)
-
-        res.send({
-            message: "Usuário logado!",
-            token,
-            userRole
-        })
-        // }
-    } catch (error: any) {
-        res.status(errorCode).send(error.message)
-    }
-})
-
-
 app.post("/nova-obra", async (req: Request, res: Response) => {
     let errorCode = 404
 
@@ -180,13 +135,13 @@ app.get("/info/:id", async (req: Request, res: Response) => {
     let errorCode = 400
     try {
         const id = req.params.id
-        
+        //no select colocar tudo o que quero
         const obras = await connection.raw(`
         SELECT obra_id, numero_ap, andar, limpeza_completa, data, foto, nome_obra, responsavel, qty_andares, qty_ap_andar FROM apartamentos 
         JOIN Novas_obras ON apartamentos.obra_id = Novas_obras.id
         WHERE Novas_obras.id = "${id}"
         `)
-        console.log("obra", obras)
+        // console.log("obra", obra[0].nome_obra[0])
 
         let resposta: any = {}
 
@@ -198,7 +153,6 @@ app.get("/info/:id", async (req: Request, res: Response) => {
                 qty_ap_andar: obra.qty_ap_andar,
                 responsavel: obra.responsavel,
                 apartamentos: {
-                    id: obra.id,
                     numero_ap: obra.numero_ap,
                     andar: obra.andar,
                     limpeza_completa: obra.limpeza_completa,
@@ -235,34 +189,10 @@ app.delete("/obra/delete/:id", async (req: Request, res: Response) => {
 });
 
 
-app.delete("/apartamento/delete/:id", async (req: Request, res: Response) => {
-    let errorCode = 400
-     try {
- 
-         const id = req.params.id
- 
-         await connection.raw(`
-         DELETE FROM apartamentos
-         WHERE id = "${id}"
-         `)
- 
-         res.status(200).send({ message: 'Apartamento deletado!' })
- 
-     } catch (error: any) {
-         res.status(errorCode).send(error.message)
-     }
- });
-
- 
-
 app.listen(3003, () => {
     console.log("Server running on port 3003")
 });
 
 
 
-// ###
-// https://stackoverflow.com/questions/61985832/how-to-load-image-and-convert-to-blob-in-react
 
-
->>>>>>> 82de65110359bbfc6b68d625a10a3cade124cf08:back/src/indexPri.ts
