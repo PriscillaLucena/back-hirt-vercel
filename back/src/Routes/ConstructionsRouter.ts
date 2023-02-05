@@ -14,4 +14,6 @@ const constructionController = new ConstructionController(
     new ConstructionsDB()
     ))
 
-ConstructionsRouter.get("/info/:id", constructionController.GetApartments)    
+ConstructionsRouter.get("/info/:id", constructionController.GetApartments)
+ConstructionsRouter.get("/all", constructionController.GetAllConstructions)    
+ConstructionsRouter.post("/:obra_id", constructionController.GetAllConstructions)    

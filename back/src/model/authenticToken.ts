@@ -1,3 +1,3 @@
 export type authenticatorToken = {
-    token: string
+    token: string | undefined
 }

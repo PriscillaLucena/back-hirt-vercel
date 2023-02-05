@@ -19,13 +19,13 @@ export default class Construction{
 
 }
 
-type apartamento = {
+export type apartamento = {
     id: string,
     numero_ap: number,
     andar: number,
     limpeza_completa: boolean,
-    data: number,
+    data: string,
     foto: string,
-
+    obra_id: string
 }
 
