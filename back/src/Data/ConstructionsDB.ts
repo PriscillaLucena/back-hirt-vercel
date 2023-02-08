@@ -1,18 +1,17 @@
 import BaseDatabase from "./BaseDB"
 import ConstructionsRepository from "../Business/ConstructionsRepository"
-import Construction, { apartamento } from "../model/constructions"
+import Construction, { apartamento, ConstructionNew } from "../model/constructions"
 import IdGenerator from "../services/GenerateId"
+import { CustomError } from "../error/CustomError"
 
-export default class ConstructionsDB extends BaseDatabase implements ConstructionsRepository{
+export default class ConstructionsDB extends BaseDatabase implements ConstructionsRepository {
 
-    GetConstructionsById = async(id: string): Promise<Construction | undefined>=>{
+    GetConstructionsById = async (id: string): Promise<Construction | undefined> => {
         try {
             console.log("iniciei o DB", id)
 
             let building = await ConstructionsDB.connection.raw(`SELECT * FROM Novas_obras WHERE id = "${id}"`)
 
-            // console.log("nome da obra", building[0][0])
-        
 
             const result = await ConstructionsDB.connection.raw(`
             SELECT 
@@ -29,10 +28,9 @@ export default class ConstructionsDB extends BaseDatabase implements Constructio
 
             let array = [...result2]
 
-            // console.log(result2)
 
             const input = {
-                obra_id: building[0][0].id, 
+                obra_id: building[0][0].id,
                 nome_obra: building[0][0].nome_obra,
                 qty_andares: building[0][0].qty_andares,
                 qty_ap_andar: building[0][0].qty_ap_andar,
@@ -40,39 +38,62 @@ export default class ConstructionsDB extends BaseDatabase implements Constructio
                 apartamentos: array
             }
 
-            console.log("INPUT",input)
+            console.log("INPUT", input)
 
             const newConstruction: Construction = Construction.toConstructionModel(input)
 
             return newConstruction
         } catch (error) {
-            
+
         }
     }
 
-    GetConstructions = async(): Promise<any> => {
+    GetConstructions = async (): Promise<any> => {
         try {
             const result = await ConstructionsDB.connection.raw(`SELECT * FROM Novas_obras`)
 
-            console.log("obras",result)
+            console.log("obras", result)
 
             return result[0]
         } catch (error) {
-            
+
         }
     }
 
-    InsertApartments = async(id: string, body: apartamento) => {
+    InsertApartments = async (body: apartamento) => {
         try {
-    
-            await ConstructionsDB.connection("apartamentos")
-                .insert({ body })
+            console.log("iniciei o DB")
+            console.log(body)
 
-            return ("success!")    
+            await ConstructionsDB.connection("apartamentos")
+                .insert( body )
+
+            return ("success!")
 
         } catch (error) {
-            
+
         }
+    }
+
+    InsertNewConstructions = async (input: ConstructionNew) => {
+        let message: string = 'Nova obra criada!'
+        try {
+            await ConstructionsDB.connection('Novas_obras')
+                .insert({
+                    id: input.GetId(),
+                    nome_obra: input.GetNome_obra(),
+                    qty_andares: input.GetQty_andares(),
+                    qty_ap_andar: input.GetQty_ap_andar(),
+                    qty_total_ap: input.GetQty_Total_ap(),
+                    responsavel: input.GetResponsavel()
+                })
+
+            return message
+        } catch(error: any) {
+            throw new CustomError(400, error.sqlMessage || error.message);
+        }
+
+
     }
 
 }
