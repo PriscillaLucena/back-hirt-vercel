@@ -8,6 +8,9 @@ import { UserRouter } from "./Routes/UserRouter"
 import { ConstructionsRouter } from "./Routes/ConstructionsRouter"
 import { AddressInfo } from "net";
 
+
+/**************************** CONFIG ******************************/
+
 dotenv.config()
 
 const app: Express = express()
@@ -17,13 +20,12 @@ app.use(cors())
 app.use("/user", UserRouter);
 app.use("/construction", ConstructionsRouter)
 
-    const server = app.listen(3000, () => {
-        if (server) {
-            const address = server.address() as AddressInfo;
-            console.log(`Servidor rodando em http://localhost:${address.port}`);
-        } else {
-            console.error(`Falha ao rodar o servidor.`);
-        }
+const server = app.listen(3000, () => {
+    if (server) {
+      const address = server.address() as AddressInfo;
+      console.log(`Servidor rodando em http://localhost:${address.port}`);
+    } else {
+      console.error(`Falha ao rodar o servidor.`);
     }
+  });
 
-    )
