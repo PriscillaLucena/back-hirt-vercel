@@ -5,7 +5,7 @@ import { Knex } from "knex"
 import knex from "knex"
 import { compare } from "bcryptjs"
 import { UserRouter } from "./Routes/UserRouter"
-import { ConstructionsRouter } from "./Routes/ConstructionsRouter" 
+import { ConstructionsRouter } from "./Routes/ConstructionsRouter"
 import { AddressInfo } from "net";
 
 
@@ -20,8 +20,6 @@ app.use(cors())
 app.use("/user", UserRouter);
 app.use("/construction", ConstructionsRouter)
 
-
-
 const server = app.listen(3000, () => {
     if (server) {
       const address = server.address() as AddressInfo;
@@ -30,3 +28,4 @@ const server = app.listen(3000, () => {
       console.error(`Falha ao rodar o servidor.`);
     }
   });
+

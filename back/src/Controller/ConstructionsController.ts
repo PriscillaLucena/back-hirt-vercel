@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 import ConstructionsBusiness, { apartmentsDTO } from "../Business/ConstructionsBusiness"
+import { authenticatorToken } from "../model/authenticToken";
+import Construction, { apartamento } from "../model/constructions";
 
 export default class ConstructionController {
-   
+
 
     constructor(
         private constructionsBusiness: ConstructionsBusiness
-    ){ }
+    ) { }
 
+    /**************************PEGA TODAS AS OBRAS E SEUS APARTAMENTOS************************* */
     GetApartments = async (req: Request, res: Response) => {
-        
+
         const input: apartmentsDTO = {
             token: req.headers.authorization,
             id: req.params.id
@@ -17,16 +20,81 @@ export default class ConstructionController {
 
         try {
 
-            console.log("iniciei o controller")
             const apartments = await this.constructionsBusiness.GetApartments(input)
 
             res.status(200).send({ apartments })
         } catch (error: any) {
             let message = error.sqlMessage || error.message
-         res.statusCode = 400
+            res.statusCode = 400
 
-         res.send({ message })
+            res.send({ message })
         }
     }
+
+/********************************PEGA TODAS AS OBRAS***************************************** */
+    GetAllConstructions = async (req: Request, res: Response) => {
+        const input: authenticatorToken = {
+            token: req.headers.authorization
+        }
+
+        try {
+            const allConstructions = await this.constructionsBusiness.GetAllConstructions(input)
+
+            res.status(200).send({ allConstructions })
+        } catch (error) {
+
+        }
+    }
+
+    /********************INSERE NOVOS APARTAMENTOS************* */
+    InsertApartments = async(req: Request, res: Response) => {
+        const input: apartmentsDTO = {
+            token: req.headers.authorization,
+            id: req.params.obra_id
+        }
+
+        const { numero_ap, andar, limpeza_completa, foto } = req.body
+
+        const ap: any = {
+            numero_ap: numero_ap, andar: andar, limpeza_completa: limpeza_completa, foto: foto
+        }
+
+        try {
+
+            console.log(input.id)
+            
+            const result = await this.constructionsBusiness.InsertApartments(input, ap)
+
+            res.status(200).send({ result })
+
+
+        } catch (error) {
+            
+        }
+    }
+
+
+    /***************CRIA NOVAS OBRAS******************* */
+
+    InsertNewConstructions = async(req: Request, res: Response) =>{
+        const input: authenticatorToken = {
+            token: req.headers.authorization
+        }
+        const body: any = req.body 
+        // const { nome_obra, qty_andares, qty_ap_andar, responsavel } = req.body
+
+        console.log(body)
+
+        try {
+            const message = await this.constructionsBusiness.InsertNewConstructions(input, body)
+
+            res.status(200).send({ message })
+        } catch (error) {
+            
+        }
+        
+    }
+
+
 
 }
