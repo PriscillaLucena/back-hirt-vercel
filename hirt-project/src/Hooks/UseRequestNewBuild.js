@@ -2,7 +2,7 @@
 // import { useEffect, useState } from "react";
 // import { BASE_URL } from "../Constants/url";
 
-// export const RequestNewBuild = (body) => {
+// export const NewBuild = (url, body) => {
 
 //     const [loading, setLoading] = useState(false);
 //     const [erro, setErro] = useState('');
@@ -11,7 +11,7 @@
 //     setLoading(true)
 
 //     axios
-//         .post(`${BASE_URL}/nova-obra`, body,
+//         .post(url, body,
 //             {
 //                 headers: {
 //                     contentType: "application/json"
@@ -27,7 +27,7 @@
 //             setErro(error.message)
 //             alert({message: "Opa, deu erro! Tente novamente."} )
 //         });
-//     },[body])
+//     },[url])
 
 //     return [loading, erro]
 // };

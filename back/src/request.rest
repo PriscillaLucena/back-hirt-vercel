@@ -31,3 +31,12 @@ GET   http://localhost:3003/info/{{id}}
 Content-Type: application/json
 
 
+###
+Post http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email": "hirt@hirt.com",
+    "password": "123456789" 
+}
+

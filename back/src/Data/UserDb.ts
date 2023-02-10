@@ -28,7 +28,7 @@ export default class UserDB extends BaseDB implements UserRepository {
                 .select("*")
                 .where({ email });
 
-            return result.length ? result[0] : null
+            return  result[0]
 
         } catch (error: any) {
             throw new Error(error.slqMessage)

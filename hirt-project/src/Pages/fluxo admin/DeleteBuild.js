@@ -6,21 +6,8 @@ import { Button } from "@mui/material";
 import { goToAdminPage } from "../../Routes/RouteFunctions"
 import { useDeleteData } from "../../Hooks/useDeleteData";
 import { Header } from "../../Constants/Header";
-import styled from "styled-components";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
-
-const ContainerGeral = styled.div`
-  margin-top: 2rem;
-  width: 100%;
-  min-height: auto;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  font-family: 'Roboto';
-  `
+import { ContainerGeral } from "../../Styled/StyledAdm/StyledDeleteBuild";
 
 export const DeleteBuildPage = () => {
     

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import '@fontsource/roboto/300.css';
 import CircularProgress from '@mui/material/CircularProgress';
-import { device } from "../../Query"
+import { device } from "../../Constants/Query"
 import { Header } from "../../Constants/Header";
 
 const ContainerGeral = styled.div`

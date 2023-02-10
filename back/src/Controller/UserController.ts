@@ -37,9 +37,10 @@ export default class UserController {
                 password: password
             }
 
-            const token = await this.userBusiness.Login(input)
+            // console.log("INPUT", input)
+            const sendKey = await this.userBusiness.Login(input)
 
-            res.status(200).send({ message, token })
+            res.status(200).send({ message, sendKey })
 
         } catch (error: any) {
             res.status(error.code || 400).send(error.message)

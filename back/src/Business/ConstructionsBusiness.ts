@@ -31,7 +31,7 @@ export default class ConstructionsBusiness {
 
             console.log("token", tokenData)
 
-            if (tokenData.role !== "ADMIN") {
+            if (tokenData.role !== "admin") {
                 throw new CustomError(400, "'token' must be provided");
             }
 
@@ -57,7 +57,7 @@ export default class ConstructionsBusiness {
 
             console.log("token", tokenData)
 
-            if (tokenData.role !== "ADMIN") {
+            if (tokenData.role !== "admin") {
                 throw new CustomError(400, "You need to be an ADMIN to access this page");
             }
 

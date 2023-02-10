@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from "bcryptjs";
 
 
 export default class HashManager {
@@ -9,8 +9,7 @@ export default class HashManager {
     return bcrypt.hash(plainText, salt)
   }
 
-  compare = async (
-    plainText: string, cypherText: string): Promise<boolean> => {
+  compare = async (plainText: string, cypherText: string): Promise<boolean> => {
     return bcrypt.compare(plainText, cypherText)
   }
 }
