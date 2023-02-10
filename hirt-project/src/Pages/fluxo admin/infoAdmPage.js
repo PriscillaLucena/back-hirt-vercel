@@ -18,15 +18,11 @@ export const InfoAdmPage = () => {
     const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${id}`);
     const inf = !!infos ? infos : "carregando"
     const info = inf.apartments
+    // const inform = info.apartamentos
     
     console.log("info", info)
     console.log("infos", infos)
-
-    // const [obras] = useRequestData(`${BASE_URL}/construction/all`);
-    // const obs = obras ? obras : "carregando";
-    // const obra = obs.allConstructions;
-
-    // console.log("obras", obra)
+    // console.log("inform", inform)
 
     let total = "";
 
@@ -40,18 +36,20 @@ export const InfoAdmPage = () => {
     let apConcluded2 = [];
 
 
-    const listaObra = (info) =>{
-        if (info.id === `${id}`) {
+    const listaObra = () => {
+        if (info.obra_id === `${id}`) {
             return <CardCentraliza>
                 <CardObras>
                     <h4>{info.nome_obra}</h4>
                     <p><strong>Total de andares:</strong> {info.qty_andares}</p>
                     <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
-                    <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap * info.qty_andares}</p>
+                    <p><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</p>
                 </CardObras>
             </CardCentraliza>
         }
     };
+
+    console.log("total", total)
 
     const funcLimpeza = (limpeza_completa) => {
         if (limpeza_completa === 1) {
@@ -71,13 +69,13 @@ export const InfoAdmPage = () => {
         }
     };
 
-    const ListInfos = infos && infos.apartaments.map((info) => {
-        return <CardApsgeral key={info.apartamentos.id}>
-            <h4>Apartamento: {info.apartamentos.numero_ap}</h4>
-            <p>Andar: {info.apartamentos.andar}</p>
-            <p>Limpeza: {funcLimpeza(info.apartamentos.limpeza_completa)}</p>
-            <p>Data da limpeza: {info.apartamentos.data}</p>
-            <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeleteApPage(navigate, info.apartamentos.id)} />
+    const ListInfos = info && info.apartamentos.map((info) => {
+        return <CardApsgeral key={info.id}>
+            <h4>Apartamento: {info.numero_ap}</h4>
+            <p>Andar: {info.andar}</p>
+            <p>Limpeza: {funcLimpeza(info.limpeza_completa)}</p>
+            <p>Data da limpeza: {info.data}</p>
+            <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeleteApPage(navigate, info.id)} />
         </CardApsgeral>
     });
 
@@ -90,13 +88,13 @@ export const InfoAdmPage = () => {
     const generalList = () => {
         return <div>
             <Linha></Linha>
-            {listaObra}
+            {listaObra()}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
                 <Linha></Linha>
             </CardCentraliza>
-            {ListInfos.length > 0 ? <CardAps>{ListInfos}</CardAps> :
-                <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>}
+            {info.apartamentos.length === 0 ? <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>
+            : <CardAps>{ListInfos}</CardAps>}
             <CardCentraliza>
                 <Linha></Linha>
                 <ContainerPorcentagem>
@@ -121,7 +119,7 @@ export const InfoAdmPage = () => {
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
-            {!loading && info && info.length > 0 && generalList()}
+            {!loading && infos && generalList()}
 
         </ContainerGeral>
     )
