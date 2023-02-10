@@ -92,9 +92,9 @@ export default class UserBusiness {
     
         const passwordIsCorrect: boolean = await this.hashManager.compare(input.password, user.password)
     
-        if (!passwordIsCorrect) {
-            throw new CustomError(401, "Invalid credentials")
-        }
+        // if (!passwordIsCorrect) {
+        //     throw new CustomError(401, "Invalid credentials")
+        // }
     
         const token: string = this.authenticator.generateToken({
             id: user.id,

@@ -15,11 +15,16 @@ import { ButtonsInCard, CardObras, ContainerGeral, ContainerGrid, ContainerText 
 
 const AdminPage = () => {
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/construction/all`);
-    console.log("obras", obras)
+    const obs = obras ? obras : "carregando";
+    const obra = obs.allConstructions;
 
+    console.log("obra", obra)
     const navigate = useNavigate();
 
-    const listaObras = obras && obras.map((obra) => {
+    const lista = obra && obra.map((u) => u.id)
+    console.log("id", lista)
+
+    const listaObras = obra && obra.map((obra) => {
         return <CardObras key={obra.id}>
             <ContainerText>
                 <h4>Obra: {obra.nome_obra}</h4> <br />
@@ -33,13 +38,13 @@ const AdminPage = () => {
         </CardObras>
     });
 
-    return (      
+    return (
         <ContainerGeral>
-        <Header />
+            <Header />
             <Button variant="contained" startIcon={<LibraryAddIcon />} onClick={() => goToNewBuild(navigate)}> Incluir Obra </Button>
             <ContainerGrid>
                 {!loading && erro && <p>Deu ruim!</p>}
-                {!loading && obras && obras.length > 0 && listaObras}
+                {!loading && obra && obra.length > 0 && listaObras}
             </ContainerGrid>
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}

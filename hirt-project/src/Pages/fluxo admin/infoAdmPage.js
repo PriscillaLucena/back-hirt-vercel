@@ -15,9 +15,18 @@ export const InfoAdmPage = () => {
 
     const { id } = useParams();
 
-    const [infos, loading, erro] = useRequestData(`${BASE_URL}/info/${id}`);
+    const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${id}`);
+    const inf = !!infos ? infos : "carregando"
+    const info = inf.apartments
+    
+    console.log("info", info)
+    console.log("infos", infos)
 
-    const [obra_info] = useRequestData(`${BASE_URL}/obra`);
+    // const [obras] = useRequestData(`${BASE_URL}/construction/all`);
+    // const obs = obras ? obras : "carregando";
+    // const obra = obs.allConstructions;
+
+    // console.log("obras", obra)
 
     let total = "";
 
@@ -31,10 +40,10 @@ export const InfoAdmPage = () => {
     let apConcluded2 = [];
 
 
-    const listaObra = obra_info && obra_info.map((info) => {
+    const listaObra = (info) =>{
         if (info.id === `${id}`) {
             return <CardCentraliza>
-                <CardObras key={info.id}>
+                <CardObras>
                     <h4>{info.nome_obra}</h4>
                     <p><strong>Total de andares:</strong> {info.qty_andares}</p>
                     <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
@@ -42,7 +51,7 @@ export const InfoAdmPage = () => {
                 </CardObras>
             </CardCentraliza>
         }
-    });
+    };
 
     const funcLimpeza = (limpeza_completa) => {
         if (limpeza_completa === 1) {
@@ -62,7 +71,7 @@ export const InfoAdmPage = () => {
         }
     };
 
-    const ListInfos = infos && infos.map((info) => {
+    const ListInfos = infos && infos.apartaments.map((info) => {
         return <CardApsgeral key={info.apartamentos.id}>
             <h4>Apartamento: {info.apartamentos.numero_ap}</h4>
             <p>Andar: {info.apartamentos.andar}</p>
@@ -112,7 +121,7 @@ export const InfoAdmPage = () => {
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
-            {!loading && obra_info && obra_info.length > 0 && generalList()}
+            {!loading && info && info.length > 0 && generalList()}
 
         </ContainerGeral>
     )

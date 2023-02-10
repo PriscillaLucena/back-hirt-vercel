@@ -106,7 +106,6 @@ export default class ConstructionsBusiness {
             }
 
             
-
             const queryResult: any = await this.constructionsDB.InsertApartments(body)
 
             return queryResult
