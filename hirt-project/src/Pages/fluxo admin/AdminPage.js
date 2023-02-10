@@ -14,6 +14,7 @@ import { ButtonsInCard, CardObras, ContainerGeral, ContainerGrid, ContainerText 
 
 
 const AdminPage = () => {
+    
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/construction/all`);
     const obs = obras ? obras : "carregando";
     const obra = obs.allConstructions;

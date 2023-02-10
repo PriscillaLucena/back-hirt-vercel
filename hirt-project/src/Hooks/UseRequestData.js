@@ -9,7 +9,6 @@ export function useRequestData(url) {
     const [erro, setErro] = useState("");
     const token = localStorage.getItem("token");
 
-    // console.log(token)
     useEffect(() => {
         setLoading(true);
 

@@ -6,7 +6,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 import { goToCollabPage } from "../../Routes/RouteFunctions";
 import { Header } from "../../Constants/Header";
-import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, ContainerPorcentagem, Linha } from "../../Styled/StyledCollab/StyledInfoAp";
+import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, ContainerPorcentagem, Linha } from "../../Styled/StyledCollab/StyledInfoAdm";
 
 export const InfoApPage = () => {
 
@@ -14,7 +14,9 @@ export const InfoApPage = () => {
 
     const { id } = useParams();
 
-    const [infos, loading, erro] = useRequestData(`${BASE_URL}/info/${id}`);
+    const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${id}`);
+    const inf = !!infos ? infos : "carregando"
+    const info = inf.apartments
 
     const [obra_info] = useRequestData(`${BASE_URL}/obra`);
 
@@ -29,18 +31,18 @@ export const InfoApPage = () => {
     let apConcluded = [];
     let apConcluded2 = [];
 
-    const listaObra = obra_info && obra_info.map((info) => {
-      if (info.id === `${id}`) {
+    const listaObra = () => {
+        if (info.obra_id === `${id}`) {
             return <CardCentraliza>
                 <CardObras>
                     <h4>{info.nome_obra}</h4>
                     <p><strong>Total de andares:</strong> {info.qty_andares}</p>
                     <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
-                    <p><strong>Total de apartamentos:</strong> {total = info.qty_total_ap}</p>
+                    <p><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</p>
                 </CardObras>
             </CardCentraliza>
         }
-    });
+    };
 
     const funcLimpeza = (limpeza_completa) => {
         if (limpeza_completa === 1) {
@@ -60,25 +62,25 @@ export const InfoApPage = () => {
         }
     };
 
-    const ListInfos = infos && infos.map((info) => {
-        return <CardApsgeral key={info.apartamentos.id}>
-            <h4>Apartamento: {info.apartamentos.numero_ap}</h4>
-            <p>Andar: {info.apartamentos.andar}</p>
-            <p>Limpeza: {funcLimpeza(info.apartamentos.limpeza_completa)}</p>
-            <p>Data da limpeza: {info.apartamentos.data}</p>
+    const ListInfos = info && info.apartamentos.map((info) => {
+        return <CardApsgeral key={info.id}>
+            <h4>Apartamento: {info.numero_ap}</h4>
+            <p>Andar: {info.andar}</p>
+            <p>Limpeza: {funcLimpeza(info.limpeza_completa)}</p>
+            <p>Data da limpeza: {info.data}</p>
         </CardApsgeral>
     });
 
     const generalList = () => {
         return <div>
             <Linha></Linha>
-            {listaObra}
+            {listaObra()}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
                 <Linha></Linha>
             </CardCentraliza>
-            {ListInfos.length > 0 ? <CardAps>{ListInfos}</CardAps> :
-                <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>}
+            {info.apartamentos.length === 0 ? <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>
+            : <CardAps>{ListInfos}</CardAps>}
             <CardCentraliza>
                 <Linha></Linha>
                 <ContainerPorcentagem>
@@ -96,6 +98,7 @@ export const InfoApPage = () => {
         </div>
     };
 
+
     return (
         <ContainerGeral>
             <Header />
@@ -103,7 +106,7 @@ export const InfoApPage = () => {
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
-            {!loading && obra_info && obra_info.length > 0 && generalList()}
+            {!loading && infos && generalList()}
         </ContainerGeral>
     )
 };
