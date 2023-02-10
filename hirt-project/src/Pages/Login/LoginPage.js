@@ -1,28 +1,8 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import LoginForm from "./LoginForm";
-import styled from "styled-components";
 import { Header } from "../../Constants/Header";
 import { goToSignUpPage } from "../../Routes/RouteFunctions";
-import { device } from "../../Query"
-
-const ContainerGeral = styled.div`
-    /* margin-top: 2rem; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Roboto';
-`
-
-const Image = styled.img`
-    width: 30%;
-    height: auto;  
-    align-items: center;
-
-    @media ${device.laptop} {
-        width: 15%;
-    }
-`
-
+import { ContainerGeral } from "../../Styled/StyledLogin/StyledloginPage";
 
 export default function LoginPage() {
     const { type } = useParams();
@@ -33,7 +13,7 @@ export default function LoginPage() {
                 role={type}
             />
             <LoginForm
-                role={type}
+                
             /><br/>
             <NavLink  to={goToSignUpPage(navigate, type)}>Registrar-se</NavLink>
         </ContainerGeral>

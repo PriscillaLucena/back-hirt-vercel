@@ -7,15 +7,16 @@ export function useRequestData(url) {
     const [data, setData] = useState(undefined);
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState("");
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
+    console.log(token)
     useEffect(() => {
         setLoading(true);
 
         axios.get(url, {
-            // headers: {
-            //     auth: token
-            // }
+            headers: {
+                authorization: token
+            }
         }).then((response) => {
             setData(response.data);
             setLoading(false);
@@ -24,7 +25,7 @@ export function useRequestData(url) {
             setLoading(false);
         });
 
-    }, [url])
+    }, [url, token])
 
         return [data, loading, erro]
     };

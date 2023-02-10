@@ -7,7 +7,7 @@ import { InfoApPage } from "../Pages/fluxo collab/InfoApPage";
 import LoginPage from "../Pages/Login/LoginPage";
 import { NewProject } from "../Pages/fluxo admin/NewProject";
 import { InfoAdmPage } from "../Pages/fluxo admin/infoAdmPage";
-import { SignUpPage } from "../Pages/SignUpPage";
+import { SignUpPage } from "../Pages/Login/SignUpPage";
 import { EditBuild } from "../Pages/fluxo admin/EditBuild";
 import { DeleteBuildPage } from "../Pages/fluxo admin/DeleteBuild";
 import { DeleteApPage } from "../Pages/fluxo admin/DeleteAp";

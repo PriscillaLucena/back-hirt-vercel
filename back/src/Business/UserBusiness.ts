@@ -1,9 +1,9 @@
-import { CustomError } from "../error/CustomError";
 import { user, userData, USER_ROLES } from "../model/user";
 import UserRepository from "./UserRespository";
 import IdGenerator from "../services/GenerateId";
-import HashManager from "../services/HashManager";
 import Authenticator from "../services/Authenticator";
+import HashManager from "../services/HashManager";
+import { CustomError } from "../error/CustomError";
 
 export type loginInputDTO = {
     email: string,
@@ -43,7 +43,7 @@ export default class UserBusiness {
         }
 
         const id: string = this.idGenerator.generate()
-        const role: USER_ROLES = input.role === 'ADMIN'? USER_ROLES.ADMIN : USER_ROLES.NORMAL
+        const role: USER_ROLES = input.role === 'admin'? USER_ROLES.ADMIN : USER_ROLES.NORMAL
 
         const cypherPassword = await this.hashManager.hash(input.password);
 
@@ -63,7 +63,7 @@ export default class UserBusiness {
 
     }
 
-    Login = async (input: loginInputDTO): Promise<string> => {
+    Login = async (input: loginInputDTO): Promise<any> => {
 
         if (!input.email || !input.password) {
     
@@ -73,7 +73,7 @@ export default class UserBusiness {
         
         console.log("iniciei o business")
         const queryResult: any = await this.userDB.userByEmail(input.email)
-        console.log(queryResult)
+        // console.log(queryResult)
     
         if (!queryResult) {
     
@@ -88,6 +88,7 @@ export default class UserBusiness {
             password: queryResult.senha,
             role: queryResult.tipo_acesso
         }
+
     
         const passwordIsCorrect: boolean = await this.hashManager.compare(input.password, user.password)
     
@@ -99,8 +100,13 @@ export default class UserBusiness {
             id: user.id,
             role: user.role
         })
+
+        const returnKey = {
+            token: token,
+            role: user.role
+        }
     
-        return token
+        return returnKey
     
     }
 }

@@ -7,7 +7,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 import { goToClientPage, goToCollabPage } from "../../Routes/RouteFunctions";
 import { Header } from "../../Constants/Header";
-import { device } from "../../Query"
+import { device } from "../../Constants/Query"
 
 const ContainerGeral = styled.div`
   width: 100%;
