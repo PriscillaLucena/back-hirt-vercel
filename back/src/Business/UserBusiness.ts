@@ -70,6 +70,7 @@ export default class UserBusiness {
         try {
             if (!input.email || !input.password) {
 
+
                 const message = '"email" and "password" must be provided'
                 throw new CustomError(400, message)
             }
@@ -125,6 +126,7 @@ export default class UserBusiness {
 
         } catch (error: any) {
             throw new CustomError(error.statusCode, error.message)
+
         }
 
     }
