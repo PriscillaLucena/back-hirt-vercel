@@ -1,4 +1,5 @@
 import * as bcrypt from "bcryptjs";
+import { CustomError } from "../Error/CustomError";
 
 
 export default class HashManager {
@@ -9,7 +10,11 @@ export default class HashManager {
     return bcrypt.hash(plainText, salt)
   }
 
-  compare = async (plainText: string, cypherText: string): Promise<boolean> => {
-    return bcrypt.compare(plainText, cypherText)
+  public compareHash = async (s: string, hash: string) => {
+    const result: any = bcrypt.compare(s, hash)
+    // console.log("result no hash", result)
+    return bcrypt.compare(s, hash);
   }
 }
+
+// , ((err: Error, success: boolean)=> Promise <void>)
