@@ -2,7 +2,7 @@ import BaseDatabase from "./BaseDB"
 import ConstructionsRepository from "../Business/ConstructionsRepository"
 import Construction, { apartamento, ConstructionNew } from "../model/constructions"
 import IdGenerator from "../services/GenerateId"
-import { CustomError } from "../error/CustomError"
+import { CustomError } from "../Error/CustomError"
 
 export default class ConstructionsDB extends BaseDatabase implements ConstructionsRepository {
 

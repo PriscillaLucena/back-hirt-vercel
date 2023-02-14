@@ -30,20 +30,23 @@ export default class UserController {
     Login = async (req: Request, res: Response) => {
         try {
             let message = "Success!"
-            const { email, password } = req.body
+            // const { email, password } = req.body
 
             const input: loginInputDTO = {
-                email: email,
-                password: password
+                email: req.body.email,
+                password: req.body.password
             }
 
-            // console.log("INPUT", input)
+            // console.log(input)
+
             const sendKey = await this.userBusiness.Login(input)
 
-            res.status(200).send({ message, sendKey })
+            
+
+            res.status(200).send({ message })
 
         } catch (error: any) {
-            res.status(error.code || 400).send(error.message)
+            res.status(error.code || 400).send({ error: error.message })
         }
     }
 

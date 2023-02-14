@@ -1,4 +1,4 @@
-import { CustomError } from "../error/CustomError";
+import { CustomError } from "../Error/CustomError";
 import { authenticatorToken } from "../model/authenticToken";
 import { authenticationData } from "../model/user";
 import Authenticator from "../services/Authenticator";
