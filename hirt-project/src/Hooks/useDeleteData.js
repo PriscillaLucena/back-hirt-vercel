@@ -5,14 +5,15 @@ export const useDeleteData = (url) => {
     
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         setLoading(true);
 
         axios.delete(url, {
-            // headers: {
-            //     auth: token
-            // }
+            headers: {
+                auth: token
+            }
         }).then(() => {
             setLoading(false);
             alert("Deletada!")
