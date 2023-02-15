@@ -19,11 +19,11 @@ const AdminPage = () => {
     const obs = obras ? obras : "carregando";
     const obra = obs.allConstructions;
 
-    console.log("obra", obra)
+    // console.log("obra", obra)
     const navigate = useNavigate();
 
     const lista = obra && obra.map((u) => u.id)
-    console.log("id", lista)
+    // console.log("id", lista)
 
     const listaObras = obra && obra.map((obra) => {
         return <CardObras key={obra.id}>

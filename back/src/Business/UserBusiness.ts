@@ -1,10 +1,8 @@
-import { user, userData, USER_ROLES } from "../model/user";
+import { User, UserData, UserDTO, USER_ROLES } from "../model/user";
 import UserRepository from "./UserRespository";
 import IdGenerator from "../services/GenerateId";
 import Authenticator from "../services/Authenticator";
-
 import { CustomError } from "../Error/CustomError";
-import * as bcrypt from "bcryptjs";
 import HashManager from "../services/HashManager";
 
 export type loginInputDTO = {
@@ -28,33 +26,37 @@ export default class UserBusiness {
 
     }
 
-    SignUp = async (input: userData): Promise<string> => {
-        if (!input.name || !input.email || !input.password) {
+    SignUp = async (input: UserDTO): Promise<string> => {
+        if (!input.GetName || !input.GetEmail || !input.GetPassword) {
             const message = '"name", "email" and "password" must be provided'
             throw new CustomError(400, message)
         }
 
-        if (input.email.indexOf("@") === -1) {
+        const verifyEmail: any = input.GetEmail
+        const verifyRole: any = input.GetRole
+        const verifyPassword: any = input.GetPassword
+
+        if (verifyEmail.indexOf("@") === -1) {
             throw new CustomError(400, "Inválid email!");
         }
 
-        const user: any = await this.userDB.userByEmail(input.email)
+        const user: any = await this.userDB.userByEmail(verifyEmail)
 
         if (user) {
             throw new CustomError(409, "Email already registered")
         }
 
         const id: string = this.idGenerator.generate()
-        const role: USER_ROLES = input.role === 'admin' ? USER_ROLES.ADMIN : USER_ROLES.NORMAL
+        const role: USER_ROLES = verifyRole === 'admin' ? USER_ROLES.ADMIN : USER_ROLES.NORMAL
 
-        const cypherPassword = await this.hashManager.hash(input.password);
+        const cypherPassword = await this.hashManager.hash(verifyPassword);
 
-        const newUser: user = {
+        const newUser: any = {
             id: id,
-            name: input.name,
-            email: input.email,
+            name: input.GetName,
+            email: input.GetEmail,
             password: cypherPassword,
-            role: input.role
+            role: input.GetRole
         }
 
         await this.userDB.signup(newUser)
@@ -75,53 +77,44 @@ export default class UserBusiness {
                 throw new CustomError(400, message)
             }
 
-            // console.log(input)
-
+            console.log("iniciei o business")
             const queryResult: any = await this.userDB.userByEmail(input.email)
 
+            
 
             if (!queryResult) {
-                // console.log("deu ruim!")
                 let message = "User Not Found"
                 throw new CustomError(404, message)
             }
 
-            // const user: user = {
-            //     id: queryResult.id,
-            //     name: queryResult.nome,
-            //     email: queryResult.email,
-            //     password: queryResult.senha.toString(),
-            //     role: queryResult.tipo_acesso
-            // }
+            const user: any = {
+                id: queryResult.GetId(),
+                name: queryResult.GetName(),
+                email: queryResult.GetEmail(),
+                password: queryResult.GetPassword(),
+                role: queryResult.GetRole()
+            }
 
-            console.log(queryResult.senha, input.password)
+            console.log(user.password)
 
+            const passwordIsCorrect: any =  await this.hashManager.compareHash(input.password, user.password)
 
-            const passwordIsCorrect: any =  await this.hashManager.compareHash(input.password, queryResult.senha)
-
-            // bcrypt.compare(input.password, queryResult.senha)
-
-            
-
-            console.log(passwordIsCorrect)
 
             if (passwordIsCorrect === false) {
                 throw new CustomError(401, "Invalid credentials")
             }
 
-            // const token: string = this.authenticator.generateToken({
-            //     id: user.id,
-            //     role: user.role
-            // })
+            const token: string = this.authenticator.generateToken({
+                id: user.id,
+                role: user.role
+            })
 
-            // const returnKey = {
-            //     token: token,
-            //     role: user.role
-            // }
+            const returnKey = {
+                token: token,
+                role: user.role
+            }
 
-            // console.log()
-
-            return passwordIsCorrect
+            return returnKey
 
 
         } catch (error: any) {
