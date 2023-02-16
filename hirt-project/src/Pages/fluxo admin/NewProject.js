@@ -23,7 +23,6 @@ export function NewProject() {
         nome_obra: "", qty_andares: "", qty_ap_andar: "", qty_total_ap: "", responsavel: ""
     });
 
-
     const sendForm = event => {
         event.preventDefault();
         axios

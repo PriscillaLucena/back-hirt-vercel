@@ -1,9 +1,8 @@
 import { Button, IconButton } from "@mui/material";
 import axios from "axios";
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
-import { GlobalContext } from "../../Global/GlobalContext";
 import { goToCollabPage } from "../../Routes/RouteFunctions";
 import SendIcon from '@mui/icons-material/Send';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -33,10 +32,9 @@ export const ConcludedAp = () => {
 
     const navigate = useNavigate();
 
-    const { states, setters } = useContext(GlobalContext);
-    const { image, conclusion, level } = states;
-    const { setImage, setConclusion, setLevel } = setters;
-
+    const [level, setLevel] = useState('');
+    const [conclusion, setConclusion] = useState('');
+    const [image, setImage] = useState('');
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
     const [ape, setApe] = useState('');
@@ -72,8 +70,8 @@ export const ConcludedAp = () => {
 
         axios.post(`${BASE_URL}/apartamentos/${obra_id}`, body, {
             headers: {
-                'access-control-allow-origin': `${BASE_URL}`,
-                auth: token,
+                // 'access-control-allow-origin': `${BASE_URL}`,
+                authorization: token,
                 contentType: "application/json"
             }
         }).then(() => {

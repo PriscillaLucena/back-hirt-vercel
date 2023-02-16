@@ -80,6 +80,7 @@ const ButtonsInCard = styled.div`
 
 export const ClientPage = () => {
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/obra`);
+    
 
     const navigate = useNavigate();
 

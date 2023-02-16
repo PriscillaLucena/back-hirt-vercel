@@ -17,8 +17,9 @@ export const InfoApPage = () => {
     const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${id}`);
     const inf = !!infos ? infos : "carregando"
     const info = inf.apartments
+    const token = localStorage.getItem("token");
 
-    const [obra_info] = useRequestData(`${BASE_URL}/obra`);
+    console.log("token", token)
 
     let total = "";
 
@@ -66,8 +67,9 @@ export const InfoApPage = () => {
         return <CardApsgeral key={info.id}>
             <h4>Apartamento: {info.numero_ap}</h4>
             <p>Andar: {info.andar}</p>
-            <p>Limpeza: {funcLimpeza(info.limpeza_completa)}</p>
+            <p>Limpeza: {funcLimpeza(info.limpeza_completa)}</p> 
             <p>Data da limpeza: {info.data}</p>
+            <p>Imagens: {info.foto}</p>
         </CardApsgeral>
     });
 

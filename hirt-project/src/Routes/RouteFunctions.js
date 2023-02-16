@@ -2,12 +2,12 @@ export const goToHomePage = (navigate) => {
     navigate(`/`)
 };
 
-export const goToAdminPage = (navigate) => {
-    navigate(`/admin`)
+export const goToAdminPage = (navigate, type) => {
+    navigate(`/user/${type}`)
 };
 
-export const goToCollabPage = (navigate) => {
-    navigate(`/collaborator`)
+export const goToCollabPage = (navigate, type) => {
+    navigate(`/user/${type}`)
 };
 
 export const goToClientPage = (navigate) => {
@@ -26,8 +26,8 @@ export const goToNewBuild = (navigate) => {
     navigate(`/new_build`)
 };
 
-export const goToInfoAdmPage = (navigate, id) => {
-    navigate(`/info_ap/adm/${id}`)
+export const goToInfoAdmPage = (navigate, id,  type) => {
+    navigate(`/info_ap/${id}/${type}`)
 };
 
 export const goToInfoApPage = (navigate, id) => {

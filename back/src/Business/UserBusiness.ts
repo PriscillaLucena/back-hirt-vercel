@@ -37,7 +37,7 @@ export default class UserBusiness {
         const verifyPassword: any = input.GetPassword
 
         if (verifyEmail.indexOf("@") === -1) {
-            throw new CustomError(400, "Inválid email!");
+            throw new CustomError(400, "Invalid email!");
         }
 
         const user: any = await this.userDB.userByEmail(verifyEmail)

@@ -21,14 +21,14 @@ export default function Router() {
             <Routes>
                 <Route exact path={"/"} element={<HomePage />} />
                 <Route path={"/login/:type"} element={<LoginPage />} />
-                <Route path={"/admin"} element={<AdminPage />} />
-                <Route path={"/collaborator"} element={<CollabPage />} />
+                <Route path={"/user/:type"} element={<AdminPage />} />
+                <Route path={"/user/:type"} element={<CollabPage />} />
                 <Route path={"/client"} element={<ClientPage />} />
                 <Route path={"/apartment/:obra_id"} element={<ConcludedAp />} />
                 <Route path={"/new_build"} element={<NewProject />} />
-                <Route path={"/info_ap/adm/:id"} element={<InfoAdmPage />} />
-                <Route path={"/info_ap/collab/:id"} element={<InfoApPage />} />
-                <Route path={"/info_ap/client/:id"} element={<InfoClientPage />} />
+                <Route path={"/info_ap/:id/:type"} element={<InfoAdmPage />} />
+                {/* <Route path={"/info_ap/collab/:id"} element={<InfoApPage />} />
+                <Route path={"/info_ap/client/:id"} element={<InfoClientPage />} /> */}
                 <Route path={"/obra/delete/:id"} element={<DeleteBuildPage />} />
                 <Route path={"/apartamento/delete/:id"} element={<DeleteApPage />} />
                 <Route path={"/edit/:id"} element={<EditBuild />} />

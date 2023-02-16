@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
 import { useRequestData } from "../../Hooks/UseRequestData";
 import { goToDeletePage, goToEditPage, goToInfoAdmPage, goToNewBuild } from "../../Routes/RouteFunctions";
@@ -15,13 +15,14 @@ import { ButtonsInCard, CardObras, ContainerGeral, ContainerGrid, ContainerText 
 
 const AdminPage = () => {
     
+    const {type} = useParams();
+    console.log("type no admin page", type)
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/construction/all`);
     const obs = obras ? obras : "carregando";
     const obra = obs.allConstructions;
-
+    
     // console.log("obra", obra)
     const navigate = useNavigate();
-
     const lista = obra && obra.map((u) => u.id)
     // console.log("id", lista)
 
