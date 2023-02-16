@@ -16,7 +16,7 @@ export const EditBuild = () => {
     const navigate = useNavigate();
 
     const { id } = useParams();
-
+    const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
 
@@ -78,7 +78,7 @@ export const EditBuild = () => {
 
                 <TextField fullWidth required
                     id="outlined-required"
-                    label="Nome do cliente"
+                    label="Responsavel"
                     name={"responsavel"}
                     onChange={handleInputChange}
                     type={'text'}

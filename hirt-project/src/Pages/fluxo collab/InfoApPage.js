@@ -6,7 +6,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 import { goToCollabPage } from "../../Routes/RouteFunctions";
 import { Header } from "../../Constants/Header";
-import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, ContainerPorcentagem, Linha } from "../../Styled/StyledCollab/StyledInfoAdm";
+import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, ContainerPorcentagem, Linha } from "../../Styled/StyledAdm/StyledInfoAdm";
 
 export const InfoApPage = () => {
 

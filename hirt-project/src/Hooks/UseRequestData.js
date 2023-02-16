@@ -17,6 +17,7 @@ export function useRequestData(url) {
                 authorization: token
             }
         }).then((response) => {
+            // console.log(response)
             setData(response.data);
             setLoading(false);
         }).catch((error) => {

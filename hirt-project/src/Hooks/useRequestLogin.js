@@ -11,18 +11,18 @@ export const Login = (body, navigate) => {
 
         )
         .then((response) => {
-            console.log(response.data)
-            // localStorage.setItem('token', response.data.token)
+            
             userData = response.data
-            console.log("response", response.data)
+            localStorage.setItem('token', userData.sendKey.token)
 
-            // if (userData === false) {
-            //     goToLoginPage(navigate)
-            // } else if (response.data.sendKey.role === 'admin') {
-            //     goToAdminPage(navigate)
-            // } else if (response.data.sendKey.role === 'COLLAB') {
-            //     goToCollabPage(navigate)
-            // }
+
+            if (userData === false) {
+                goToLoginPage(navigate)
+            } else if (userData.sendKey.role === 'ADMIN') {
+                goToAdminPage(navigate)
+            } else if (response.data.sendKey.role === 'COLLAB') {
+                goToCollabPage(navigate)
+            }
 
         }).catch((error) => {
             console.log(error.message)

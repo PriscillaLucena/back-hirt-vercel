@@ -21,6 +21,6 @@ export default class Authenticator {
          process.env.JWT_KEY as string
       )
 
-      return { id: result.id, role: result.role }
+      return { id: result.id, role: result.role.toLowerCase() }
    }
 }
