@@ -18,7 +18,7 @@ export function NewProject() {
 
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
-
+    const token = localStorage.getItem("token");
     const [form, handleInputChange, clear] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: "", qty_total_ap: "", responsavel: ""
     });
@@ -27,16 +27,19 @@ export function NewProject() {
     const sendForm = event => {
         event.preventDefault();
         axios
-            .post(`${BASE_URL}/nova-obra`, form,
+            .post(`${BASE_URL}/construction/new`, form,
                 {
                     headers: {
-                        contentType: "application/json"
+                        contentType: "application/json",
+                        authorization: token
                     }
                 }
             )
             .then(() => {
                 setLoading(false)
+                alert("deu boa")
                 clear()
+                goToAdminPage(navigate)
             })
             .catch((error) => {
                 setLoading(false)

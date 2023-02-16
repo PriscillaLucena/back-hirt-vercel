@@ -31,7 +31,7 @@ export default class ConstructionController {
         }
     }
 
-/********************************PEGA TODAS AS OBRAS***************************************** */
+    /********************************PEGA TODAS AS OBRAS***************************************** */
     GetAllConstructions = async (req: Request, res: Response) => {
         const input: authenticatorToken = {
             token: req.headers.authorization
@@ -47,7 +47,7 @@ export default class ConstructionController {
     }
 
     /********************INSERE NOVOS APARTAMENTOS************* */
-    InsertApartments = async(req: Request, res: Response) => {
+    InsertApartments = async (req: Request, res: Response) => {
         const input: apartmentsDTO = {
             token: req.headers.authorization,
             id: req.params.obra_id
@@ -62,25 +62,25 @@ export default class ConstructionController {
         try {
 
             console.log(input.id)
-            
+
             const result = await this.constructionsBusiness.InsertApartments(input, ap)
 
             res.status(200).send({ result })
 
 
         } catch (error) {
-            
+
         }
     }
 
 
     /***************CRIA NOVAS OBRAS******************* */
 
-    InsertNewConstructions = async(req: Request, res: Response) =>{
+    InsertNewConstructions = async (req: Request, res: Response) => {
         const input: authenticatorToken = {
             token: req.headers.authorization
         }
-        const body: any = req.body 
+        const body: any = req.body
         // const { nome_obra, qty_andares, qty_ap_andar, responsavel } = req.body
 
         console.log(body)
@@ -90,10 +90,25 @@ export default class ConstructionController {
 
             res.status(200).send({ message })
         } catch (error) {
-            
+
         }
-        
+
     }
+
+    EditConstruction = async (req: Request, res: Response) => {
+        const input: authenticatorToken = {
+            token: req.headers.authorization
+        }
+        const body = req.body
+        const id = req.params.id
+        try {
+            const message = await this.constructionsBusiness.EditConstructions(input, id, body)
+        } catch (error) {
+
+        }
+    }
+
+
 
 
 

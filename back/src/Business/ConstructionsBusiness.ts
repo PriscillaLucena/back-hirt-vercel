@@ -105,7 +105,7 @@ export default class ConstructionsBusiness {
                 obra_id: input.id
             }
 
-            
+
             const queryResult: any = await this.constructionsDB.InsertApartments(body)
 
             return queryResult
@@ -149,6 +149,22 @@ export default class ConstructionsBusiness {
 
         } catch (error) {
 
+        }
+    }
+
+    EditConstructions = async(input: authenticatorToken, id: string, body: any)=>{
+        try {
+            if(!input.token){
+                throw new CustomError(400, "'token' must be provided"); 
+            }
+
+            if(!id){
+                throw new CustomError(400, "'id' must be provided");
+            }
+
+            
+        } catch (error) {
+            
         }
     }
 
