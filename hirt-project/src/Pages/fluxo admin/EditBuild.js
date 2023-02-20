@@ -10,16 +10,16 @@ import { BASE_URL } from "../../Constants/url";
 import axios from "axios";
 import { useState } from "react";
 import { ContainerCard, ContainerGeral } from "../../Styled/StyledAdm/StyledEdit";
+import {useProtectedPage} from "../../Hooks/useProtetedPage";
 
 export const EditBuild = () => {
 
+    useProtectedPage();
     const navigate = useNavigate();
-
     const { id } = useParams();
     const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
-
     const [form, handleInputChange, clear] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: "", qty_total_ap: "", responsavel: ""
     });
@@ -30,7 +30,8 @@ export const EditBuild = () => {
             .put(`${BASE_URL}/obra/edit/${id}`, form,
                 {
                     headers: {
-                        contentType: "application/json"
+                        contentType: "application/json",
+                        authorization: token
                     }
                 }
             )
@@ -74,15 +75,6 @@ export const EditBuild = () => {
                     name={"qty_ap_andar"}
                     onChange={handleInputChange}
                     value={form.qty_ap_andar}
-                />
-
-                <TextField fullWidth required
-                    id="outlined-required"
-                    label="Responsavel"
-                    name={"responsavel"}
-                    onChange={handleInputChange}
-                    type={'text'}
-                    value={form.responsavel}
                 />
 
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>

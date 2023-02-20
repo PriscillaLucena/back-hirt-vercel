@@ -8,17 +8,15 @@ import { useDeleteData } from "../../Hooks/useDeleteData";
 import { Header } from "../../Constants/Header";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { ContainerGeral } from "../../Styled/StyledAdm/StyledDeleteBuild";
+import {useProtectedPage} from "../../Hooks/useProtetedPage";
 
 export const DeleteBuildPage = () => {
     
+    useProtectedPage();
     const navigate = useNavigate();
-
     const { id } = useParams();
-    
     const { loading, erro } = useDeleteData(`${BASE_URL}/obra/delete/${id}`);
     const [obra] = useRequestData(`${BASE_URL}/info/${id}`)
-    
-
     const nomeObra = obra && obra.map((u)=> u.nome_obra);
 
     return (
@@ -31,4 +29,4 @@ export const DeleteBuildPage = () => {
             {!loading && !erro && <h3>{`Obra ${nomeObra} deletada!`}</h3>}
         </ContainerGeral>
     )
-}
+};

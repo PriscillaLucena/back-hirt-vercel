@@ -14,6 +14,7 @@ import hirtLogo from "../../images/hirt-imagem-SF.png"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import {useProtectedPage} from "../../Hooks/useProtetedPage";
 import { ContainerCard, ContainerGeral, ContainerUpload } from "../../Styled/StyledCollab/StyledConcludedAp";
 
 const fileToImageUri = (file) => new Promise((resolve, reject) => {
@@ -27,18 +28,15 @@ const fileToImageUri = (file) => new Promise((resolve, reject) => {
 
 
 export const ConcludedAp = () => {
-
+    useProtectedPage();
     const { obra_id } = useParams();
-
     const navigate = useNavigate();
-
     const [level, setLevel] = useState('');
     const [conclusion, setConclusion] = useState('');
     const [image, setImage] = useState('');
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
     const [ape, setApe] = useState('');
-
     const token = localStorage.getItem("token");
 
     const onChangeImageUri = (file) => {

@@ -11,11 +11,12 @@ import { BASE_URL } from "../../Constants/url";
 import axios from "axios";
 import { Header } from "../../Constants/Header";
 import { ContainerCard, ContainerGeral } from "../../Styled/StyledAdm/StyledNewProject";
+import {useProtectedPage} from "../../Hooks/useProtetedPage";
 
 export function NewProject() {
-
+    
+    useProtectedPage();
     const navigate = useNavigate();
-
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
     const token = localStorage.getItem("token");

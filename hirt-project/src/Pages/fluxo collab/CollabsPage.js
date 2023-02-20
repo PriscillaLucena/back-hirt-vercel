@@ -1,17 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
 import { useRequestData } from "../../Hooks/UseRequestData";
-import { goToConcludedAp, goToInfoApPage } from "../../Routes/RouteFunctions";
+import { goToConcludedAp, goToInfoApPage, goToInfoPage } from "../../Routes/RouteFunctions";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Header } from "../../Constants/Header";
+import {useProtectedPage} from "../../Hooks/useProtetedPage";
 import { CardObras, ContainerButton, ContainerGeral, ContainerGrid, ContainerText } from "../../Styled/StyledCollab/StyledCollab";
 
 export default function CollabsPage() {
-
+    
+    useProtectedPage();
     const navigate = useNavigate();
-
+    const {type} = useParams();
     const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/obra`);
 
     const listaObras = obra_info && obra_info.map((obra) => {
@@ -20,7 +22,7 @@ export default function CollabsPage() {
                 <h3>{obra.nome_obra}</h3>
             </ContainerText>
             <ContainerButton>
-                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoApPage(navigate, obra.id)} />
+                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoPage(navigate, type, obra.id)} />
                 <AddCircleIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToConcludedAp(navigate, obra.id)} />
             </ContainerButton>         
         </CardObras>
