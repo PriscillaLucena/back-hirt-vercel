@@ -33,6 +33,7 @@ export const CardObras = styled.div`
         width: 70%;
         padding: 1rem;
         column-gap: 2rem;
+        row-gap: 0.7rem;
         margin: 0;
     }
 

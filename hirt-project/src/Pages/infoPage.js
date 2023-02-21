@@ -12,7 +12,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
+import TextField from '@mui/material/TextField';
 import { useProtectedPage } from "../Hooks/useProtetedPage";
+import useForm from "../Hooks/useForm";
 
 export const InfoPage = () => {
 
@@ -23,6 +26,12 @@ export const InfoPage = () => {
     const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${id}`);
     const inf = !!infos ? infos : "carregando"
     const info = inf.apartments
+    const [toggle, setToggle] = useState(false);
+
+    const [form, handleInputChange] = useForm({
+        nome_obra: "", qty_andares: "", qty_ap_andar: ""
+    });
+
     let total = '';
     let apLimpGrossa = [];
     let apLimpFina = [];
@@ -49,14 +58,43 @@ export const InfoPage = () => {
         }
     };
 
+    const editInput = (nome) => {
+        return <TextField fullWidth required
+            id="outlined-required"
+            type={'text'}
+            name={nome}
+            onChange={handleInputChange}
+            value={form.nome}
+        />
+    }
+
+    const setaTrue = () => {
+        setToggle(!toggle)
+    };
+
     const listaObra = () => {
         if (info.obra_id === `${id}`) {
             return <CardCentraliza>
                 <CardObras>
-                    <h4>{info.nome_obra}</h4>
-                    <p><strong>Total de andares:</strong> {info.qty_andares}</p>
-                    <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar}</p>
+                    {/* <form onClick={sendForm}> */}
+                    <h4>{info.nome_obra} <span>
+                        {type === 'ADMIN' ?
+                            <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaTrue()} /> : ''}
+                        {toggle ? editInput("nome-obra") : ""}</span>
+                    </h4>
+                    <p><strong>Total de andares:</strong> {info.qty_andares}<span>
+                        {type === 'ADMIN' ?
+                            <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaTrue()} /> : ''}
+                        {toggle ? editInput("qty_andares") : ""}</span>
+                    </p>
+                    <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar} <span>
+                        {type === 'ADMIN' ?
+                            <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaTrue()} /> : ''}
+                        {toggle ? editInput("qty_ap-andar") : ""}</span>
+                    </p>
                     <p><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</p>
+                    <Button variant="contained" size="small" sx={{ height: 20 }}>salvar</Button>
+                    {/* </form> */}
                 </CardObras>
             </CardCentraliza>
         }
@@ -76,7 +114,7 @@ export const InfoPage = () => {
                 <MenuItem value={2}>Limpeza Fina</MenuItem>
                 <MenuItem value={3}>Entrega</MenuItem>
             </Select>
-            <Button variant="contained" size="small" sx={{height: 20}}>salvar</Button>
+            <Button variant="contained" size="small" sx={{ height: 20 }}>salvar</Button>
         </FormControl>
     };
 

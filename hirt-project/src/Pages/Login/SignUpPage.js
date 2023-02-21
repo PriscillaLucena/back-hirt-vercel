@@ -14,20 +14,21 @@ import { ContainerCard, ContainerGeral } from "../../Styled/StyledLogin/StyledSi
 
 
 export const SignUpPage = () => {
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
-
     const [form, handleInputChange, clear] = useForm({
-        nome: "", email: "", senha: ""
+        nome: "", email: "", password: "", role: ""
     });
 
+
+    console.log('form', form);
 
     const sendForm = event => {
         event.preventDefault();
         axios
-            .post(`${BASE_URL}/signup`, form,
+            .post(`${BASE_URL}/user/signup`, form,
                 {
                     headers: {
                         contentType: "application/json"
@@ -44,6 +45,7 @@ export const SignUpPage = () => {
                 alert("Opa, deu erro! Tente novamente.")
             });
     };
+
     return (
         <ContainerGeral>
             <Header />
@@ -63,6 +65,7 @@ export const SignUpPage = () => {
                 <TextField fullWidth required
                     id="outlined-required"
                     label="e-mail"
+                    type={"e-mail"}
                     name={"email"}
                     onChange={handleInputChange}
                     value={form.email}
@@ -71,10 +74,20 @@ export const SignUpPage = () => {
 
                 <TextField fullWidth required
                     id="outlined-required"
-                    label="senha"
-                    name={"senha"}
+                    label="password"
+                    name={"password"}
+                    type={"password"}
                     onChange={handleInputChange}
-                    value={form.senha}
+                    value={form.password}
+                />
+
+                <TextField fullWidth required
+                    id="outlined-required"
+                    label="role"
+                    name={"role"}
+                    type={"text"}
+                    onChange={handleInputChange}
+                    value={form.role}
                 />
 
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>
