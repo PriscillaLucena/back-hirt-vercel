@@ -2,18 +2,19 @@
 import UserRepository from "../Business/UserRespository";
 import { User } from "../model/user";
 
-import BaseDB from "./BaseDB";
+import BaseDatabase, {  } from "./BaseDataBase";
 
-export default class UserDB extends BaseDB implements UserRepository {
+export default class UserDB extends BaseDatabase implements UserRepository {
+
     signup = async (user: User): Promise<User> => {
         try {
-            await UserDB.connection('Login_Hirt_Admin')
+            await BaseDatabase.connection('Login_Hirt_Admin')
                 .insert({
-                    id: user.GetId,
-                    nome: user.GetName,
-                    email: user.GetEmail,
-                    senha: user.GetPassword,
-                    tipo_acesso: user.GetRole
+                    id: user.GetId(),
+                    nome: user.GetName(),
+                    email: user.GetEmail(),
+                    senha: user.GetPassword(),
+                    tipo_acesso: user.GetRole()
                 })
             return user
         } catch (error: any) {
@@ -24,9 +25,14 @@ export default class UserDB extends BaseDB implements UserRepository {
 
     userByEmail = async (email: string): Promise<User | null> => {
         try {
-            const result: any[] = await UserDB.connection('Login_Hirt_Admin')
+            const result: any = await BaseDatabase.connection('Login_Hirt_Admin')
                 .select("*")
                 .where({ email });
+
+            
+            if(result){
+                return null
+            }    
 
             const input = {
                 id: result[0].id,

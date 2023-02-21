@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import UserBusiness, { loginInputDTO } from "../Business/UserBusiness"
-import UserDB from "../Data/UserDb"
+import UserDB from "../Data/UserDB"
 import { UserData, UserDTO } from "../model/user"
 
 export default class UserController {
@@ -11,11 +11,15 @@ export default class UserController {
     }
 
     SignUp = async (req: Request, res: Response) => {
-        const { name, email, password, role } = req.body
 
-        const inputDTO: UserDTO = UserDTO.toUserDTOModel(name, email, password, role)
+        const input = {name: req.body.name, email: req.body.email, password: req.body.password, role: req.body.role}
+        // const { name, email, password, role } = req.body
+
+        const inputDTO: UserDTO = UserDTO.toUserDTOModel(req.body.name,req.body.email, req.body.password, req.body.role)
 
         try {
+
+            // console.log(inputDTO)
 
             const token = await this.userBusiness.SignUp(inputDTO)
 
