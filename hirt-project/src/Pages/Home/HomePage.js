@@ -16,8 +16,8 @@ function HomePage() {
                 <Image src={logo} alt='logo' />
                 <ContainerButton>
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'ADMINISTRADOR')}>Administrador</Button>
-                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'COLABORADOR')}>Colaborador</Button>
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'admin')}>Administrador</Button>
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'collab')}>Colaborador</Button>
                     <Button variant="contained" onClick={() => goToLoginPage(navigate, 'CLIENTE')}>Cliente</Button>
                     </ButtonGroup>
                 </ContainerButton>

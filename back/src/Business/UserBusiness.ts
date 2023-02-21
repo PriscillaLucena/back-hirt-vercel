@@ -26,44 +26,58 @@ export default class UserBusiness {
 
     }
 
-    SignUp = async (input: UserDTO): Promise<string> => {
-        if (!input.GetName || !input.GetEmail || !input.GetPassword) {
-            const message = '"name", "email" and "password" must be provided'
-            throw new CustomError(400, message)
+    SignUp = async (input: UserDTO): Promise<string | undefined> => {
+        try {
+            if (!input.GetName || !input.GetEmail || !input.GetPassword) {
+                const message = '"name", "email" and "password" must be provided'
+                throw new CustomError(400, message)
+            }
+
+
+            const verifyEmail: any = input.GetEmail()
+            const verifyRole: any = input.GetRole()
+            const verifyPassword: any = input.GetPassword()
+
+
+            if (verifyEmail.indexOf("@") === -1) {
+                throw new CustomError(400, "Inválid email!");
+            }
+
+
+            const user: any = await this.userDB.userByEmail(verifyEmail)
+
+            console.log(user)
+
+            if (user !== null) {
+                throw new CustomError(409, "Email already registered")
+            }
+
+            console.log("verifiquei o email")
+
+
+            const id: string = this.idGenerator.generate()
+            const role: USER_ROLES = verifyRole === 'admin' ? USER_ROLES.ADMIN : USER_ROLES.COLLAB
+
+            const cypherPassword = await this.hashManager.hash(verifyPassword);
+
+            const newUser: any = {
+                id: id,
+                name: input.GetName(),
+                email: input.GetEmail(),
+                password: cypherPassword,
+                role: input.GetRole()
+            }
+
+            const newUserDB = User.toUserModel(newUser)
+
+            await this.userDB.signup(newUserDB)
+
+            const token: string = this.authenticator.generateToken({ id, role })
+
+            return token;
+        } catch (error) {
+            console.log(error)
         }
-
-        const verifyEmail: any = input.GetEmail
-        const verifyRole: any = input.GetRole
-        const verifyPassword: any = input.GetPassword
-
-        if (verifyEmail.indexOf("@") === -1) {
-            throw new CustomError(400, "Inválid email!");
-        }
-
-        const user: any = await this.userDB.userByEmail(verifyEmail)
-
-        if (user) {
-            throw new CustomError(409, "Email already registered")
-        }
-
-        const id: string = this.idGenerator.generate()
-        const role: USER_ROLES = verifyRole === 'admin' ? USER_ROLES.ADMIN : USER_ROLES.NORMAL
-
-        const cypherPassword = await this.hashManager.hash(verifyPassword);
-
-        const newUser: any = {
-            id: id,
-            name: input.GetName,
-            email: input.GetEmail,
-            password: cypherPassword,
-            role: input.GetRole
-        }
-
-        await this.userDB.signup(newUser)
-
-        const token: string = this.authenticator.generateToken({ id, role })
-
-        return token;
 
     }
 
@@ -80,7 +94,7 @@ export default class UserBusiness {
             console.log("iniciei o business")
             const queryResult: any = await this.userDB.userByEmail(input.email)
 
-            
+
 
             if (!queryResult) {
                 let message = "User Not Found"
@@ -97,7 +111,7 @@ export default class UserBusiness {
 
             console.log(user.password)
 
-            const passwordIsCorrect: any =  await this.hashManager.compareHash(input.password, user.password)
+            const passwordIsCorrect: any = await this.hashManager.compareHash(input.password, user.password)
 
 
             if (passwordIsCorrect === false) {

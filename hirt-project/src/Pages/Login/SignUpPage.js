@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useForm from "../../Hooks/useForm";
-import { goToHomePage } from "../../Routes/RouteFunctions"
+import { goToAdminPage, goToCollabPage, goToHomePage } from "../../Routes/RouteFunctions"
 import { Button } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import { useState } from "react";
@@ -18,16 +18,18 @@ export const SignUpPage = () => {
 
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
+    const { type } = useParams()
 
     const [form, handleInputChange, clear] = useForm({
-        nome: "", email: "", senha: ""
+        name: "", email: "", password: "", role: type
     });
 
 
     const sendForm = event => {
         event.preventDefault();
+        console.log(form)
         axios
-            .post(`${BASE_URL}/signup`, form,
+            .post(`${BASE_URL}/user/signup`, form,
                 {
                     headers: {
                         contentType: "application/json"
@@ -37,11 +39,16 @@ export const SignUpPage = () => {
             .then(() => {
                 setLoading(false)
                 clear()
+                if (type === "admin") {
+                    goToAdminPage(navigate)
+                } else {
+                    goToCollabPage(navigate)
+                }
             })
             .catch((error) => {
                 setLoading(false)
                 setErro(error.message)
-                alert("Opa, deu erro! Tente novamente.")
+                alert("Opa, deu erro! Tente novamente.", error.message)
             });
     };
     return (
@@ -55,9 +62,9 @@ export const SignUpPage = () => {
                     id="outlined-required"
                     label="Nome"
                     type={'text'}
-                    name={"nome"}
+                    name={"name"}
                     onChange={handleInputChange}
-                    value={form.nome}
+                    value={form.name}
                 />
 
                 <TextField fullWidth required
@@ -72,9 +79,9 @@ export const SignUpPage = () => {
                 <TextField fullWidth required
                     id="outlined-required"
                     label="senha"
-                    name={"senha"}
+                    name={"password"}
                     onChange={handleInputChange}
-                    value={form.senha}
+                    value={form.password}
                 />
 
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>
