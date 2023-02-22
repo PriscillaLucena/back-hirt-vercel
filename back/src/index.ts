@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 import { UserRouter } from "./Routes/UserRouter"
 import { ConstructionsRouter } from "./Routes/ConstructionsRouter"
 import { AddressInfo } from "net";
+import { apartmentsRouter } from "./Routes/ApartmentsRouter"
 
 
 /**************************** CONFIG ******************************/
@@ -19,6 +20,7 @@ app.use(cors())
 
 app.use("/user", UserRouter);
 app.use("/construction", ConstructionsRouter)
+app.use("/apartments", apartmentsRouter)
 
 const server = app.listen(3003, () => {
     if (server) {
