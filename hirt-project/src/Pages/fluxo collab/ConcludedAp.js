@@ -1,9 +1,8 @@
 import { Button, IconButton } from "@mui/material";
 import axios from "axios";
-import { useContext, useState } from "react"
+import { useState, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
-import { GlobalContext } from "../../Global/GlobalContext";
 import { goToCollabPage } from "../../Routes/RouteFunctions";
 import SendIcon from '@mui/icons-material/Send';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -15,65 +14,42 @@ import hirtLogo from "../../images/hirt-imagem-SF.png"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { useProtectedPage } from "../../Hooks/useProtetedPage";
 import { ContainerCard, ContainerGeral, ContainerUpload } from "../../Styled/StyledCollab/StyledConcludedAp";
-
-const fileToImageUri = (file) => new Promise((resolve, reject) => {
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        resolve(event.target.result)
-    };
-    reader.readAsDataURL(file);
-});
 
 
 export const ConcludedAp = () => {
-
+    useProtectedPage();
+    const filesElement = useRef(null);
     const { obra_id } = useParams();
-
     const navigate = useNavigate();
-
-    const { states, setters } = useContext(GlobalContext);
-    const { image, conclusion, level } = states;
-    const { setImage, setConclusion, setLevel } = setters;
-
+    const [level, setLevel] = useState('');
+    const [conclusion, setConclusion] = useState('');
+    const [image, setImage] = useState('');
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
     const [ape, setApe] = useState('');
-
     const token = localStorage.getItem("token");
 
-    const onChangeImageUri = (file) => {
-
-        if (!file) {
-            setImage('');
-            return;
-        }
-
-        fileToImageUri(file)
-            .then(image => {
-                setImage(image)
-            })
-
-    };
-
-    console.log('id', obra_id)
-    const uploadImage = () => {
+      const uploadImage = () => {
         setLoading(true)
+
+        const dataForm = new FormData();
+        for (const file of filesElement.current.files) {
+          dataForm.append('file', file);
 
         const body =
         {
             numero_ap: ape,
             andar: level,
             limpeza_completa: conclusion,
-            foto: image,
+            foto: dataForm,
             obra_id: `${obra_id}`
         }
 
         axios.post(`${BASE_URL}/apartamentos/${obra_id}`, body, {
             headers: {
-                'access-control-allow-origin': `${BASE_URL}`,
-                auth: token,
+                authorization: token,
                 contentType: "application/json"
             }
         }).then(() => {
@@ -119,7 +95,7 @@ export const ConcludedAp = () => {
                     </Select>
                 </FormControl>
                 <IconButton color="primary" aria-label="upload picture" component="label">
-                    <input hidden type="file" accept="image/*" capture="camera" onChange={(e) => onChangeImageUri(e.target.files[0] || null)} />
+                    <input hidden type="file" multiple ref={filesElement} />
                     <PhotoCamera />
                 </IconButton>
             </ContainerUpload>
@@ -140,8 +116,10 @@ export const ConcludedAp = () => {
         </ContainerGeral>
     )
 };
+};
 
-    // ####videoStreaming
+
+ // ####videoStreaming
 
     // let video = document.querySelector('video')
 
@@ -164,3 +142,40 @@ export const ConcludedAp = () => {
     //     link.href = canvas.toDataURL();
     //     link.textContent = 'clique para baixar a imagem';
     // })
+
+    // const onChangeImageUri = (file) => {
+
+    //     if (!file) {
+    //         setImage('');
+    //         return;
+    //     }
+
+    //     fileToImageUri(file)
+    //         .then(image => {
+    //             setImage(image)
+    //         })
+
+    // };
+
+    // console.log('id', obra_id)
+
+    // const sendFile = async () => {
+    //     const dataForm = new FormData();
+    //     for (const file of filesElement.current.files) {
+    //       dataForm.append('file', file);
+    //     }
+    //     const res = await fetch(`http://localhost:8080/upload`, {
+    //       method: 'POST',
+    //       body: dataForm,
+    //     });
+    //     const data = await res.json();
+    //     console.log(data);
+    
+          // const fileToImageUri = (file) => new Promise((resolve, reject) => {
+
+//     const reader = new FileReader();
+//     reader.onload = (event) => {
+//         resolve(event.target.result)
+//     };
+//     reader.readAsDataURL(file);
+// });

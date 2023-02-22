@@ -2,16 +2,16 @@ export const goToHomePage = (navigate) => {
     navigate(`/`)
 };
 
-export const goToAdminPage = (navigate) => {
-    navigate(`/admin`)
+export const goToAdminPage = (navigate, type) => {
+    navigate(`/user/${type}`)
 };
 
-export const goToCollabPage = (navigate) => {
-    navigate(`/collaborator`)
+export const goToCollabPage = (navigate, type) => {
+    navigate(`/user/${type}`)
 };
 
-export const goToClientPage = (navigate) => {
-    navigate(`/client`)
+export const goToClientPage = (navigate, type) => {
+    navigate(`/user/${type}`)
 };
 
 export const goToLoginPage = (navigate, type) => {
@@ -26,16 +26,9 @@ export const goToNewBuild = (navigate) => {
     navigate(`/new_build`)
 };
 
-export const goToInfoAdmPage = (navigate, id) => {
-    navigate(`/info_ap/adm/${id}`)
-};
-
-export const goToInfoApPage = (navigate, id) => {
-    navigate(`/info_ap/collab/${id}`)
-};
-
-export const goToInfoclientPage = (navigate, id) => {
-    navigate(`/info_ap/client/${id}`)
+export const goToInfoPage = (navigate, type, id) => {
+    navigate(`/info_ap/${type}/${id}/
+    `)
 };
 
 export const goToDeletePage = (navigate, id) => {
@@ -45,8 +38,6 @@ export const goToDeletePage = (navigate, id) => {
 export const goToDeleteApPage = (navigate, id) => {
     navigate(`/apartamento/delete/${id}`)
 };
-
-
 
 export const goToSignUpPage = (navigate, type) => {
     navigate(`/sign_up/${type}`)

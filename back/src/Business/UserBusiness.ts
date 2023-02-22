@@ -33,10 +33,10 @@ export default class UserBusiness {
                 throw new CustomError(400, message)
             }
 
-
             const verifyEmail: any = input.GetEmail()
             const verifyRole: any = input.GetRole()
             const verifyPassword: any = input.GetPassword()
+
 
 
             if (verifyEmail.indexOf("@") === -1) {

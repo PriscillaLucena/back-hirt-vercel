@@ -19,9 +19,9 @@ export const Login = (body, navigate) => {
             if (userData === false) {
                 goToLoginPage(navigate)
             } else if (userData.sendKey.role === 'ADMIN') {
-                goToAdminPage(navigate)
+                goToAdminPage(navigate, userData.sendKey.role)
             } else if (response.data.sendKey.role === 'COLLAB') {
-                goToCollabPage(navigate)
+                goToCollabPage(navigate, userData.sendKey.role)
             }
 
         }).catch((error) => {

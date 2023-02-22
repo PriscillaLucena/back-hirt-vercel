@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../Constants/url";
 import { useRequestData } from "../../Hooks/UseRequestData";
-import { goToDeletePage, goToEditPage, goToInfoAdmPage, goToNewBuild } from "../../Routes/RouteFunctions";
+import { goToDeletePage, goToEditPage, goToInfoAdmPage, goToInfoPage, goToNewBuild } from "../../Routes/RouteFunctions";
 import { Button } from "@mui/material";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import '@fontsource/roboto/300.css';
@@ -11,19 +11,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Header } from "../../Constants/Header";
 import { ButtonsInCard, CardObras, ContainerGeral, ContainerGrid, ContainerText } from "../../Styled/StyledAdm/StyledAdm";
-
+import {useProtectedPage} from "../../Hooks/useProtetedPage";
 
 const AdminPage = () => {
-    
+
+    useProtectedPage();
+    const navigate = useNavigate();
+    const { type } = useParams();
     const [obras, loading, erro] = useRequestData(`${BASE_URL}/construction/all`);
     const obs = obras ? obras : "carregando";
     const obra = obs.allConstructions;
-
-    // console.log("obra", obra)
-    const navigate = useNavigate();
-
-    const lista = obra && obra.map((u) => u.id)
-    // console.log("id", lista)
 
     const listaObras = obra && obra.map((obra) => {
         return <CardObras key={obra.id}>
@@ -33,11 +30,12 @@ const AdminPage = () => {
             </ContainerText>
             <ButtonsInCard>
                 <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, obra.id)} />
-                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoAdmPage(navigate, obra.id)} />
-                <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToEditPage(navigate, obra.id)} />
+                <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoPage(navigate, type, obra.id)} />
+                {/* <EditIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToEditPage(navigate, obra.id)} /> */}
             </ButtonsInCard>
         </CardObras>
     });
+
 
     return (
         <ContainerGeral>

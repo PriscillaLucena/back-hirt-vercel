@@ -33,6 +33,7 @@ export const CardObras = styled.div`
         width: 70%;
         padding: 1rem;
         column-gap: 2rem;
+        row-gap: 0.7rem;
         margin: 0;
     }
 
@@ -53,12 +54,16 @@ export const CardObras = styled.div`
 `
 
 export const CardApsgeral = styled.div`
+    display: flex;
+    flex-direction: column;
     width: 80%;
     row-gap: 1rem;
+    column-gap: 1rem;
     align-items: center;
     border: 0.1rem solid #A0a1A4;
     border-top: hidden;
     border-right: hidden;
+    border-left: hidden;
     padding: 2rem;
     background: #F5FFFA;
 `
@@ -66,8 +71,6 @@ export const CardApsgeral = styled.div`
 export const CardAps = styled.div`
     width: 30%;
     row-gap: 1rem;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);   
     align-items: center;
   
 
@@ -86,10 +89,8 @@ export const CardAps = styled.div`
 
 
     @media ${device.tablet} {
-        width: 85%;
+        width: 100%;
         padding: 2rem;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);  
         column-gap: 2rem; 
     } 
 `

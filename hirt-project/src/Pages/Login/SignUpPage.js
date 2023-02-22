@@ -14,16 +14,19 @@ import { ContainerCard, ContainerGeral } from "../../Styled/StyledLogin/StyledSi
 
 
 export const SignUpPage = () => {
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
+    const [form, handleInputChange, clear] = useForm({
+        nome: "", email: "", password: "", role: ""   });
+      
     const { type } = useParams()
 
-    const [form, handleInputChange, clear] = useForm({
-        name: "", email: "", password: "", role: type
-    });
+ 
 
+
+    console.log('form', form);
 
     const sendForm = event => {
         event.preventDefault();
@@ -51,6 +54,7 @@ export const SignUpPage = () => {
                 alert("Opa, deu erro! Tente novamente.", error.message)
             });
     };
+
     return (
         <ContainerGeral>
             <Header />
@@ -70,6 +74,7 @@ export const SignUpPage = () => {
                 <TextField fullWidth required
                     id="outlined-required"
                     label="e-mail"
+                    type={"e-mail"}
                     name={"email"}
                     onChange={handleInputChange}
                     value={form.email}
@@ -78,10 +83,22 @@ export const SignUpPage = () => {
 
                 <TextField fullWidth required
                     id="outlined-required"
-                    label="senha"
+
+                    label="password"
                     name={"password"}
+                    type={"password"}
                     onChange={handleInputChange}
                     value={form.password}
+                />
+
+                <TextField fullWidth required
+                    id="outlined-required"
+                    label="role"
+                    name={"role"}
+                    type={"text"}
+                    onChange={handleInputChange}
+                    value={form.role}
+
                 />
 
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>
