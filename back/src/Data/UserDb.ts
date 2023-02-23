@@ -2,7 +2,7 @@
 import UserRepository from "../Business/UserRespository";
 import { User } from "../model/user";
 
-import BaseDatabase, {  } from "./BaseDataBase";
+import BaseDatabase from "./BaseDatabase";
 
 export default class UserDB extends BaseDatabase implements UserRepository {
 
@@ -23,13 +23,12 @@ export default class UserDB extends BaseDatabase implements UserRepository {
 
     }
 
-    userByEmail = async (email: string): Promise<User | null> => {
+    userByEmailSignUp = async (email: string): Promise<User | null> => {
         try {
             const result: any = await BaseDatabase.connection('Login_Hirt_Admin')
                 .select("*")
                 .where({ email });
 
-            
             if(result){
                 return null
             }    
@@ -41,6 +40,36 @@ export default class UserDB extends BaseDatabase implements UserRepository {
                 password: result[0].senha,
                 role: result[0].tipo_acesso,
             }    
+
+            console.log(input)
+
+
+            const userResult = User.toUserModel(input)    
+
+            return  userResult
+
+        } catch (error: any) {
+            throw new Error(error.slqMessage)
+        }
+
+    }
+
+    userByEmailLogin = async (email: string): Promise<User | null> => {
+        try {
+            const result: any = await BaseDatabase.connection('Login_Hirt_Admin')
+                .select("*")
+                .where({ email });   
+
+            const input = {
+                id: result[0].id,
+                name: result[0].nome,
+                email: result[0].email,
+                password: result[0].senha,
+                role: result[0].tipo_acesso,
+            }    
+
+            console.log(input)
+
 
             const userResult = User.toUserModel(input)    
 

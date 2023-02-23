@@ -5,7 +5,7 @@ import { goToAdminPage, goToClientPage, goToCollabPage, goToLoginPage } from "..
 
 export const Login = (body, navigate) => {
     let userData = {}
-    // console.log(body)
+    console.log(body)
     axios
         .post(`${BASE_URL}/user/login`, body
 
@@ -15,13 +15,15 @@ export const Login = (body, navigate) => {
             userData = response.data
             localStorage.setItem('token', userData.sendKey.token)
 
+            console.log(userData)
+
 
             if (userData === false) {
                 goToLoginPage(navigate)
-            } else if (userData.sendKey.role === 'ADMIN') {
-                goToAdminPage(navigate, userData.sendKey.role)
-            } else if (response.data.sendKey.role === 'COLLAB') {
-                goToCollabPage(navigate, userData.sendKey.role)
+            } else if (userData.sendKey.role === 'admin') {
+                goToAdminPage(navigate, userData.sendKey.role, userData.sendKey.id)
+            } else if (response.data.sendKey.role === 'collab') {
+                goToCollabPage(navigate, userData.sendKey.role, userData.sendKey.id)
             }
 
         }).catch((error) => {

@@ -1,4 +1,4 @@
-import BaseDatabase from "./BaseDataBase"
+import BaseDatabase from "./BaseDatabase"
 import ConstructionsRepository from "../Business/ConstructionsRepository"
 import Construction, { apartamento, ConstructionNew } from "../model/constructions"
 import IdGenerator from "../services/GenerateId"

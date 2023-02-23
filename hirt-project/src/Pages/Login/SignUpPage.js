@@ -18,13 +18,9 @@ export const SignUpPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('')
-    const [form, handleInputChange, clear] = useForm({
-        nome: "", email: "", password: "", role: ""   });
-      
     const { type } = useParams()
-
- 
-
+    const [form, handleInputChange, clear] = useForm({
+        nome: "", email: "", password: "", role: type   });
 
     console.log('form', form);
 
@@ -43,9 +39,9 @@ export const SignUpPage = () => {
                 setLoading(false)
                 clear()
                 if (type === "admin") {
-                    goToAdminPage(navigate)
+                    goToAdminPage(navigate, type)
                 } else {
-                    goToCollabPage(navigate)
+                    goToCollabPage(navigate, type)
                 }
             })
             .catch((error) => {
@@ -91,15 +87,7 @@ export const SignUpPage = () => {
                     value={form.password}
                 />
 
-                <TextField fullWidth required
-                    id="outlined-required"
-                    label="role"
-                    name={"role"}
-                    type={"text"}
-                    onChange={handleInputChange}
-                    value={form.role}
-
-                />
+        
 
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">Criar</Button>
 

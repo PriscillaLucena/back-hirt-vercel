@@ -1,7 +1,8 @@
-import { user } from "../model/user"
+import { User } from "../model/user"
 
 
 export default interface UserRepository{
-    signup(user: user): Promise<user>
-    userByEmail(email: string): Promise<any>
+    signup(user: User): Promise<User>
+    userByEmailSignUp(email: string): Promise<any>
+    userByEmailLogin(email: string): Promise<any>
 }

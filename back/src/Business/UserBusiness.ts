@@ -44,16 +44,11 @@ export default class UserBusiness {
             }
 
 
-            const user: any = await this.userDB.userByEmail(verifyEmail)
-
-            console.log(user)
+            const user: any = await this.userDB.userByEmailSignUp(verifyEmail)
 
             if (user !== null) {
                 throw new CustomError(409, "Email already registered")
             }
-
-            console.log("verifiquei o email")
-
 
             const id: string = this.idGenerator.generate()
             const role: USER_ROLES = verifyRole === 'admin' ? USER_ROLES.ADMIN : USER_ROLES.COLLAB
@@ -85,16 +80,12 @@ export default class UserBusiness {
 
         try {
             if (!input.email || !input.password) {
-
-
                 const message = '"email" and "password" must be provided'
                 throw new CustomError(400, message)
             }
 
             console.log("iniciei o business")
-            const queryResult: any = await this.userDB.userByEmail(input.email)
-
-
+            const queryResult: any = await this.userDB.userByEmailLogin(input.email)
 
             if (!queryResult) {
                 let message = "User Not Found"
@@ -125,7 +116,8 @@ export default class UserBusiness {
 
             const returnKey = {
                 token: token,
-                role: user.role
+                role: user.role,
+                id: queryResult.GetId()
             }
 
             return returnKey

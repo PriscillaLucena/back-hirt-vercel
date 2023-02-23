@@ -17,8 +17,8 @@ export function useRequestData(url) {
                 authorization: token
             }
         }).then((response) => {
-            // console.log(response)
-            setData(response.data);
+            console.log(response.data.apartments)
+            setData(response.data.apartments);
             setLoading(false);
         }).catch((error) => {
             setErro(error.response);

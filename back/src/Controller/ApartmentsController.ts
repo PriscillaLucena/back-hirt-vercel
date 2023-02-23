@@ -14,8 +14,36 @@ export default class ApartmentsController{
         }
 
         try {
+
+            console.log("iniciei o controller")
             const apartments = await this.apartmentBusiness.GetApartmentsById(input)
+
+            res.status(200).send({apartments})
             
+        } catch (error) {
+            
+        }
+    }
+
+    NewApartment = async(req: Request, res: Response)=>{
+        const input: inputApDTO = {
+            token: req.headers.authorization,
+            id: req.params.id
+        }
+
+        const body = {
+            numero_ap: req.body.numero_ap,
+            andar: req.body.andar,
+            limpeza_completa: req.body.limpeza_completa,
+            data: req.body.data,
+            foto: req.body.foto,
+            obra_id: req.body.obra_id,
+            user_id: input.id
+        }
+
+        try {
+            const result = await this.apartmentBusiness.NewApartment(body, input)
+
         } catch (error) {
             
         }
