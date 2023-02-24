@@ -21,7 +21,7 @@ export default function Router() {
                 <Route exact path={"/"} element={<HomePage />} />
                 <Route path={"/login/:type"} element={<LoginPage />} />
                 <Route path={"/user/:type"} element={<AdminPage />} />
-                <Route path={"/user/:type"} element={<CollabPage />} />
+                <Route path={"/user/:type/:id"} element={<CollabPage />} />
                 <Route path={"/client"} element={<ClientPage />} />
                 <Route path={"/apartment/:obra_id"} element={<ConcludedAp />} />
                 <Route path={"/new_build"} element={<NewProject />} />

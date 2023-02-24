@@ -14,7 +14,8 @@ export default function CollabsPage() {
     useProtectedPage();
     const navigate = useNavigate();
     const {type} = useParams();
-    const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/obra`);
+    const {id} = useParams();
+    const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/apartments/all/${id}`);
 
     const listaObras = obra_info && obra_info.map((obra) => {
         return <CardObras key={obra.id}>
@@ -29,13 +30,15 @@ export default function CollabsPage() {
        
         
     });
-
+        // console.log(obra_info)
     return (
         <ContainerGeral>
             <Header />
             <ContainerGrid>
-                {!loading && erro && <p>Deu ruim!</p>}
-                {!loading && obra_info && obra_info.length > 0 && listaObras}
+                {/* {!loading && erro && <p>Deu ruim!</p>}
+                {!loading && obra_info && obra_info.length > 0 && listaObras} */}
+
+                {obra_info? "Você não possui apartamentos acadastrados" : listaObras}
             </ContainerGrid>
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}

@@ -78,7 +78,7 @@ export class User extends UserData {
       return this.password
    }
    public GetEmail() {
-      return this.password
+      return this.email
    }
 
 

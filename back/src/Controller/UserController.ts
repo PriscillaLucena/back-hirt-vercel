@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import UserBusiness, { loginInputDTO } from "../Business/UserBusiness"
-import UserDB from "../Data/UserDB"
+import UserDB from "../Data/UserDb"
 import { UserData, UserDTO } from "../model/user"
 
 export default class UserController {
@@ -41,8 +41,6 @@ export default class UserController {
             }
 
             const sendKey = await this.userBusiness.Login(input)
-
-
 
             res.status(200).send({ message: message, sendKey: sendKey })
 

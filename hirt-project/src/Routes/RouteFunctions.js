@@ -6,8 +6,8 @@ export const goToAdminPage = (navigate, type) => {
     navigate(`/user/${type}`)
 };
 
-export const goToCollabPage = (navigate, type) => {
-    navigate(`/user/${type}`)
+export const goToCollabPage = (navigate, type, id) => {
+    navigate(`/user/${type}/${id}`)
 };
 
 export const goToClientPage = (navigate, type) => {
