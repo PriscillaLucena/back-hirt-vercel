@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-import { useRequestData } from "../Hooks/UseRequestData";
+import { useRequestData, useRequestDataCollab } from "../Hooks/UseRequestData";
 import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -21,12 +21,16 @@ export const InfoPage = () => {
 
     useProtectedPage();
     const navigate = useNavigate();
-    const { id, type } = useParams();
+    const { id, type, obra_id } = useParams();
     const [conclusion, setConclusion] = useState('');
-    const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${id}`);
+    const url = type === "collab"? `http://localhost:3003/apartments/all/${id}/${obra_id}` : "http://localhost:3003/constructions/all"
+    const [infos, loading, erro] = useRequestDataCollab(url);
     const inf = !!infos ? infos : "carregando"
-    const info = inf.apartments
+    const info = inf
     const [toggle, setToggle] = useState(false);
+
+    console.log(infos)
+
 
     const [form, handleInputChange] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: ""
@@ -44,18 +48,16 @@ export const InfoPage = () => {
         if (limpeza_completa === 1) {
             apLimpGrossa2 = [...apLimpGrossa, limpeza_completa]
             apLimpGrossa = apLimpGrossa2
-            return "Fina"
+            
         } else if (limpeza_completa === 2) {
             apLimpFina2 = [...apLimpFina, limpeza_completa]
             apLimpFina = apLimpFina2
-            return "Grossa"
+          
         } else if (limpeza_completa === 3) {
             apConcluded2 = [...apConcluded, limpeza_completa]
             apConcluded = apConcluded2
-            return "Entrega"
-        } else {
-            return "Pendente"
-        }
+           
+        } 
     };
 
     const editInput = (nome) => {
@@ -73,22 +75,22 @@ export const InfoPage = () => {
     };
 
     const listaObra = () => {
-        if (info.obra_id === `${id}`) {
+        if (infos.obra_id === `${id}`) {
             return <CardCentraliza>
                 <CardObras>
                     {/* <form onClick={sendForm}> */}
                     <h4>{info.nome_obra} <span>
-                        {type === 'ADMIN' ?
+                        {type === 'admin' ?
                             <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaTrue()} /> : ''}
                         {toggle ? editInput("nome-obra") : ""}</span>
                     </h4>
                     <p><strong>Total de andares:</strong> {info.qty_andares}<span>
-                        {type === 'ADMIN' ?
+                        {type === 'admin' ?
                             <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaTrue()} /> : ''}
                         {toggle ? editInput("qty_andares") : ""}</span>
                     </p>
                     <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar} <span>
-                        {type === 'ADMIN' ?
+                        {type === 'admin' ?
                             <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaTrue()} /> : ''}
                         {toggle ? editInput("qty_ap-andar") : ""}</span>
                     </p>
@@ -119,11 +121,11 @@ export const InfoPage = () => {
     };
 
 
-    const ListInfos = info && info.apartamentos.map((info) => {
+    const ListInfos = infos && infos.map((info) => {
         return <CardApsgeral key={info.id}>
             <h4>Apartamento: {info.numero_ap}</h4>
             <p>Andar: {info.andar}</p>
-            <p>Limpeza: {type === 'ADMIN' || 'COLLAB' ? renderEdit(info.id) : ""}</p>
+            <p>Limpeza: {type === 'admin' || 'collab' ? renderEdit(info.id) : ""}</p>
             {type === 'CLIENT' ? <p>Limpeza: {info.limpeza_completa} </p> : ""}
             {funcLimpeza(info.limpeza_completa)}
             <p>Data da limpeza: {info.data}</p>
@@ -149,7 +151,7 @@ export const InfoPage = () => {
                 <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
                 <Linha></Linha>
             </CardCentraliza>
-            {info.apartamentos.length === 0 ? <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>
+            {infos.length === 0 ? <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>
                 : <CardAps>{ListInfos}</CardAps>}
             <CardCentraliza>
                 <Linha></Linha>
@@ -172,7 +174,7 @@ export const InfoPage = () => {
         <ContainerGeral>
             <Header />
             {type === 'ADMIN' ? <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate, type)}>Voltar</Button> :
-                type === 'COLLAB' ? <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate, type)}>Voltar</Button> :
+                type === 'collab' ? <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate, type)}>Voltar</Button> :
                     ""}
 
             {!loading && erro && <p>Deu ruim!</p>}

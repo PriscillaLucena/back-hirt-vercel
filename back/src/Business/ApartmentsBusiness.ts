@@ -18,7 +18,7 @@ export default class ApartmentsBusiness {
         private idGenerator: IdGenerator
     ){}
 
-    GetApartmentsById=async(input: inputApDTO): Promise<any>=>{
+    GetApartmentsById=async(input: inputApDTO, obra_id: string): Promise<any>=>{
         try {
             if (!input.token) {
                 throw new CustomError(400, "'token' must be provided");
@@ -32,7 +32,31 @@ export default class ApartmentsBusiness {
                 throw new CustomError(400, "'token' must be provided");
             }
 
-            const queryResult: any = await this.apartmentsDB.GetApartmentsById(input)
+            const queryResult: any = await this.apartmentsDB.GetApartmentsById(input, obra_id)
+
+            console.log(queryResult)
+
+            return queryResult 
+        } catch (error) {
+            
+        }
+    }
+
+    GetConstrucById=async(input: inputApDTO): Promise<any>=>{
+        try {
+            if (!input.token) {
+                throw new CustomError(400, "'token' must be provided");
+            }
+
+            const tokenData: authenticationData = this.authenticator.getTokenData(input.token)
+
+            console.log("token", tokenData)
+
+            if (tokenData.role !== "collab") {
+                throw new CustomError(400, "'token' must be provided");
+            }
+
+            const queryResult: any = await this.apartmentsDB.GetConstrucById(input)
 
             console.log(queryResult)
 
