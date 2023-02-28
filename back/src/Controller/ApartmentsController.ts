@@ -13,10 +13,32 @@ export default class ApartmentsController{
             id: req.params.id
         }
 
+        const obra_id = req.params.obra_id
+
+        console.log("obra id", obra_id)
+
         try {
 
             console.log("iniciei o controller")
-            const apartments = await this.apartmentBusiness.GetApartmentsById(input)
+            const apartments = await this.apartmentBusiness.GetApartmentsById(input, obra_id)
+
+            res.status(200).send({apartments})
+            
+        } catch (error) {
+            
+        }
+    }
+
+    GetConstrucById = async(req: Request, res: Response)=>{
+        const input: inputApDTO = {
+            token: req.headers.authorization,
+            id: req.params.id
+        }
+
+        try {
+
+            console.log("iniciei o controller")
+            const apartments = await this.apartmentBusiness.GetConstrucById(input)
 
             res.status(200).send({apartments})
             

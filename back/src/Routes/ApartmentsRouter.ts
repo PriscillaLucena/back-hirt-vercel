@@ -13,6 +13,6 @@ const apartmentsController = new ApartmentsController(new ApartmentsBusiness(
     new IdGenerator
 ))
 
-apartmentsRouter.get("/all/:id", apartmentsController.GetApartmensById)
-// apartmentsRouter.get("/construc/:id", apartmentsController.GetApartmensById)
+apartmentsRouter.get("/all/:id/:obra_id", apartmentsController.GetApartmensById)
+apartmentsRouter.get("/construc/:id", apartmentsController.GetConstrucById)
 apartmentsRouter.post("/newAp", apartmentsController.NewApartment)

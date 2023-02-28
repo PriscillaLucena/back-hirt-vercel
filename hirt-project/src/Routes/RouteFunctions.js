@@ -26,8 +26,8 @@ export const goToNewBuild = (navigate) => {
     navigate(`/new_build`)
 };
 
-export const goToInfoPage = (navigate, type, id) => {
-    navigate(`/info_ap/${type}/${id}/
+export const goToInfoPage = (navigate, type, id, obra_id) => {
+    navigate(`/info_ap/${type}/${id}/${obra_id}
     `)
 };
 

@@ -25,7 +25,7 @@ export default function Router() {
                 <Route path={"/client"} element={<ClientPage />} />
                 <Route path={"/apartment/:obra_id"} element={<ConcludedAp />} />
                 <Route path={"/new_build"} element={<NewProject />} />
-                <Route path={"/info_ap/:type/:id"} element={<InfoPage />} />
+                <Route path={"/info_ap/:type/:id/:obra_id"} element={<InfoPage />} />
                 <Route path={"/obra/delete/:id"} element={<DeleteBuildPage />} />
                 <Route path={"/apartamento/delete/:id"} element={<DeleteApPage />} />
                 <Route path={"/edit/:id"} element={<EditBuild />} />
