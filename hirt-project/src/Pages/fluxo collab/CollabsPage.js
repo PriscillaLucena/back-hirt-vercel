@@ -16,21 +16,8 @@ export default function CollabsPage() {
     const { type, id } = useParams();
     const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/apartments/construc/${id}`);
     const obra = obra_info ? obra_info : 'carregando'
-
-    console.log(obra)
-
-    const cleanType = (n) => {
-        if (n === 1) {
-            return "limpeza grossa"
-        } else if (n === 2) {
-            return "limpeza fina"
-        } else if (n === 3) {
-            return "Entrega"
-        }
-    }
-
-        
-    // console.log(reduced)
+    console.log(obra_info)
+    
     const listaObras = obra_info && obra_info.map((obra) => {
         return <CardObras >
             <ContainerText>

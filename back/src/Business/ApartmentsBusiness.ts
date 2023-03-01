@@ -36,7 +36,7 @@ export default class ApartmentsBusiness {
 
             console.log(queryResult)
 
-            return queryResult 
+            return queryResult
         } catch (error) {
             
         }

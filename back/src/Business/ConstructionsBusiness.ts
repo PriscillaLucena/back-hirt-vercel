@@ -84,6 +84,10 @@ export default class ConstructionsBusiness {
                 throw new CustomError(401, "Unauthorized")
             }
 
+            if (tokenData.role !== "admin") {
+                throw new CustomError(400, "You need to be an ADMIN to access this page");
+            }
+
             const id = this.idGenerator.generate()
 
             const timeElapsed = Date.now();
@@ -128,6 +132,10 @@ export default class ConstructionsBusiness {
                 throw new CustomError(401, "Unauthorized")
             }
 
+            if (tokenData.role !== "admin") {
+                throw new CustomError(400, "You need to be an ADMIN to access this page");
+            }
+
             const id = this.idGenerator.generate()
             const qty_total_ap = body.qty_andares * body.qty_ap_andar
 
@@ -161,6 +169,30 @@ export default class ConstructionsBusiness {
             if(!id){
                 throw new CustomError(400, "'id' must be provided");
             }
+
+            const tokenData: authenticationData = this.authenticator.getTokenData(input.token)
+
+            if (!tokenData) {
+                throw new CustomError(401, "Unauthorized")
+            }
+
+            if (tokenData.role !== "admin") {
+                throw new CustomError(400, "You need to be an ADMIN to access this page");
+            }
+
+            if(!!body.nome_obra){
+                const field = "nome_obra"
+                const result = await this.constructionsDB.EditConstructions(field, body.nome_obra, id)
+            }
+
+            if(!!body.nome_obra){
+                const field = "nome_obra"
+                const result = await this.constructionsDB.EditConstructions(field, body.nome_obra, id)               
+            }
+
+            const message = "obra editada com sucesso"
+
+            return message
 
             
         } catch (error) {

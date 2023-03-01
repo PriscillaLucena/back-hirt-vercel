@@ -19,6 +19,6 @@ const constructionController = new ConstructionController(
 
 ConstructionsRouter.post("/new", constructionController.InsertNewConstructions)     
 ConstructionsRouter.post("/:obra_id", constructionController.InsertApartments)       
-ConstructionsRouter.put("/editConstruction/:id", constructionController.InsertApartments)       
+ConstructionsRouter.put("/editConstruction/:id", constructionController.EditConstruction)       
 ConstructionsRouter.get("/info/:id", constructionController.GetApartments)
 ConstructionsRouter.get("/all", constructionController.GetAllConstructions)    

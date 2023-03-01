@@ -16,9 +16,13 @@ DELETE http://localhost:3003/obra/{{id}}
 
 ###
 
-# @id = f78bdc48-029b-492b-afa1-1d41b64566f1
-get  http://localhost:3003/construction/all
+@id = '726e40b3-bfa6-4dd9-958d-cc8929d04931'
+get  http://localhost:3003/construction/info/{{id}}
 Content-Type: application/json
+
+{
+    "token" : "726e40b3-bfa6-4dd9-958d-cc8929d04931"
+}
 
 ###
 @id = '45231oaifdhaof'
@@ -42,3 +46,15 @@ Content-Type: application/json
     "role": "collab"  
 }
 
+###
+@id = 726e40b3-bfa6-4dd9-958d-cc8929d04931
+put http://localhost:3003/construction/editConstruction/{{id}}
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlOTcyZTUwLWU0NTAtNGU0OC05NDg3LWRjZGJlYTU5MDZjNCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzcxMTcwNSwiZXhwIjoxNjc3NzEzNTA1fQ.kG8mNevNIS2boi9yf9HUAB1WWRgixUfnM8rvP4jdl8c
+
+{
+    "nome_obra": "Ed Priscilla",
+    "qty_andares": "",
+    "qty_ap_andar": "",
+    "responsavel": ""  
+}
