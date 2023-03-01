@@ -66,7 +66,7 @@ export default class ConstructionsDB extends BaseDatabase implements Constructio
             console.log(body)
 
             await ConstructionsDB.connection("apartamentos")
-                .insert( body )
+                .insert(body)
 
             return ("success!")
 
@@ -89,11 +89,23 @@ export default class ConstructionsDB extends BaseDatabase implements Constructio
                 })
 
             return message
-        } catch(error: any) {
+        } catch (error: any) {
             throw new CustomError(400, error.sqlMessage || error.message);
         }
 
 
+    }
+
+    EditConstructions = async (field: string, body: any, id: string) => {
+        try {
+            const message = "Obra editada com sucesso!"
+
+            await ConstructionsDB.connection.raw(`UPDATE Novas_obras SET ${field} = "${body}" WHERE id = "${id}"; `)
+
+            return message
+        } catch (error: any) {
+            throw new CustomError(400, error.sqlMessage || error.message);
+        }
     }
 
 }

@@ -41,8 +41,8 @@ export default class ConstructionController {
             const allConstructions = await this.constructionsBusiness.GetAllConstructions(input)
 
             res.status(200).send({ allConstructions })
-        } catch (error) {
-
+        } catch (error: any) {
+            res.status(400).send(error.message)
         }
     }
 
@@ -68,8 +68,8 @@ export default class ConstructionController {
             res.status(200).send({ result })
 
 
-        } catch (error) {
-
+        } catch (error: any) {
+            res.status(400).send(error.message)
         }
     }
 
@@ -89,8 +89,8 @@ export default class ConstructionController {
             const message = await this.constructionsBusiness.InsertNewConstructions(input, body)
 
             res.status(200).send({ message })
-        } catch (error) {
-
+        } catch (error: any) {
+            res.status(400).send(error.message)
         }
 
     }
@@ -101,10 +101,13 @@ export default class ConstructionController {
         }
         const body = req.body
         const id = req.params.id
+
         try {
             const message = await this.constructionsBusiness.EditConstructions(input, id, body)
-        } catch (error) {
 
+            res.status(200).send({ message })
+        } catch (error: any) {
+            res.status(400).send(error.message)
         }
     }
 

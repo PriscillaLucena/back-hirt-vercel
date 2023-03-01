@@ -6,4 +6,6 @@ export default interface ConstructionsRepository{
     GetConstructions(): Promise<any>
 
     InsertApartments(body: apartamento): Promise<string | undefined>
+
+    EditConstructions(field: string, body: any, id: string): Promise<string | undefined>
 }

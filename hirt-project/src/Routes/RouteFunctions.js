@@ -31,6 +31,11 @@ export const goToInfoPage = (navigate, type, id, obra_id) => {
     `)
 };
 
+export const goToInfoAdmPage = (navigate, type, obra_id) => {
+    navigate(`/info_ap/${type}/${obra_id}
+    `)
+};
+
 export const goToDeletePage = (navigate, id) => {
     navigate(`/obra/delete/${id}`)
 };
