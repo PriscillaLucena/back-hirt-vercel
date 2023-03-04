@@ -26,8 +26,8 @@ export const InfoAdmPage = () => {
     const [toggleAndar, setToggleAndar] = useState(false);
     const [toggleApAndar, setToggleApAndar] = useState(false);
     const [toggleResponsavel, setToggleResponsavel] = useState(false);
-    console.log('infos', infos)
-    console.log('obra_id', obra_id)
+    // console.log('info', infos.qty_andares)
+    // console.log('obra_id', obra_id)
 
     const [form, handleInputChange] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: "", responsavel: ""
@@ -57,7 +57,7 @@ export const InfoAdmPage = () => {
         }
     };
 
-    
+
 
     const editInput = (nome) => {
         return <TextField fullWidth required
@@ -85,37 +85,35 @@ export const InfoAdmPage = () => {
         setToggleResponsavel(!toggleResponsavel)
     }
 
-    const listaObra = infos && infos.map((info) => {
-        if (info.obra_id === `${obra_id}`) {
-            return <CardCentraliza>
-                <CardObras>
-                    {/* <form onClick={sendForm(obra_id)}> */}
-                    <h4>{info.nome_obra} <span>
+    const listaObra = () => {
+        return <CardCentraliza>
+            <CardObras>
+                {/* <form onClick={sendForm(obra_id)}> */}
+                <h4>{info.nome_obra} <span>
                         <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaNomeobra()} />
                         {toggleNomeObra ? editInput("nome_obra") : ""}</span>
                     </h4>
-                    <p><strong>Total de andares:</strong> {info.qty_andares}<span>
-                        <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaAndar()} />
-                        {toggleAndar ? editInput("qty_andares") : ""}</span>
-                    </p>
-                    <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar} <span>
-                        <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaApAndar()} />
-                        {toggleApAndar ? editInput("qty_ap_andar") : ""}</span>
-                    </p>
-                    <p><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</p>
-                    <p><strong>Responsavel:</strong> {info.responsavel}<span>
-                        <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaResponsavel()} />
-                        {toggleResponsavel ? editInput("responsavel") : ""}</span></p>
-                        
-                    <Button variant="contained" size="small" sx={{ height: 20 }}>salvar</Button>
-                    {/* </form> */}
-                </CardObras>
-            </CardCentraliza>
-        }
-    });
+                <p><strong>Total de andares:</strong> {info.qty_andares}<span>
+                    <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaAndar()} />
+                    {toggleAndar ? editInput("qty_andares") : ""}</span>
+                </p>
+                <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar} <span>
+                    <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaApAndar()} />
+                    {toggleApAndar ? editInput("qty_ap_andar") : ""}</span>
+                </p>
+                <p><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</p>
+                <p><strong>Responsavel:</strong> {info.responsavel}<span>
+                    <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaResponsavel()} />
+                    {toggleResponsavel ? editInput("responsavel") : ""}</span></p>
+
+                <Button variant="contained" size="small" sx={{ height: 20 }}>salvar</Button>
+                {/* </form> */}
+            </CardObras>
+        </CardCentraliza>
+    };
 
 
-    const ListInfos = infos && infos.map((info) => {
+    const ListInfos = infos && infos.apartamentos.map((info) => {
         return <CardApsgeral key={info.id}>
             <h4>Apartamento: {info.numero_ap}</h4>
             <p>Andar: {info.andar}</p>
@@ -127,14 +125,11 @@ export const InfoAdmPage = () => {
 
     const generalList = () => {
         return <div>
-            <Linha></Linha>
-            {listaObra}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
                 <Linha></Linha>
             </CardCentraliza>
-            {infos.length === 0 ? <h3>Ainda não foram adicionados apartamentos nesta obra!</h3>
-                : <CardAps>{ListInfos}</CardAps>}
+         
             <CardCentraliza>
                 <Linha></Linha>
                 <ContainerPorcentagem>
@@ -157,7 +152,11 @@ export const InfoAdmPage = () => {
             <Header />
             <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate, type)}>Voltar</Button>
 
-            {!loading && infos && generalList()}
+            <Linha></Linha>
+            {listaObra()} 
+            {generalList()}
+            {ListInfos}
+
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}

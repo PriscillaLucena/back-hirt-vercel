@@ -12,17 +12,16 @@ export default class ConstructionsDB extends BaseDatabase implements Constructio
 
             let building = await ConstructionsDB.connection.raw(`SELECT * FROM Novas_obras WHERE id = "${id}"`)
 
-
+            // console.log("building",building)
             const result = await ConstructionsDB.connection.raw(`
-            SELECT 
-            obra_id, apartamentos.id as ap_id,
+            SELECT obra_id, apartamentos.id as ap_id,
             numero_ap, andar, limpeza_completa,
-            data, foto, nome_obra, responsavel, 
+            data, foto, responsavel, 
             qty_andares, qty_ap_andar FROM apartamentos 
             JOIN Novas_obras ON apartamentos.obra_id = Novas_obras.id
             `)
 
-            console.log(result[0])
+            console.log("result ",result[0])
 
             const result2 = result[0].filter((a: any) => { return a.obra_id === id }).map((a: any) => a)
 

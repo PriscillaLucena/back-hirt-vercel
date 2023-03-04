@@ -29,7 +29,7 @@ export default class ConstructionsBusiness {
 
             const tokenData: authenticationData = this.authenticator.getTokenData(input.token)
 
-            console.log("token", tokenData)
+            // console.log("token", tokenData)
 
             if (tokenData.role !== "admin") {
                 throw new CustomError(400, "'token' must be provided");
