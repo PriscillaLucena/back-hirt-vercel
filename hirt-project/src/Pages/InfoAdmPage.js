@@ -13,6 +13,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
 import { useProtectedPage } from "../Hooks/useProtetedPage";
 import useForm from "../Hooks/useForm";
+import { EditConstruction } from "../Hooks/useEditConstruction";
+import axios from "axios";
 
 export const InfoAdmPage = () => {
 
@@ -26,13 +28,13 @@ export const InfoAdmPage = () => {
     const [toggleAndar, setToggleAndar] = useState(false);
     const [toggleApAndar, setToggleApAndar] = useState(false);
     const [toggleResponsavel, setToggleResponsavel] = useState(false);
-    // console.log('info', infos.qty_andares)
-    // console.log('obra_id', obra_id)
-
-    const [form, handleInputChange] = useForm({
+    const [loadingEdit, setLoadingEdit] = useState(false);
+    const [erroEdit, setErroEdit] = useState(false);
+    const token = localStorage.getItem("token");
+    const [form, handleInputChange, clear] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: "", responsavel: ""
     });
-
+    console.log('form', form.responsavel)
     let total = '';
     let apLimpGrossa = [];
     let apLimpFina = [];
@@ -57,17 +59,37 @@ export const InfoAdmPage = () => {
         }
     };
 
-
-
     const editInput = (nome) => {
+        console.log('nome', nome)
         return <TextField fullWidth required
             id="outlined-required"
             type={'text'}
             name={nome}
-            onChange={handleInputChange}
             value={form.nome}
+            onChange={handleInputChange}
         />
     }
+
+    const sendForm = () => {
+       setLoadingEdit(true)
+       
+    axios.put(`${BASE_URL}/construction/editConstruction/${obra_id}`, form, {
+        headers: {
+            authorization: token
+        }
+    }).then(() => {
+        setLoadingEdit(false);
+        alert("Obra Editada")
+        clear()
+    }).catch((error) => {
+        setErroEdit(error.response);
+        alert("Obra não pode ser Editada!")
+        setLoadingEdit(false);
+        clear()
+    });
+      };
+
+
 
     const setaNomeobra = () => {
         setToggleNomeObra(!toggleNomeObra)
@@ -87,27 +109,26 @@ export const InfoAdmPage = () => {
 
     const listaObra = () => {
         return <CardCentraliza>
-            <CardObras>
-                {/* <form onClick={sendForm(obra_id)}> */}
-                <h4>{info.nome_obra} <span>
-                        <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaNomeobra()} />
-                        {toggleNomeObra ? editInput("nome_obra") : ""}</span>
-                    </h4>
-                <p><strong>Total de andares:</strong> {info.qty_andares}<span>
+                <CardObras>
+                <h3>{info.nome_obra} <span>
+                    <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaNomeobra()} />
+                    {toggleNomeObra ? editInput("nome_obra") : ""}</span>
+                </h3>
+                <h4><strong>Total de andares:</strong> {info.qty_andares}<span>
                     <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaAndar()} />
                     {toggleAndar ? editInput("qty_andares") : ""}</span>
-                </p>
-                <p><strong>Apartamentos por andar:</strong> {info.qty_ap_andar} <span>
+                </h4>
+                <h4><strong>Apartamentos por andar:</strong> {info.qty_ap_andar} <span>
                     <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaApAndar()} />
                     {toggleApAndar ? editInput("qty_ap_andar") : ""}</span>
-                </p>
-                <p><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</p>
-                <p><strong>Responsavel:</strong> {info.responsavel}<span>
+                </h4>
+                <h4><strong>Total de apartamentos:</strong> {total = info.qty_ap_andar * info.qty_andares}</h4>
+                <h4><strong>Responsavel:</strong> {info.responsavel}<span>
                     <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaResponsavel()} />
-                    {toggleResponsavel ? editInput("responsavel") : ""}</span></p>
+                    {toggleResponsavel ? editInput("responsavel") : ""}</span></h4>
 
-                <Button variant="contained" size="small" sx={{ height: 20 }}>salvar</Button>
-                {/* </form> */}
+                <Button variant="contained" size="small" sx={{ height: 20 }}
+                onClick={()=>sendForm()} >salvar</Button>
             </CardObras>
         </CardCentraliza>
     };
@@ -123,15 +144,15 @@ export const InfoAdmPage = () => {
         </CardApsgeral>
     });
 
-    const generalList = () => {
-        return <div>
+    return (
+        <ContainerGeral>
+            <Header />
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate, type)}>Voltar</Button>
+
+            {listaObra()}
             <CardCentraliza>
                 <p><strong>Faltam {total - apConcluded.length} apartamentos para concluir a obra</strong></p>
-                <Linha></Linha>
-            </CardCentraliza>
-         
-            <CardCentraliza>
-                <Linha></Linha>
+                {ListInfos}
                 <ContainerPorcentagem>
                     <p><strong>Limpeza fina:</strong> {((apLimpFina.length / total) * 100).toFixed(1)}%</p>
                     <p><strong>Limpeza Grossa:</strong> {((apLimpGrossa.length / total) * 100).toFixed(1)}%</p>
@@ -144,18 +165,6 @@ export const InfoAdmPage = () => {
                 </ContainerPorcentagem>
                 <Linha></Linha>
             </CardCentraliza>
-        </div>
-    };
-
-    return (
-        <ContainerGeral>
-            <Header />
-            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToAdminPage(navigate, type)}>Voltar</Button>
-
-            <Linha></Linha>
-            {listaObra()} 
-            {generalList()}
-            {ListInfos}
 
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&

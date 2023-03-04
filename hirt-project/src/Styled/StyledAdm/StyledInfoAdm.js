@@ -43,12 +43,12 @@ export const CardObras = styled.div`
     } 
 
     @media ${device.laptop} {
-        width: 60%;
+        width: 100%;
         margin-top: 5%;
     }
 
     @media ${device.laptopL} {
-        width: 50%;
+        width: 100%;
         margin-top: 5%;
     }
 `
