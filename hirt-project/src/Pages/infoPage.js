@@ -43,7 +43,6 @@ export const InfoPage = () => {
         setToggleLimpeza(!toggleLimpeza)
     }
 
-
     const renderEdit = (info) => {
         return <div>
             <Select sx={{ minWidth: 80, height: 30 }}
@@ -67,7 +66,7 @@ export const InfoPage = () => {
             <h4>Apartamento: {info.numero_ap}</h4>
             <p>Andar: {info.andar}</p>
             <p>Limpeza: {funcLimpeza(info.limpeza_completa)}
-                <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaLimpeza(info)} />
+                <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaLimpeza(info.id)} />
                 {toggleLimpeza ? renderEdit(info) : ""}</p>
             <p>Data da limpeza: {info.data}</p>
             {/* <DeleteRoundedIcon fontSize="medium" sx={{ color: '#1D2854ff' }} onClick={() => goToDeleteApPage(navigate, info.id)} /> */}
