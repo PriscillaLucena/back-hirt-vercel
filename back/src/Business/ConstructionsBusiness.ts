@@ -185,9 +185,19 @@ export default class ConstructionsBusiness {
                 const result = await this.constructionsDB.EditConstructions(field, body.nome_obra, id)
             }
 
-            if(!!body.nome_obra){
-                const field = "nome_obra"
-                const result = await this.constructionsDB.EditConstructions(field, body.nome_obra, id)               
+            if(!!body.qty_andares){
+                const field = "qty_andares"
+                const result = await this.constructionsDB.EditConstructions(field, body.qty_andares, id)               
+            }
+
+            if(!!body.qty_ap_andar){
+                const field = "qty_ap_andar"
+                const result = await this.constructionsDB.EditConstructions(field, body.qty_ap_andar, id)               
+            }
+
+            if(!!body.responsavel){
+                const field = "responsavel"
+                const result = await this.constructionsDB.EditConstructions(field, body.responsavel, id)               
             }
 
             const message = "obra editada com sucesso"

@@ -5,10 +5,10 @@ import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
 import { goToAdminPage } from "../Routes/RouteFunctions";
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+// import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Header } from "../Constants/Header";
 import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, ContainerPorcentagem, Linha } from "../Styled/StyledAdm/StyledInfoAdm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
 import { useProtectedPage } from "../Hooks/useProtetedPage";
@@ -80,12 +80,10 @@ export const InfoAdmPage = () => {
     }).then(() => {
         setLoadingEdit(false);
         alert("Obra Editada")
-        clear()
     }).catch((error) => {
         setErroEdit(error.response);
         alert("Obra não pode ser Editada!")
         setLoadingEdit(false);
-        clear()
     });
       };
 
