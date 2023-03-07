@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import ApartmentsBusiness, { inputApDTO } from "../Business/ApartmentsBusiness";
+import { authenticatorToken } from "../model/authenticToken";
 
 export default class ApartmentsController{
     constructor(
         private apartmentBusiness: ApartmentsBusiness
     ){}
-
 
     GetApartmensById = async(req: Request, res: Response)=>{
         const input: inputApDTO = {
@@ -47,6 +47,20 @@ export default class ApartmentsController{
         }
     }
 
+    GetAllConstructions = async (req: Request, res: Response) => {
+        const input: authenticatorToken = {
+            token: req.headers.authorization
+        }
+
+        try {
+            const apartments = await this.apartmentBusiness.GetAllConstructions(input)
+
+            res.status(200).send({ apartments })
+        } catch (error: any) {
+            res.status(400).send(error.message)
+        }
+    }
+
     NewApartment = async(req: Request, res: Response)=>{
         const input: inputApDTO = {
             token: req.headers.authorization,
@@ -69,5 +83,21 @@ export default class ApartmentsController{
         } catch (error) {
             
         }
+    }
+
+    EditClean = async(req: Request, res: Response) =>{
+        console.log("iniciei as fotos")
+
+       if(req.file){
+        return res.json({
+            erro: false,
+            mensagem: "upload realizado com sucesso"
+        })
+       }
+
+       return res.status(400).json({
+        erro: true,
+        mesnagem: "Erro: upload não realizado"
+       })
     }
 }

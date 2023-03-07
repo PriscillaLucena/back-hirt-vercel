@@ -78,7 +78,7 @@ export const InfoPage = () => {
         <ContainerGeral>
             <Header />
             <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate, type, id)}>Voltar</Button>
-            {!loading && infos && <CardAps>{ListInfos}</CardAps>}
+            {!loading && infos && <CardAps>{ListInfos.lenght == 0? ListInfos : "Você não possui apartamentos cadastrados nesta obra"}</CardAps>}
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}

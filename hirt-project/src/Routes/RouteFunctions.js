@@ -7,7 +7,7 @@ export const goToAdminPage = (navigate, type) => {
 };
 
 export const goToCollabPage = (navigate, type, id) => {
-    navigate(`/user/${type}/${id}`)
+    navigate(`/userC/${type}/${id}`)
 };
 
 export const goToClientPage = (navigate, type) => {
@@ -32,7 +32,7 @@ export const goToInfoPage = (navigate, type, id, obra_id) => {
 };
 
 export const goToInfoAdmPage = (navigate, type, obra_id) => {
-    navigate(`/info_ap/${type}/${obra_id}
+    navigate(`/apADM/${type}/${obra_id}
     `)
 };
 

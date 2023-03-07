@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { useProtectedPage } from "../../Hooks/useProtetedPage";
 import { ContainerCard, ContainerGeral, ContainerUpload } from "../../Styled/StyledCollab/StyledConcludedAp";
+import { Header } from "../../Constants/Header";
 
 
 export const ConcludedAp = () => {
@@ -35,22 +36,28 @@ export const ConcludedAp = () => {
         setLoading(true)
 
         const dataForm = new FormData();
-        for (const file of filesElement.current.files) {
-          dataForm.append('file', file);
+        for (const file2 of filesElement.current.files) {
+          dataForm.append('avatar', file2);
 
-        const body =
-        {
-            numero_ap: ape,
-            andar: level,
-            limpeza_completa: conclusion,
-            foto: dataForm,
-            obra_id: `${obra_id}`
-        }
+        // const body =
+        // {
+        //     numero_ap: ape,
+        //     andar: level,
+        //     limpeza_completa: conclusion,
+        //     avatar: dataForm,
+        //     obra_id: `${obra_id}`
+        // }
 
-        axios.post(`${BASE_URL}/apartamentos/${obra_id}`, body, {
-            headers: {
-                authorization: token,
-                contentType: "application/json"
+        const file = dataForm
+
+        // console.log(file)
+
+
+
+        axios.post(`${BASE_URL}/apartments/fotos`, file, {
+            Headers: {
+                
+                "Content-Type": "multipart/form-data"
             }
         }).then(() => {
             setLoading(false);
@@ -62,11 +69,13 @@ export const ConcludedAp = () => {
 
         }).catch(error => {
             setLoading(false)
-            alert("deuruim!")
+            // alert("deuruim!")
+            console.log(error)
             setErro(error.response)
-            console.log("deu erro!", error.response)
+            // console.log("deu erro!", error.response)
         });
-    };
+    }
+};
 
     const listaImg = () => {
         return <ContainerCard>
@@ -95,28 +104,84 @@ export const ConcludedAp = () => {
                     </Select>
                 </FormControl>
                 <IconButton color="primary" aria-label="upload picture" component="label">
-                    <input hidden type="file" multiple ref={filesElement} />
+                    <input hidden type="file" multiple ref={filesElement} name={'avatar'}/>
                     <PhotoCamera />
                 </IconButton>
+
+                {/* <form action="/profile" method="post" encType="multipart/form-data" onSubmit={uploadImage}>
+                    <input type={"file"} name="avatar" onSelect={(e) => setImage(e.target.value)}/> */}
+
+                    {/* <button variant="contained"  type={"submit"}>enviar</button> */}
+                 {/* </form> */}
+
             </ContainerUpload>
             {image ? <img src={image} alt="imagem" width={150} height={150} /> :
                 <img src={hirtLogo} alt="logo" width={150} height={150} />}
-            <Button variant="contained" endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
+            <Button variant="contained"  endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
         </ContainerCard>
     };
 
-    console.log("image", image.length)
+    // console.log("image", image.length)
     return (
         <ContainerGeral>
-            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
+            {/* <Header/> */}
+            
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => navigate(-1)}>Voltar</Button>
             {!loading && erro && <p>Deu ruim!</p>}
             {!loading && listaImg()}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
         </ContainerGeral>
     )
-};
-};
+}
+;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const enviaImage = () =>{
+
+//     axios.post(`${BASE_URL}/apartaments/fotos`,  {
+//         headers: {
+//             authorization: token,
+//             ContentType: "multipart/form-data"
+//         }
+//     }).then(() => {
+//         setLoading(false);
+//         // alert("Informações Salvas, Apartamento Concluído!")
+//         // setLevel('')
+//         // setApe('')
+//         // setConclusion('')
+//         // setImage('')
+
+//     }).catch(error => {
+//         setLoading(false)
+//         alert("deuruim!")
+//         setErro(error.response)
+//         console.log("deu erro!", error.response)
+//     });
+// }
+
+// const imageFunc = () =>{
+//     return(
+//         <form action="/profile" method="post" encType="multipart/form-data" onSubmit={enviaImage}>
+//             <input type={"file"} name="avatar" />
+
+//             <button variant="contained"  type={"submit"}>enviar</button>
+//         </form>
+//     )
+// }
+
+// return(
+//     <ContainerGeral>
+        
+//         <Header/>
+
+//         {listaImg()}
+//         {imageFunc()}
+
+//     </ContainerGeral>
+// )
+// };
 
 
  // ####videoStreaming
