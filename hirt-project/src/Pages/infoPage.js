@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import { useProtectedPage } from "../Hooks/useProtetedPage";
+import { useProtectedPage } from "../Hooks/useProtectedPage";
 
 
 export const InfoPage = () => {

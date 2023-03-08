@@ -19,5 +19,5 @@ const apartmentsController = new ApartmentsController(new ApartmentsBusiness(
 apartmentsRouter.get("/all/:id/:obra_id", apartmentsController.GetApartmensById)
 apartmentsRouter.get("/construc/:id", apartmentsController.GetConstrucById)
 apartmentsRouter.get("/constructions/all", apartmentsController.GetAllConstructions)
-apartmentsRouter.post("/newAp", apartmentsController.NewApartment)
+apartmentsRouter.post("/newAp", uploadUser.single('avatar'), apartmentsController.NewApartment)
 apartmentsRouter.post("/fotos", uploadUser.single('avatar'), apartmentsController.EditClean)

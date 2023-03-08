@@ -11,7 +11,7 @@ import { BASE_URL } from "../../Constants/url";
 import axios from "axios";
 import { Header } from "../../Constants/Header";
 import { ContainerCard, ContainerGeral } from "../../Styled/StyledAdm/StyledNewProject";
-import {useProtectedPage} from "../../Hooks/useProtetedPage";
+import {useProtectedPage} from "../../Hooks/useProtectedPage";
 
 export function NewProject() {
     

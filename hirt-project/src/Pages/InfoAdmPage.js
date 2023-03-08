@@ -11,7 +11,7 @@ import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, Conta
 import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
-import { useProtectedPage } from "../Hooks/useProtetedPage";
+import { useProtectedPage } from "../Hooks/useProtectedPage";
 import useForm from "../Hooks/useForm";
 import { EditConstruction } from "../Hooks/useEditConstruction";
 import axios from "axios";

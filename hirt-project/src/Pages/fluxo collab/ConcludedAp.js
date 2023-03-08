@@ -14,7 +14,7 @@ import hirtLogo from "../../images/hirt-imagem-SF.png"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { useProtectedPage } from "../../Hooks/useProtetedPage";
+import { useProtectedPage } from "../../Hooks/useProtectedPage";
 import { ContainerCard, ContainerGeral, ContainerUpload } from "../../Styled/StyledCollab/StyledConcludedAp";
 import { Header } from "../../Constants/Header";
 

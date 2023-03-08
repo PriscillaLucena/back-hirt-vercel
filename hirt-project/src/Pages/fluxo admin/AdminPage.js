@@ -10,7 +10,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Header } from "../../Constants/Header";
 import { ButtonsInCard, CardObras, ContainerGeral, ContainerGrid, ContainerText } from "../../Styled/StyledAdm/StyledAdm";
-import {useProtectedPage} from "../../Hooks/useProtetedPage";
+import {useProtectedPage} from "../../Hooks/useProtectedPage";
 
 const AdminPage = () => {
 

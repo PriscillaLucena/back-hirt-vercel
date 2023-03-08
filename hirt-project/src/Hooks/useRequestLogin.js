@@ -14,6 +14,8 @@ export const Login = (body, navigate) => {
             
             userData = response.data
             localStorage.setItem('token', userData.sendKey.token)
+            localStorage.setItem('id', userData.sendKey.id)
+            localStorage.setItem('role', userData.sendKey.role)
 
             console.log(userData)
 

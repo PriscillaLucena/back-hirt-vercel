@@ -6,7 +6,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Header } from "../../Constants/Header";
-import { useProtectedPage } from "../../Hooks/useProtetedPage";
+import { useProtectedPage } from "../../Hooks/useProtectedPage";
 import { CardObras, ContainerButton, ContainerGeral, ContainerGrid, ContainerText } from "../../Styled/StyledCollab/StyledCollab";
 import { Button } from "@mui/material";
 
@@ -18,6 +18,17 @@ export default function CollabsPage() {
     const [obra_info, loading, erro] = useRequestData(`${BASE_URL}/apartments/constructions/all`);
     const obra = obra_info ? obra_info : 'carregando'
     console.log(obra_info)
+
+    const expired = () => {
+        if(obra_info === 'jwt expired'){
+            localStorage.removeItem('token')
+            
+        }
+
+
+    }
+
+    expired()
     
    
 
