@@ -26,11 +26,13 @@ export const ConcludedAp = () => {
     const navigate = useNavigate();
     const [level, setLevel] = useState('');
     const [conclusion, setConclusion] = useState('');
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState([]);
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
     const [ape, setApe] = useState('');
     const token = localStorage.getItem("token");
+
+    let image2 = []
 
       const uploadImage = () => {
         setLoading(true)
@@ -39,22 +41,22 @@ export const ConcludedAp = () => {
         for (const file2 of filesElement.current.files) {
           dataForm.append('avatar', file2);
 
-        // const body =
-        // {
-        //     numero_ap: ape,
-        //     andar: level,
-        //     limpeza_completa: conclusion,
-        //     avatar: dataForm,
-        //     obra_id: `${obra_id}`
-        // }
-
         const file = dataForm
+        // setImage(dataForm)
+        image2 = dataForm
 
         // console.log(file)
 
+        const body =
+        {
+            numero_ap: ape,
+            andar: level,
+            limpeza_completa: conclusion,
+            file: dataForm,
+            obra_id: `${obra_id}`
+        }
 
-
-        axios.post(`${BASE_URL}/apartments/fotos`, file, {
+        axios.post(`${BASE_URL}/apartments/newAP`, body,{
             Headers: {
                 
                 "Content-Type": "multipart/form-data"
@@ -79,6 +81,7 @@ export const ConcludedAp = () => {
 
     const listaImg = () => {
         return <ContainerCard>
+            
             <TextField fullWidth required
                 id="outlined-required"
                 label="Número do Andar"
@@ -103,25 +106,30 @@ export const ConcludedAp = () => {
                         <MenuItem value={3}>Entrega</MenuItem>
                     </Select>
                 </FormControl>
-                <IconButton color="primary" aria-label="upload picture" component="label">
+                {/* <IconButton color="primary" aria-label="upload picture" component="label">
                     <input hidden type="file" multiple ref={filesElement} name={'avatar'}/>
                     <PhotoCamera />
-                </IconButton>
+                </IconButton> */}
 
-                {/* <form action="/profile" method="post" encType="multipart/form-data" onSubmit={uploadImage}>
-                    <input type={"file"} name="avatar" onSelect={(e) => setImage(e.target.value)}/> */}
+                <form action="/profile" method="post" encType="multipart/form-data" onSubmit={uploadImage}>
+                    <input type={"file"} multiple ref={filesElement} name="avatar" onSelect={(e) => setImage(e.target.value)}/> 
+                    <img src={image} />
+                    
+                    
 
-                    {/* <button variant="contained"  type={"submit"}>enviar</button> */}
-                 {/* </form> */}
-
+                {/* <button variant="contained"  type={"submit"}>enviar</button>  */}
+               </form>
+            
             </ContainerUpload>
             {image ? <img src={image} alt="imagem" width={150} height={150} /> :
-                <img src={hirtLogo} alt="logo" width={150} height={150} />}
+                // <img src={hirtLogo} alt="logo" width={150} height={150} />
+                ''
+                }
             <Button variant="contained"  endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
         </ContainerCard>
     };
 
-    // console.log("image", image.length)
+    // console.log("image", filesElement)
     return (
         <ContainerGeral>
             {/* <Header/> */}

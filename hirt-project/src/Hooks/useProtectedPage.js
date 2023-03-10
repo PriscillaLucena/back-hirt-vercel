@@ -5,6 +5,8 @@ import { goToAdminPage, goToCollabPage, goToLoginPage } from "../Routes/RouteFun
 export const useProtectedPage = () => {
   const navigate = useNavigate();
 
+  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
@@ -12,12 +14,6 @@ export const useProtectedPage = () => {
     if (!token) {
       goToLoginPage(navigate, role)
     }
-    // else if(role === 'admin'){
-    //   goToAdminPage(navigate, role)
-    // }
-    // else if(role === 'collab'){
-    //   const id = localStorage.getItem("id");
-    //   goToCollabPage(navigate, role, id)
-    // }
+    
   }, [navigate]);
 };

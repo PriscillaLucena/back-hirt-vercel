@@ -51,7 +51,7 @@ export default class ApartmentsBusiness {
 
             const tokenData: authenticationData = this.authenticator.getTokenData(input.token)
 
-            console.log("token", tokenData)
+            // console.log("token", tokenData)
 
             if (tokenData.role !== "collab") {
                 throw new CustomError(400, "'token' must be provided");
