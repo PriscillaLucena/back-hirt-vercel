@@ -1,6 +1,7 @@
 import ApartmentsDB from "../Data/ApartmentsDB"
 import { CustomError } from "../Error/CustomError"
 import { ApartmentNew } from "../model/apartments"
+import { authenticatorToken } from "../model/authenticToken"
 import { authenticationData } from "../model/user"
 import Authenticator from "../services/Authenticator"
 import IdGenerator from "../services/GenerateId"
@@ -50,7 +51,7 @@ export default class ApartmentsBusiness {
 
             const tokenData: authenticationData = this.authenticator.getTokenData(input.token)
 
-            console.log("token", tokenData)
+            // console.log("token", tokenData)
 
             if (tokenData.role !== "collab") {
                 throw new CustomError(400, "'token' must be provided");
@@ -63,6 +64,31 @@ export default class ApartmentsBusiness {
             return queryResult 
         } catch (error) {
             
+        }
+    }
+
+    GetAllConstructions = async (input: authenticatorToken) => {
+        try {
+
+            if (!input.token) {
+                throw new CustomError(400, "'token' must be provided");
+            }
+
+            const tokenData: authenticationData = this.authenticator.getTokenData(input.token)
+
+            console.log("token", tokenData)
+
+            if (tokenData.role !== "collab") {
+                throw new CustomError(400, "You need to be an ADMIN to access this page");
+            }
+
+            const queryResult: any = await this.apartmentsDB.GetConstructions()
+
+            return queryResult
+
+        } catch (error: any) {
+            let message = error.sqlMessage || error.message
+            return message
         }
     }
 

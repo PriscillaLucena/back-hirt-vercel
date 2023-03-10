@@ -14,8 +14,9 @@ import hirtLogo from "../../images/hirt-imagem-SF.png"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { useProtectedPage } from "../../Hooks/useProtetedPage";
+import { useProtectedPage } from "../../Hooks/useProtectedPage";
 import { ContainerCard, ContainerGeral, ContainerUpload } from "../../Styled/StyledCollab/StyledConcludedAp";
+import { Header } from "../../Constants/Header";
 
 
 export const ConcludedAp = () => {
@@ -25,32 +26,40 @@ export const ConcludedAp = () => {
     const navigate = useNavigate();
     const [level, setLevel] = useState('');
     const [conclusion, setConclusion] = useState('');
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState([]);
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
     const [ape, setApe] = useState('');
     const token = localStorage.getItem("token");
 
+    let image2 = []
+
       const uploadImage = () => {
         setLoading(true)
 
         const dataForm = new FormData();
-        for (const file of filesElement.current.files) {
-          dataForm.append('file', file);
+        for (const file2 of filesElement.current.files) {
+          dataForm.append('avatar', file2);
+
+        const file = dataForm
+        // setImage(dataForm)
+        image2 = dataForm
+
+        // console.log(file)
 
         const body =
         {
             numero_ap: ape,
             andar: level,
             limpeza_completa: conclusion,
-            foto: dataForm,
+            file: dataForm,
             obra_id: `${obra_id}`
         }
 
-        axios.post(`${BASE_URL}/apartamentos/${obra_id}`, body, {
-            headers: {
-                authorization: token,
-                contentType: "application/json"
+        axios.post(`${BASE_URL}/apartments/newAP`, body,{
+            Headers: {
+                
+                "Content-Type": "multipart/form-data"
             }
         }).then(() => {
             setLoading(false);
@@ -62,14 +71,17 @@ export const ConcludedAp = () => {
 
         }).catch(error => {
             setLoading(false)
-            alert("deuruim!")
+            // alert("deuruim!")
+            console.log(error)
             setErro(error.response)
-            console.log("deu erro!", error.response)
+            // console.log("deu erro!", error.response)
         });
-    };
+    }
+};
 
     const listaImg = () => {
         return <ContainerCard>
+            
             <TextField fullWidth required
                 id="outlined-required"
                 label="Número do Andar"
@@ -94,29 +106,90 @@ export const ConcludedAp = () => {
                         <MenuItem value={3}>Entrega</MenuItem>
                     </Select>
                 </FormControl>
-                <IconButton color="primary" aria-label="upload picture" component="label">
-                    <input hidden type="file" multiple ref={filesElement} />
+                {/* <IconButton color="primary" aria-label="upload picture" component="label">
+                    <input hidden type="file" multiple ref={filesElement} name={'avatar'}/>
                     <PhotoCamera />
-                </IconButton>
+                </IconButton> */}
+
+                <form action="/profile" method="post" encType="multipart/form-data" onSubmit={uploadImage}>
+                    <input type={"file"} multiple ref={filesElement} name="avatar" onSelect={(e) => setImage(e.target.value)}/> 
+                    <img src={image} />
+                    
+                    
+
+                {/* <button variant="contained"  type={"submit"}>enviar</button>  */}
+               </form>
+            
             </ContainerUpload>
             {image ? <img src={image} alt="imagem" width={150} height={150} /> :
-                <img src={hirtLogo} alt="logo" width={150} height={150} />}
-            <Button variant="contained" endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
+                // <img src={hirtLogo} alt="logo" width={150} height={150} />
+                ''
+                }
+            <Button variant="contained"  endIcon={<SendIcon />} onClick={() => uploadImage()}>Salvar</Button>
         </ContainerCard>
     };
 
-    console.log("image", image.length)
+    // console.log("image", filesElement)
     return (
         <ContainerGeral>
-            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate)}>Voltar</Button>
+            {/* <Header/> */}
+            
+            <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => navigate(-1)}>Voltar</Button>
             {!loading && erro && <p>Deu ruim!</p>}
             {!loading && listaImg()}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
         </ContainerGeral>
     )
-};
-};
+}
+;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// const enviaImage = () =>{
+
+//     axios.post(`${BASE_URL}/apartaments/fotos`,  {
+//         headers: {
+//             authorization: token,
+//             ContentType: "multipart/form-data"
+//         }
+//     }).then(() => {
+//         setLoading(false);
+//         // alert("Informações Salvas, Apartamento Concluído!")
+//         // setLevel('')
+//         // setApe('')
+//         // setConclusion('')
+//         // setImage('')
+
+//     }).catch(error => {
+//         setLoading(false)
+//         alert("deuruim!")
+//         setErro(error.response)
+//         console.log("deu erro!", error.response)
+//     });
+// }
+
+// const imageFunc = () =>{
+//     return(
+//         <form action="/profile" method="post" encType="multipart/form-data" onSubmit={enviaImage}>
+//             <input type={"file"} name="avatar" />
+
+//             <button variant="contained"  type={"submit"}>enviar</button>
+//         </form>
+//     )
+// }
+
+// return(
+//     <ContainerGeral>
+        
+//         <Header/>
+
+//         {listaImg()}
+//         {imageFunc()}
+
+//     </ContainerGeral>
+// )
+// };
 
 
  // ####videoStreaming

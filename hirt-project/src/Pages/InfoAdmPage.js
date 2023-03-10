@@ -1,17 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../Constants/url";
-import { useRequestData, useRequestObra } from "../Hooks/UseRequestData";
+import { EditConstruc, useRequestData, UseRequestData5, useRequestObra } from "../Hooks/UseRequestData";
 import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CircularProgress from '@mui/material/CircularProgress';
-import { goToAdminPage } from "../Routes/RouteFunctions";
+import { goToAdminPage, goToInfoAdmPage } from "../Routes/RouteFunctions";
 // import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Header } from "../Constants/Header";
 import { CardAps, CardApsgeral, CardCentraliza, CardObras, ContainerGeral, ContainerPorcentagem, Linha } from "../Styled/StyledAdm/StyledInfoAdm";
 import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
-import { useProtectedPage } from "../Hooks/useProtetedPage";
+import { useProtectedPage } from "../Hooks/useProtectedPage";
 import useForm from "../Hooks/useForm";
 import { EditConstruction } from "../Hooks/useEditConstruction";
 import axios from "axios";
@@ -21,20 +21,18 @@ export const InfoAdmPage = () => {
     useProtectedPage();
     const navigate = useNavigate();
     const { type, obra_id } = useParams();
-    const [infos, loading, erro] = useRequestData(`${BASE_URL}/construction/info/${obra_id}`);
-    const inf = !!infos ? infos : "carregando"
-    const info = inf
     const [toggleNomeObra, setToggleNomeObra] = useState(false);
     const [toggleAndar, setToggleAndar] = useState(false);
     const [toggleApAndar, setToggleApAndar] = useState(false);
     const [toggleResponsavel, setToggleResponsavel] = useState(false);
     const [loadingEdit, setLoadingEdit] = useState(false);
     const [erroEdit, setErroEdit] = useState(false);
-    const token = localStorage.getItem("token");
+    const [data5, setData5] = useState(undefined)
+    const [data2, setData2] = useState(false)
     const [form, handleInputChange, clear] = useForm({
         nome_obra: "", qty_andares: "", qty_ap_andar: "", responsavel: ""
     });
-    console.log('form', form.responsavel)
+ 
     let total = '';
     let apLimpGrossa = [];
     let apLimpFina = [];
@@ -43,6 +41,35 @@ export const InfoAdmPage = () => {
     let apLimpFina2 = [];
     let apLimpGrossa2 = [];
 
+
+    const GetInfo = () => {
+       
+        const token = localStorage.getItem("token");
+        console.log(token)
+        
+            
+            axios.get(`${BASE_URL}/construction/info/${obra_id}`, {
+                headers: {
+                    authorization: token
+                }
+            }).then((response) => {
+               
+                setData5(response.data.apartments)
+        
+            }).catch((error) => {
+                console.log(error.response);
+               
+            });
+
+    }
+
+    useEffect(()=>{
+        GetInfo()
+    }, [data2])
+
+    const inf = !!data5 ? data5 : []
+    const info = inf
+ 
     const funcLimpeza = (limpeza_completa) => {
         if (limpeza_completa === 1) {
             apLimpGrossa2 = [...apLimpGrossa, limpeza_completa]
@@ -70,23 +97,32 @@ export const InfoAdmPage = () => {
         />
     }
 
-    const sendForm = () => {
-       setLoadingEdit(true)
-       
-    axios.put(`${BASE_URL}/construction/editConstruction/${obra_id}`, form, {
-        headers: {
-            authorization: token
-        }
-    }).then(() => {
-        setLoadingEdit(false);
-        alert("Obra Editada")
-    }).catch((error) => {
-        setErroEdit(error.response);
-        alert("Obra não pode ser Editada!")
-        setLoadingEdit(false);
-    });
-      };
 
+
+    const sendForm = () => {
+        // setLoadingEdit(true)
+        const token = localStorage.getItem("token");
+
+        axios.put(`${BASE_URL}/construction/editConstruction/${obra_id}`, form, {
+            headers: {
+                authorization: token
+            }
+        }).then(() => {
+            // setLoadingEdit(false);
+            alert("Obra Editada")
+            setToggleAndar(false)
+            setToggleApAndar(false)
+            setToggleNomeObra(false)
+            setToggleResponsavel(false)
+            setData2(!data2)
+        }).catch((error) => {
+            setErroEdit(error.response);
+            alert("Obra não pode ser Editada!")
+            setLoadingEdit(false);
+        });
+    };
+
+    
 
 
     const setaNomeobra = () => {
@@ -107,7 +143,7 @@ export const InfoAdmPage = () => {
 
     const listaObra = () => {
         return <CardCentraliza>
-                <CardObras>
+            <CardObras>
                 <h3>{info.nome_obra} <span>
                     <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaNomeobra()} />
                     {toggleNomeObra ? editInput("nome_obra") : ""}</span>
@@ -125,14 +161,14 @@ export const InfoAdmPage = () => {
                     <EditIcon fontSize="small" sx={{ color: '#1D2854ff' }} onClick={() => setaResponsavel()} />
                     {toggleResponsavel ? editInput("responsavel") : ""}</span></h4>
 
-                <Button variant="contained" size="small" sx={{ height: 20 }}
-                onClick={()=>sendForm()} >salvar</Button>
+                <Button type={"submit"} variant="contained" size="small" sx={{ height: 20 }}
+                    onClick={() => sendForm()} >salvar</Button>
             </CardObras>
         </CardCentraliza>
     };
 
 
-    const ListInfos = infos && infos.apartamentos.map((info) => {
+    const ListInfos = !!data5 && data5.apartamentos.map((info) => {
         return <CardApsgeral key={info.id}>
             <h4>Apartamento: {info.numero_ap}</h4>
             <p>Andar: {info.andar}</p>
@@ -164,9 +200,9 @@ export const InfoAdmPage = () => {
                 <Linha></Linha>
             </CardCentraliza>
 
-            {!loading && erro && <p>Deu ruim!</p>}
+            {/* {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
-                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}
+                <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />} */}
         </ContainerGeral>
     )
 };

@@ -10,7 +10,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Header } from "../../Constants/Header";
 import { ButtonsInCard, CardObras, ContainerGeral, ContainerGrid, ContainerText } from "../../Styled/StyledAdm/StyledAdm";
-import {useProtectedPage} from "../../Hooks/useProtetedPage";
+import {useProtectedPage} from "../../Hooks/useProtectedPage";
 
 const AdminPage = () => {
 
@@ -29,7 +29,7 @@ const AdminPage = () => {
                 <h4>Responsável: {obra.responsavel}</h4>
             </ContainerText>
             <ButtonsInCard>
-                <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, obra.id)} />
+                {/* <DeleteRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToDeletePage(navigate, obra.id)} /> */}
                 <InfoRoundedIcon fontSize="large" sx={{ color: '#1D2854ff' }} onClick={() => goToInfoAdmPage(navigate, type, obra.id)} />
             </ButtonsInCard>
         </CardObras>

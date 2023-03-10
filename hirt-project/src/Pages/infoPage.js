@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import { useProtectedPage } from "../Hooks/useProtetedPage";
+import { useProtectedPage } from "../Hooks/useProtectedPage";
 
 
 export const InfoPage = () => {
@@ -78,7 +78,7 @@ export const InfoPage = () => {
         <ContainerGeral>
             <Header />
             <Button variant="contained" startIcon={<ArrowBackIosIcon />} onClick={() => goToCollabPage(navigate, type, id)}>Voltar</Button>
-            {!loading && infos && <CardAps>{ListInfos}</CardAps>}
+            {!loading && infos && <CardAps>{ListInfos.lenght == 0? ListInfos : "Você não possui apartamentos cadastrados nesta obra"}</CardAps>}
             {!loading && erro && <p>Deu ruim!</p>}
             {loading && loading &&
                 <CircularProgress sx={{ color: '#4498C6ff' }} spacing={2} />}

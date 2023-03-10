@@ -6,7 +6,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import '@fontsource/roboto/300.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Header } from "../../Constants/Header";
-import {useProtectedPage} from "../../Hooks/useProtetedPage";
+import {useProtectedPage} from "../../Hooks/useProtectedPage";
 import {CardObras, ContainerText, ButtonsInCard, ContainerGeral, ContainerGrid} from "../../Styled/StyledClient/StyledClient"
 
 

@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { ContainerButton, ContainerCard, ContainerGeral, Image } from "../../Styled/StyledHome/StyledHome";
+import { useProtectedPage } from "../../Hooks/useProtectedPage";
+import { useProtectedHome } from "../../Hooks/useProtectedHome";
 
 function HomePage() {
+    useProtectedHome()
 
     const navigate = useNavigate();
 
