@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "instal": "nom install",
+    "install": "npm install",
     "start": "tsc && node ./build/index.js",
     "dev": "ts-node-dev ./src/index.ts"
   },
