@@ -9,7 +9,7 @@ import { useProtectedPage } from "../../Hooks/useProtectedPage";
 import { useProtectedHome } from "../../Hooks/useProtectedHome";
 
 function HomePage() {
-    useProtectedHome()
+    // useProtectedHome()
 
     const navigate = useNavigate();
 
