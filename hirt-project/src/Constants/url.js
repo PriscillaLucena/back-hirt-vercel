@@ -1,1 +1,1 @@
-export const BASE_URL = "https://back-hirt-vercel.vercel.app"
+export const BASE_URL = "https://back-hirt-vercel-git-deploy-teste-priscillalucena.vercel.app"
