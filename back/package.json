@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && tsc && node ./build/index.js",
+    "instal": "nom install",
+    "start": "tsc && node ./build/index.js",
     "dev": "ts-node-dev ./src/index.ts"
   },
   "keywords": [],
