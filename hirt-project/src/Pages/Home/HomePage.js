@@ -21,7 +21,7 @@ function HomePage() {
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
                     <Button variant="contained" onClick={() => goToLoginPage(navigate, 'admin')}>Administrador</Button>
                     <Button variant="contained" onClick={() => goToLoginPage(navigate, 'collab')}>Colaborador</Button>
-                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'CLIENTE')}>Cliente</Button>
+                    <Button variant="contained" onClick={() => goToLoginPage(navigate, 'cliente')}>Cliente</Button>
                     </ButtonGroup>
                 </ContainerButton>
             </ContainerCard>
